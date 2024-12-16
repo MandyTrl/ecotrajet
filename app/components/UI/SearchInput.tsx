@@ -1,5 +1,5 @@
 "use client"
-import { ChangeEvent, SetStateAction, useState } from "react"
+import { ChangeEvent, useState } from "react"
 
 type inputProps = {
 	name: string
@@ -10,7 +10,7 @@ type inputProps = {
 	onChange: void
 }
 
-export const Input = ({
+export const SearchInput = ({
 	name,
 	labelName,
 	placeholder,
@@ -24,8 +24,8 @@ export const Input = ({
 		setValue(e.target.value)
 	}
 	return (
-		<>
-			<label htmlFor={name} className="font-semibold text-base">
+		<div>
+			<label htmlFor={name} className="font-semibold text-base ">
 				{labelName}
 			</label>
 
@@ -34,10 +34,10 @@ export const Input = ({
 				placeholder={placeholder}
 				minLength={minLength}
 				type={type}
-				className="w-full p-1 rounded"
+				className="w-full p-2 mt-1 rounded-md bg-emerald-100/50 placeholder:text-emerald-700 placeholder:text-sm border-b border-transparent focus:border-emerald-500 outline-none ease-in-out duration-150 transition-color"
 				value={value}
 				onChange={(e) => handleValue(e)}
 			/>
-		</>
+		</div>
 	)
 }
