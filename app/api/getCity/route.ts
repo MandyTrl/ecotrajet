@@ -1,33 +1,24 @@
-import type { NextApiRequest, NextApiResponse } from "next"
+import { NextRequest, NextResponse } from "next/server"
 
 type City = {
 	name: string
 	coordinates: [number, number]
 }
 
-type ErrorResponse = {
-	error: string
-}
+export async function GET(req: NextRequest) {
+	const { searchParams } = new URL(req.url)
+	const city = searchParams.get("city")
 
-type SuccessResponse = City[]
-
-export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse<ErrorResponse | SuccessResponse>
-) {
-	if (req.method !== "GET") {
-		return res.status(405).json({ error: "Method not allowed" })
-	}
-
-	const { city } = req.query
-
-	if (typeof city !== "string" || !city) {
-		return res.status(400).json({ error: "Query parameter 'city' is required" })
+	if (!city) {
+		return NextResponse.json(
+			{ error: "Query parameter 'city' is required" },
+			{ status: 400 }
+		)
 	}
 
 	const apiKey = process.env.ORS_API_KEY
 	if (!apiKey) {
-		return res.status(500).json({ error: "API key is missing" })
+		return NextResponse.json({ error: "API key is missing" }, { status: 500 })
 	}
 
 	const endpoint = "https://api.openrouteservice.org/geocode/autocomplete"
@@ -49,9 +40,12 @@ export default async function handler(
 			coordinates: feature.geometry.coordinates,
 		}))
 
-		res.status(200).json(cities)
+		return NextResponse.json(cities)
 	} catch (error) {
 		console.error("Error:", error)
-		res.status(500).json({ error: "Internal server error" })
+		return NextResponse.json(
+			{ error: "Internal server error" },
+			{ status: 500 }
+		)
 	}
 }

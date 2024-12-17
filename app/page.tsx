@@ -31,14 +31,14 @@ export default function Home() {
 					placeholder="Paris"
 					type="search"
 					labelName="Départ"
-					onChange={console.log("first")}
+					// onSelect={console.log("first")}
 				/>
 				<SearchInput
 					name="arrival"
 					placeholder="Edinburgh"
 					type="search"
 					labelName="Arrivée"
-					onChange={console.log("first")}
+					// onSelect={console.log("first")}
 				/>
 			</div>
 

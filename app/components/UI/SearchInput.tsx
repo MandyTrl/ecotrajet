@@ -7,7 +7,7 @@ type inputProps = {
 	placeholder: string
 	minLength?: number
 	type: string
-	onChange: void
+	//onSelect: (value: string) => void
 }
 
 export const SearchInput = ({
@@ -16,38 +16,38 @@ export const SearchInput = ({
 	placeholder,
 	minLength,
 	type,
-	onChange,
-}: inputProps) => {
+}: //onSelect,
+inputProps) => {
 	const [value, setValue] = useState<string>("")
 	const [suggestions, setSuggestions] = useState<[]>([])
+	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const minCar = value.length === 2
 
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value
 		setValue(value)
-		fetchCities(value)
+		if (minCar) fetchCities(value)
 	}
 
 	const fetchCities = async (value: string) => {
-		if (!value) {
-			setSuggestions([])
-			return
-		}
 		try {
-			const response = await fetch(`/api/get-city?city=${value}`)
+			const response = await fetch(`/api/getCity?city=${value}`)
 
 			if (!response.ok) throw new Error("Failed to fetch cities")
 			const cities = await response.json()
 
 			setSuggestions(cities)
+			setIsOpen(true)
 		} catch (error) {
 			console.error("Error fetching city suggestions:", error)
 		}
 	}
 
 	const handleCityClick = (city: unknown) => {
-		onChange(city.name) //passe la ville sélectionnée au parent
+		//	onSelect(city.name) //passe la ville sélectionnée au parent
 		setValue(city.name)
 		setSuggestions([]) //ferme les suggestions
+		setIsOpen(false)
 	}
 
 	return (
@@ -66,13 +66,18 @@ export const SearchInput = ({
 				onChange={(e) => handleInputChange(e)}
 			/>
 
-			<ul>
-				{suggestions.map((city, index) => (
-					<li key={index} onClick={() => handleCityClick(city)}>
-						{city.name}
-					</li>
-				))}
-			</ul>
+			{isOpen && (
+				<ul className="p-2">
+					{suggestions.map((city, index) => (
+						<li
+							key={index}
+							className="hover:text-emerald-700"
+							onClick={() => handleCityClick(city)}>
+							{city.name}
+						</li>
+					))}
+				</ul>
+			)}
 		</div>
 	)
 }
