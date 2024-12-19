@@ -1,9 +1,41 @@
+"use client"
+import { useContext, useEffect, useState } from "react"
 import Image from "next/image"
 import { Menu } from "lucide-react"
 import { SearchInput } from "./components/UI/SearchInput"
 import IconButton from "./components/UI/IconBtn"
+// import { ToastGeoloc } from "./components/UI/ToastGeoloc"
+import { UserLocationContext } from "./utils/Context"
 
 export default function Home() {
+	const { handleUserLocation } = useContext(UserLocationContext)
+
+	const [departure, setDeparture] = useState<string>("")
+	const [arrival, setArrival] = useState<string>("")
+	const [transport, setTransport] = useState<string>("")
+	// const [showToast, setShowToast] = useState(false)
+
+	//gérer la géolocalisation à l'initialisation
+	useEffect(() => {
+		handleUserLocation()
+
+		// setShowToast(true)
+	}, [handleUserLocation])
+
+	//gestionnaire pour le bouton de géolocalisation dans le toast
+	// const handleGeolocation = async () => {
+	// 	try {
+	// 		await handleUserLocation()
+	// 		setShowToast(false)
+	// 	} catch (error) {
+	// 		console.error("Erreur de géolocalisation:", error)
+	// 	}
+	// }
+
+	// const dismissToast = () => {
+	// 	setShowToast(false)
+	// }
+
 	return (
 		<main className="flex flex-col items-center justify-center">
 			<header className="w-full flex items-center justify-between">
@@ -15,9 +47,15 @@ export default function Home() {
 					height={38}
 					priority
 				/>
-
 				<Menu color="#032E21" size={30} strokeWidth={1} />
 			</header>
+
+			{/* {showToast && (
+				<ToastGeoloc
+					handleGeolocation={handleGeolocation}
+					dismissToast={dismissToast}
+				/>
+			)} */}
 
 			<div className="my-4">
 				<p className="text-xl font-medium">
@@ -31,23 +69,25 @@ export default function Home() {
 					placeholder="Paris"
 					type="search"
 					labelName="Départ"
-					// onSelect={console.log("first")}
+					onSelect={setDeparture}
+					selectedValue={departure}
 				/>
 				<SearchInput
 					name="arrival"
 					placeholder="Edinburgh"
 					type="search"
 					labelName="Arrivée"
-					// onSelect={console.log("first")}
+					onSelect={setArrival}
+					selectedValue={arrival}
 				/>
 			</div>
 
 			<div className="w-full flex items-center mt-5 gap-x-3">
-				<p className="font-semibold text-base ">En :</p>
-				<IconButton transport="plane" />
-				<IconButton transport="train" />
-				<IconButton transport="bus" />
-				<IconButton transport="car" />
+				<p className="font-semibold text-base">En :</p>
+				<IconButton transport="plane" onClick={() => setTransport("plane")} />
+				<IconButton transport="train" onClick={() => setTransport("train")} />
+				<IconButton transport="bus" onClick={() => setTransport("bus")} />
+				<IconButton transport="car" onClick={() => setTransport("car")} />
 			</div>
 		</main>
 	)
