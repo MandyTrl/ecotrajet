@@ -6,6 +6,7 @@ import { SearchInput } from "./components/UI/SearchInput"
 import IconButton from "./components/UI/IconBtn"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 import { UserLocationContext } from "./utils/Context"
+import { WalkingSection } from "./components/WalkingSection"
 
 export default function Home() {
 	const { handleUserLocation } = useContext(UserLocationContext)
@@ -62,6 +63,8 @@ export default function Home() {
 					Compare l&apos;empreinte carbone de ton prochain voyage
 				</p>
 			</div>
+
+			<WalkingSection />
 
 			<div className="w-full flex flex-col gap-y-4 mt-4">
 				<SearchInput
