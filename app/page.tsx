@@ -67,7 +67,7 @@ export default function Home() {
 				<SearchInput
 					name="departure"
 					placeholder="Paris"
-					type="search"
+					type="text"
 					labelName="Départ"
 					onSelect={setDeparture}
 					selectedValue={departure}
@@ -75,7 +75,7 @@ export default function Home() {
 				<SearchInput
 					name="arrival"
 					placeholder="Edinburgh"
-					type="search"
+					type="text"
 					labelName="Arrivée"
 					onSelect={setArrival}
 					selectedValue={arrival}

@@ -1,6 +1,7 @@
 "use client"
 import { ChangeEvent, useContext, useState } from "react"
 import clsx from "clsx"
+import { RotateCw } from "lucide-react"
 import { UserLocationContext } from "@/app/utils/Context"
 
 type InputProps = {
@@ -62,17 +63,27 @@ export const SearchInput = ({
 				{labelName}
 			</label>
 
-			<input
-				id={name}
-				name={name}
-				placeholder={placeholder}
-				minLength={minLength}
-				type={type}
-				className="w-full py-2 px-3 mt-1 rounded-md bg-emerald-100/50 placeholder:text-emerald-700 placeholder:text-sm border-b border-transparent focus:border-emerald-500 outline-none ease-in-out duration-150 transition-color"
-				value={selectedValue}
-				onChange={(e) => handleInputChange(e)}
-				onBlur={() => setIsOpen(false)}
-			/>
+			<div className="w-full flex items-center justify-around mt-1 rounded-md bg-emerald-100/50 placeholder:text-emerald-700 border-b border-transparent outline-none ease-in-out duration-150 focus-within:bg-emerald-200/30 focus-within:border-emerald-500 transition-all">
+				<input
+					id={name}
+					name={name}
+					placeholder={placeholder}
+					minLength={minLength}
+					type={type}
+					className="flex-1 py-2 px-3 bg-transparent placeholder:text-sm focus:outline-none"
+					value={selectedValue}
+					onChange={(e) => handleInputChange(e)}
+					onBlur={() => setIsOpen(false)}
+				/>
+				{minCar && (
+					<button
+						type="button"
+						onClick={() => onSelect("")}
+						className="py-2 px-3 text-emerald-700 hover:text-emerald-900">
+						<RotateCw color="#032E21" size={18} strokeWidth={1.3} />
+					</button>
+				)}
+			</div>
 
 			<ul
 				role="listbox"
