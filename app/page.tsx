@@ -1,19 +1,32 @@
 "use client"
 import { useContext, useEffect, useState } from "react"
 import Image from "next/image"
-import { Menu } from "lucide-react"
-import { SearchInput } from "./components/UI/SearchInput"
+import clsx from "clsx"
+import { Menu, FlagTriangleRight } from "lucide-react"
 import IconButton from "./components/UI/IconBtn"
-// import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 import { UserLocationContext } from "./utils/Context"
 import { WalkingSection } from "./components/WalkingSection"
+import Button from "./components/UI/Button"
+import SearchInput from "./components/UI/SearchInput"
+// import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export default function Home() {
-	const { handleUserLocation } = useContext(UserLocationContext)
+	const { handleUserLocation, userLocation } = useContext(UserLocationContext)
+	const lat = userLocation ? userLocation.lat : null
+	const lon = userLocation ? userLocation.lon : null
 
+	const [suggestions, setSuggestions] = useState<[]>([])
+	const [activeField, setActiveField] = useState<
+		"departure" | "arrival" | null
+	>(null)
 	const [departure, setDeparture] = useState<string>("")
 	const [arrival, setArrival] = useState<string>("")
 	const [transport, setTransport] = useState<string>("")
+
+	const [isOpen, setIsOpen] = useState<boolean>(false)
+
+	const unableBtn: boolean =
+		(departure.length === 0 || arrival.length === 0) && true
 	// const [showToast, setShowToast] = useState(false)
 
 	//gérer la géolocalisation à l'initialisation
@@ -22,6 +35,33 @@ export default function Home() {
 
 		// setShowToast(true)
 	}, [handleUserLocation])
+
+	const fetchCities = async (value: string) => {
+		try {
+			const response = await fetch(
+				`/api/getCity?city=${value}&lat=${lat}&lon=${lon}`
+			)
+			if (!response.ok) throw new Error("Failed to fetch cities")
+			const cities = await response.json()
+			setSuggestions(cities)
+			setIsOpen(true)
+		} catch (error) {
+			console.error("Error fetching city suggestions:", error)
+		}
+	}
+
+	const handleCityClick = (
+		city: { name: string },
+		field: "departure" | "arrival"
+	) => {
+		if (field === "departure") {
+			setDeparture(city.name)
+		} else {
+			setArrival(city.name)
+		}
+		setSuggestions([])
+		setIsOpen(false)
+	}
 
 	//gestionnaire pour le bouton de géolocalisation dans le toast
 	// const handleGeolocation = async () => {
@@ -66,24 +106,61 @@ export default function Home() {
 
 			<WalkingSection />
 
-			<div className="w-full flex flex-col gap-y-4 mt-4">
+			<div className="relative w-full flex flex-col mt-4 pl-3">
+				<p className="absolute top-[3px] -left-[6px] border-2 border-emerald-500 rounded-full h-[10px] w-[10px] bg-white z-10"></p>
+				<p className="absolute top-[9px] -left-[3px] border-dotted border-l-4 border-emerald-500 h-[48px]"></p>
+				<FlagTriangleRight
+					color="#10B981"
+					size={20}
+					strokeWidth={2}
+					className="absolute top-[65px] -left-[9px]"
+				/>
+
 				<SearchInput
 					name="departure"
-					placeholder="Paris"
+					placeholder="from Paris"
 					type="text"
 					labelName="Départ"
-					onSelect={setDeparture}
+					onSelect={(value: string) => {
+						setDeparture(value)
+						setActiveField("departure")
+						if (value.length >= 3) fetchCities(value)
+					}}
+					onBlur={() => setIsOpen(false)}
 					selectedValue={departure}
 				/>
 				<SearchInput
 					name="arrival"
-					placeholder="Edinburgh"
+					placeholder="to Edinburgh"
 					type="text"
 					labelName="Arrivée"
-					onSelect={setArrival}
+					onSelect={(value: string) => {
+						setArrival(value)
+						setActiveField("arrival")
+						if (value.length >= 3) fetchCities(value)
+					}}
+					onBlur={() => setIsOpen(false)}
 					selectedValue={arrival}
 				/>
 			</div>
+
+			<ul
+				role="listbox"
+				className={clsx(
+					isOpen
+						? "opacity-100 translate-y-0 max-h-96 p-2"
+						: "opacity-0 max-h-0",
+					"w-full shadow border-t border-t-emerald-500 bg-white mt-1 ring-1 ring-slate-200/40 transition-all duration-500 ease-out"
+				)}>
+				{suggestions.map((city, index) => (
+					<li
+						key={index}
+						className="hover:text-emerald-700 cursor-pointer my-[2px]"
+						onClick={() => handleCityClick(city, activeField!)}>
+						{city.name}
+					</li>
+				))}
+			</ul>
 
 			<div className="w-full flex items-center mt-5 gap-x-3">
 				<p className="font-semibold text-base">En :</p>
@@ -92,6 +169,8 @@ export default function Home() {
 				<IconButton transport="bus" onClick={() => setTransport("bus")} />
 				<IconButton transport="car" onClick={() => setTransport("car")} />
 			</div>
+
+			<Button text="Calculer" disabled={unableBtn} />
 		</main>
 	)
 }

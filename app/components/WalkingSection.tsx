@@ -12,8 +12,8 @@ export const WalkingSection = () => {
 				priority
 			/>
 			<p className="text-sm mb-4 tracking-widder">
-				Marche 🚶‍♀️ ou vélo 🚲 , c&apos;est la meilleure option pour la planète et
-				pour ta santé !
+				Marche ou vélo, c&apos;est la meilleure option pour la planète et pour
+				ta santé !
 			</p>
 		</div>
 	)
