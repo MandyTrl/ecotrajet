@@ -11,7 +11,7 @@ const Button = ({ text, disabled, onClick }: BtnProps) => {
 		<button
 			aria-label={`button action : ${text}`}
 			onClick={onClick}
-			className="w-full rounded-xl bg-emerald-100 text-emerald-600 mt-6 mb-4 p-2 border border-transparent hover:bg-emerald-900 hover:text-white ease-in-out duration-150 transition-color disabled:bg-gray-100"
+			className="w-full rounded-xl bg-emerald-600 text-white mt-6 mb-4 p-2 border border-transparent hover:bg-emerald-900 hover:text-white ease-in-out duration-150 transition-color disabled:bg-gray-100 disabled:text-emerald-900/70"
 			disabled={disabled}>
 			{text}
 		</button>

@@ -1,5 +1,4 @@
 import { ChangeEvent, FocusEventHandler } from "react"
-import { RotateCw } from "lucide-react"
 
 type InputProps = {
 	name: string
@@ -41,8 +40,8 @@ const SearchInput = ({
 					<button
 						type="button"
 						onClick={() => onSelect("")}
-						className="py-2 px-3 text-emerald-700 hover:text-emerald-900">
-						<RotateCw color="#032E21" size={18} strokeWidth={1.3} />
+						className="py-1 px-3 text-emerald-700 hover:text-emerald-900 font-medium">
+						x
 					</button>
 				)}
 			</div>

@@ -10,6 +10,11 @@ import Button from "./components/UI/Button"
 import SearchInput from "./components/UI/SearchInput"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
+export type City = {
+	name: string
+	coordinates: [number, number] | null
+}
+
 export default function Home() {
 	const { handleUserLocation, userLocation } = useContext(UserLocationContext)
 	const lat = userLocation ? userLocation.lat : null
@@ -19,14 +24,20 @@ export default function Home() {
 	const [activeField, setActiveField] = useState<
 		"departure" | "arrival" | null
 	>(null)
-	const [departure, setDeparture] = useState<string>("")
-	const [arrival, setArrival] = useState<string>("")
+	const [departure, setDeparture] = useState<City>({
+		name: "",
+		coordinates: null,
+	})
+	const [arrival, setArrival] = useState<City>({
+		name: "",
+		coordinates: null,
+	})
 	const [transport, setTransport] = useState<string>("")
 
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	const unableBtn: boolean =
-		(departure.length === 0 || arrival.length === 0) && true
+		(departure.name.length === 0 || arrival.name.length === 0) && true
 	// const [showToast, setShowToast] = useState(false)
 
 	//gérer la géolocalisation à l'initialisation
@@ -50,18 +61,17 @@ export default function Home() {
 		}
 	}
 
-	const handleCityClick = (
-		city: { name: string },
-		field: "departure" | "arrival"
-	) => {
+	const handleCityClick = (city: City, field: "departure" | "arrival") => {
 		if (field === "departure") {
-			setDeparture(city.name)
+			setDeparture({ name: city.name, coordinates: city.coordinates })
 		} else {
-			setArrival(city.name)
+			setArrival({ name: city.name, coordinates: city.coordinates })
 		}
 		setSuggestions([])
 		setIsOpen(false)
 	}
+
+	const handleClickCalculate = () => {}
 
 	//gestionnaire pour le bouton de géolocalisation dans le toast
 	// const handleGeolocation = async () => {
@@ -79,7 +89,7 @@ export default function Home() {
 
 	return (
 		<main className="flex flex-col items-center justify-center">
-			<header className="w-full flex items-center justify-between">
+			<header className="sticky top-0 bg-white w-full flex items-center justify-between shadow-sm">
 				<Image
 					className="dark:invert"
 					src="/logo.png"
@@ -108,7 +118,7 @@ export default function Home() {
 
 			<div className="relative w-full flex flex-col mt-4 pl-3">
 				<p className="absolute top-[3px] -left-[6px] border-2 border-emerald-500 rounded-full h-[10px] w-[10px] bg-white z-10"></p>
-				<p className="absolute top-[9px] -left-[3px] border-dotted border-l-4 border-emerald-500 h-[48px]"></p>
+				<p className="absolute top-[9px] -left-[3px] border-dotted border-l-4 border-emerald-500 h-[52px]"></p>
 				<FlagTriangleRight
 					color="#10B981"
 					size={20}
@@ -122,12 +132,12 @@ export default function Home() {
 					type="text"
 					labelName="Départ"
 					onSelect={(value: string) => {
-						setDeparture(value)
 						setActiveField("departure")
 						if (value.length >= 3) fetchCities(value)
+						setDeparture({ name: value, coordinates: null })
 					}}
 					onBlur={() => setIsOpen(false)}
-					selectedValue={departure}
+					selectedValue={departure.name}
 				/>
 				<SearchInput
 					name="arrival"
@@ -135,12 +145,12 @@ export default function Home() {
 					type="text"
 					labelName="Arrivée"
 					onSelect={(value: string) => {
-						setArrival(value)
 						setActiveField("arrival")
 						if (value.length >= 3) fetchCities(value)
+						setArrival({ name: value, coordinates: null })
 					}}
 					onBlur={() => setIsOpen(false)}
-					selectedValue={arrival}
+					selectedValue={arrival.name}
 				/>
 			</div>
 
@@ -152,7 +162,7 @@ export default function Home() {
 						: "opacity-0 max-h-0",
 					"w-full shadow border-t border-t-emerald-500 bg-white mt-1 ring-1 ring-slate-200/40 transition-all duration-500 ease-out"
 				)}>
-				{suggestions.map((city, index) => (
+				{suggestions.map((city: City, index: number) => (
 					<li
 						key={index}
 						className="hover:text-emerald-700 cursor-pointer my-[2px]"
@@ -170,7 +180,11 @@ export default function Home() {
 				<IconButton transport="car" onClick={() => setTransport("car")} />
 			</div>
 
-			<Button text="Calculer" disabled={unableBtn} />
+			<Button
+				text="Calculer"
+				disabled={unableBtn}
+				onClick={handleClickCalculate}
+			/>
 		</main>
 	)
 }
