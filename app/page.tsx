@@ -1,18 +1,30 @@
 "use client"
 import { useContext, useEffect, useState } from "react"
 import clsx from "clsx"
-import { FlagTriangleRight } from "lucide-react"
-import IconButton from "./components/UI/IconBtn"
-import { UserLocationContext } from "./utils/Context"
-import Button from "./components/UI/Button"
-import SearchInput from "./components/UI/SearchInput"
-import { TransportMode } from "./utils/carbonCalculator"
+import {
+	BusFront,
+	CarFront,
+	FlagTriangleRight,
+	LucideIcon,
+	Plane,
+	TrainFront,
+} from "lucide-react"
 import { HeadSection } from "./components/HeadSection"
+import Button from "./components/UI/Button"
+import IconBtn from "./components/UI/IconBtn"
+import SearchInput from "./components/UI/SearchInput"
+import { UserLocationContext } from "./utils/Context"
+import { TransportMode } from "./utils/carbonCalculator"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export type City = {
 	name: string
 	coordinates: [number, number] | null
+}
+
+type TransportBtn = {
+	type: TransportMode
+	Icon: LucideIcon
 }
 
 export default function Home() {
@@ -41,6 +53,13 @@ export default function Home() {
 		(departure.name.length === 0 || arrival.name.length === 0 || !transport) &&
 		true
 	// const [showToast, setShowToast] = useState(false)
+
+	const transportModes: TransportBtn[] = [
+		{ type: TransportMode.Plane, Icon: Plane },
+		{ type: TransportMode.Train, Icon: TrainFront },
+		{ type: TransportMode.Bus, Icon: BusFront },
+		{ type: TransportMode.Car, Icon: CarFront },
+	]
 
 	//gérer la géolocalisation à l'initialisation
 	useEffect(() => {
@@ -177,22 +196,22 @@ export default function Home() {
 
 			<div className="w-full flex items-center mt-5 gap-x-3">
 				<p className="font-semibold text-base">En :</p>
-				<IconButton
-					transport="plane"
-					onClick={() => setTransport(TransportMode.Plane)}
-				/>
-				<IconButton
-					transport="train"
-					onClick={() => setTransport(TransportMode.Train)}
-				/>
-				<IconButton
-					transport="bus"
-					onClick={() => setTransport(TransportMode.Bus)}
-				/>
-				<IconButton
-					transport="car"
-					onClick={() => setTransport(TransportMode.Car)}
-				/>
+				{transportModes.map((mode: TransportBtn) => {
+					const isActive = transport === mode.type
+					return (
+						<IconBtn
+							key={mode.type}
+							transport={mode.type}
+							isActive={isActive}
+							onClick={() =>
+								setTransport((prevState) =>
+									prevState !== mode.type ? mode.type : null
+								)
+							}
+							Icon={mode.Icon}
+						/>
+					)
+				})}
 			</div>
 
 			<Button

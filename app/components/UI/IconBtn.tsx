@@ -1,27 +1,28 @@
 "use client"
-import { Plane, TrainFront, BusFront, CarFront } from "lucide-react"
+import clsx from "clsx"
+import { LucideIcon } from "lucide-react"
+import { TransportMode } from "@/app/utils/carbonCalculator"
 
 type IconBtnProps = {
-	transport: "plane" | "train" | "bus" | "car"
+	transport: TransportMode
+	isActive: boolean
+	Icon: LucideIcon
 	onClick?: () => void
 }
 
-const IconButton = ({ transport, onClick }: IconBtnProps) => {
-	const icons = {
-		plane: <Plane color="#032E21" size={28} strokeWidth={1} />,
-		train: <TrainFront color="#032E21" size={28} strokeWidth={1} />,
-		bus: <BusFront color="#032E21" size={28} strokeWidth={1} />,
-		car: <CarFront color="#032E21" size={28} strokeWidth={1} />,
-	}
-
-	const Icon = icons[transport]
-
+const IconButton = ({ transport, isActive, Icon, onClick }: IconBtnProps) => {
 	return (
 		<button
+			key={transport}
 			aria-label={`Mode de transport : ${transport}`}
 			onClick={onClick}
-			className="rounded-full bg-emerald-100 p-2 border border-transparent hover:border-emerald-900 ease-in-out duration-150 transition-color">
-			{Icon}
+			className={clsx(
+				"rounded-full p-2 border bg-emerald-100 ease-in-out duration-150 transition-all",
+				isActive
+					? "border-emerald-700"
+					: "border-transparent hover:border-emerald-900"
+			)}>
+			<Icon color="#032E21" size={28} strokeWidth={1} />
 		</button>
 	)
 }

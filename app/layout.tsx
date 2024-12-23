@@ -25,7 +25,7 @@ export default function RootLayout({
 				className={`${montserrat.className} antialiased text-emerald-950 pt-0 pb-2`}>
 				<AppProviders>
 					<Navbar />
-					<main className="px-4"> {children}</main>
+					<main className="px-5"> {children}</main>
 				</AppProviders>
 			</body>
 		</html>
