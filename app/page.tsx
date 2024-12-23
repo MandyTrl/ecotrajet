@@ -14,7 +14,10 @@ import Button from "./components/UI/Button"
 import IconBtn from "./components/UI/IconBtn"
 import SearchInput from "./components/UI/SearchInput"
 import { UserLocationContext } from "./utils/Context"
-import { TransportMode } from "./utils/carbonCalculator"
+import {
+	calculateCarbonEmission,
+	TransportMode,
+} from "./utils/carbonCalculator"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export type City = {
@@ -45,7 +48,7 @@ export default function Home() {
 		coordinates: null,
 	})
 	const [transport, setTransport] = useState<TransportMode | null>(null)
-	const [distance, setDistance] = useState<number>(0)
+	const [carbonEmission, setCarbonEmission] = useState<number>(0)
 
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -99,16 +102,19 @@ export default function Home() {
 			)
 			if (!response.ok) throw new Error("Failed to fetch distance")
 			const distance = await response.json()
-			setDistance(distance)
+			if (transport)
+				setCarbonEmission(calculateCarbonEmission(distance, transport))
 		} catch (error) {
 			console.error("Error fetching distance:", error)
 		}
-
-		console.log(distance)
 	}
 
 	const handleClickCalculate = () => {
-		if (transport === TransportMode.Car) {
+		if (
+			transport === TransportMode.Car &&
+			departure.coordinates &&
+			arrival.coordinates
+		) {
 			fetchDistance()
 		}
 	}
@@ -219,6 +225,13 @@ export default function Home() {
 				disabled={unableBtn}
 				onClick={handleClickCalculate}
 			/>
+
+			{carbonEmission !== 0 && (
+				<div className="mb-5 p-2 border border-emerald-500 rounded-md">
+					L&apos;émission de ce voyage est estimé à{" "}
+					<span className="font-semibold text-lg">{carbonEmission} kgCO₂</span>
+				</div>
+			)}
 		</div>
 	)
 }
