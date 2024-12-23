@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
 
 	if (!start || !end) {
 		return NextResponse.json(
-			{ error: "Query parameter 'city' is required" },
+			{ error: "Query parameter 'start' and 'end' are required" },
 			{ status: 400 }
 		)
 	}
@@ -24,13 +24,14 @@ export async function GET(req: NextRequest) {
 		const response = await fetch(url)
 
 		if (!response.ok) {
-			throw new Error("Failed to fetch city data")
+			throw new Error("Failed to fetch the distance")
 		}
 
 		const data = await response.json()
-		const distance = data.routes[0].summary.distance
+		const distance = data.features[0].properties.summary.distance
+		const distanceKm = distance / 1000
 
-		return NextResponse.json(distance)
+		return NextResponse.json(distanceKm.toFixed(1))
 	} catch (error) {
 		console.error("Error:", error)
 		return NextResponse.json(

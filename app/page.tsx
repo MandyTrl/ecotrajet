@@ -1,13 +1,14 @@
 "use client"
 import { useContext, useEffect, useState } from "react"
-import Image from "next/image"
 import clsx from "clsx"
-import { Menu, FlagTriangleRight } from "lucide-react"
+import { FlagTriangleRight } from "lucide-react"
 import IconButton from "./components/UI/IconBtn"
 import { UserLocationContext } from "./utils/Context"
 import { WalkingSection } from "./components/WalkingSection"
 import Button from "./components/UI/Button"
 import SearchInput from "./components/UI/SearchInput"
+import { TransportMode } from "./utils/carbonCalculator"
+import { Navbar } from "./components/Navbar"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export type City = {
@@ -32,12 +33,14 @@ export default function Home() {
 		name: "",
 		coordinates: null,
 	})
-	const [transport, setTransport] = useState<string>("")
+	const [transport, setTransport] = useState<TransportMode | null>(null)
+	const [distance, setDistance] = useState<number>(0)
 
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	const unableBtn: boolean =
-		(departure.name.length === 0 || arrival.name.length === 0) && true
+		(departure.name.length === 0 || arrival.name.length === 0 || !transport) &&
+		true
 	// const [showToast, setShowToast] = useState(false)
 
 	//gérer la géolocalisation à l'initialisation
@@ -71,7 +74,26 @@ export default function Home() {
 		setIsOpen(false)
 	}
 
-	const handleClickCalculate = () => {}
+	const fetchDistance = async () => {
+		try {
+			const response = await fetch(
+				`/api/getDrivingDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
+			)
+			if (!response.ok) throw new Error("Failed to fetch distance")
+			const distance = await response.json()
+			setDistance(distance)
+		} catch (error) {
+			console.error("Error fetching distance:", error)
+		}
+
+		console.log(distance)
+	}
+
+	const handleClickCalculate = () => {
+		if (transport === TransportMode.Car) {
+			fetchDistance()
+		}
+	}
 
 	//gestionnaire pour le bouton de géolocalisation dans le toast
 	// const handleGeolocation = async () => {
@@ -89,24 +111,14 @@ export default function Home() {
 
 	return (
 		<main className="flex flex-col items-center justify-center">
-			<header className="sticky top-0 bg-white w-full flex items-center justify-between shadow-sm">
-				<Image
-					className="dark:invert"
-					src="/logo.png"
-					alt="ecotrajet"
-					width={120}
-					height={38}
-					priority
-				/>
-				<Menu color="#032E21" size={30} strokeWidth={1} />
-			</header>
-
 			{/* {showToast && (
 				<ToastGeoloc
 					handleGeolocation={handleGeolocation}
 					dismissToast={dismissToast}
 				/>
 			)} */}
+
+			<Navbar />
 
 			<div className="my-4">
 				<p className="text-xl font-medium">
@@ -174,10 +186,22 @@ export default function Home() {
 
 			<div className="w-full flex items-center mt-5 gap-x-3">
 				<p className="font-semibold text-base">En :</p>
-				<IconButton transport="plane" onClick={() => setTransport("plane")} />
-				<IconButton transport="train" onClick={() => setTransport("train")} />
-				<IconButton transport="bus" onClick={() => setTransport("bus")} />
-				<IconButton transport="car" onClick={() => setTransport("car")} />
+				<IconButton
+					transport="plane"
+					onClick={() => setTransport(TransportMode.Plane)}
+				/>
+				<IconButton
+					transport="train"
+					onClick={() => setTransport(TransportMode.Train)}
+				/>
+				<IconButton
+					transport="bus"
+					onClick={() => setTransport(TransportMode.Bus)}
+				/>
+				<IconButton
+					transport="car"
+					onClick={() => setTransport(TransportMode.Car)}
+				/>
 			</div>
 
 			<Button
