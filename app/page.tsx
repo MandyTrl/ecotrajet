@@ -4,11 +4,10 @@ import clsx from "clsx"
 import { FlagTriangleRight } from "lucide-react"
 import IconButton from "./components/UI/IconBtn"
 import { UserLocationContext } from "./utils/Context"
-import { WalkingSection } from "./components/WalkingSection"
 import Button from "./components/UI/Button"
 import SearchInput from "./components/UI/SearchInput"
 import { TransportMode } from "./utils/carbonCalculator"
-import { Navbar } from "./components/Navbar"
+import { HeadSection } from "./components/HeadSection"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export type City = {
@@ -110,7 +109,7 @@ export default function Home() {
 	// }
 
 	return (
-		<main className="flex flex-col items-center justify-center">
+		<div className="flex flex-col items-center justify-center">
 			{/* {showToast && (
 				<ToastGeoloc
 					handleGeolocation={handleGeolocation}
@@ -118,15 +117,7 @@ export default function Home() {
 				/>
 			)} */}
 
-			<Navbar />
-
-			<div className="my-4">
-				<p className="text-xl font-medium">
-					Compare l&apos;empreinte carbone de ton prochain voyage
-				</p>
-			</div>
-
-			<WalkingSection />
+			<HeadSection />
 
 			<div className="relative w-full flex flex-col mt-4 pl-3">
 				<p className="absolute top-[3px] -left-[6px] border-2 border-emerald-500 rounded-full h-[10px] w-[10px] bg-white z-10"></p>
@@ -209,6 +200,6 @@ export default function Home() {
 				disabled={unableBtn}
 				onClick={handleClickCalculate}
 			/>
-		</main>
+		</div>
 	)
 }
