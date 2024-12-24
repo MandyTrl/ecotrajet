@@ -203,6 +203,7 @@ export default function Home() {
 							key={mode.type}
 							transport={mode.type}
 							isActive={isActive}
+							passengers={passengers}
 							onClick={() =>
 								setTransport((prevState) => {
 									return prevState?.type === mode.type
