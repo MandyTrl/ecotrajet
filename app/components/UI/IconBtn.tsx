@@ -14,13 +14,13 @@ type IconBtnProps = {
 
 const IconButton = ({
 	transport,
-	passengers,
+	// passengers,
 	isActive,
 	Icon,
 	onClick,
 }: IconBtnProps) => {
-	const transportIsCar = transport === TransportMode.Car
-	const [showPassengersList, setShowPassengerList] = useState<boolean>(false)
+	// const transportIsCar = transport === TransportMode.Car
+	// const [showPassengersList, setShowPassengerList] = useState<boolean>(false)
 
 	return (
 		<button

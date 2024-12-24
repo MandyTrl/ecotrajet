@@ -87,10 +87,14 @@ export default function Home() {
 	}
 
 	const fetchDistance = async () => {
+		const url =
+			transport && transport.type === TransportMode.Car
+				? `/api/getDrivingDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
+				: `/api/getTrainDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
+
 		try {
-			const response = await fetch(
-				`/api/getDrivingDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
-			)
+			const response = await fetch(url)
+
 			if (!response.ok) throw new Error("Failed to fetch distance")
 			const distance = await response.json()
 			setDistance(distance)
@@ -102,12 +106,7 @@ export default function Home() {
 	}
 
 	const handleClickCalculate = () => {
-		if (
-			transport &&
-			transport.type === TransportMode.Car &&
-			departure.coordinates &&
-			arrival.coordinates
-		) {
+		if (transport && departure.coordinates && arrival.coordinates) {
 			fetchDistance()
 		}
 	}
