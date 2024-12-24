@@ -5,7 +5,6 @@ import {
 	BusFront,
 	CarFront,
 	FlagTriangleRight,
-	LucideIcon,
 	Plane,
 	TrainFront,
 } from "lucide-react"
@@ -15,7 +14,8 @@ import IconBtn from "./components/UI/IconBtn"
 import SearchInput from "./components/UI/SearchInput"
 import { UserLocationContext } from "./utils/Context"
 import { calculateCarbonEmission } from "./utils/carbonCalculator"
-import { City, TransportBtn, TransportMode } from "./utils/types"
+import { City, Transport, TransportBtn, TransportMode } from "./utils/types"
+import { Summary } from "./components/Summary"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
 		name: "",
 		coordinates: null,
 	})
-	const [transport, setTransport] = useState<TransportBtn | null>(null)
+	const [transport, setTransport] = useState<Transport | null>(null)
 	const [distance, setDistance] = useState<number>(0)
 	const [carbonEmission, setCarbonEmission] = useState<number>(0)
 
@@ -196,16 +196,22 @@ export default function Home() {
 			<div className="w-full flex items-center mt-5 gap-x-3">
 				<p className="font-semibold text-base">En :</p>
 				{transportModes.map((mode: TransportBtn) => {
-					const isActive = transport!.mode === mode.type
+					const isActive = transport ? mode.type === transport.type : false
+
 					return (
 						<IconBtn
 							key={mode.type}
 							transport={mode.type}
 							isActive={isActive}
 							onClick={() =>
-								setTransport((prevState) =>
-									prevState !== mode.type ? mode.type : null
-								)
+								setTransport((prevState) => {
+									return prevState?.type === mode.type
+										? null
+										: {
+												type: mode.type,
+												name: mode.name,
+										  }
+								})
 							}
 							Icon={mode.Icon}
 						/>
@@ -219,30 +225,13 @@ export default function Home() {
 				onClick={handleClickCalculate}
 			/>
 
-			{carbonEmission !== 0 && (
-				<div className="mb-5 border border-emerald-500 rounded-md">
-					<p className="p-3">
-						L&apos;émission de ce voyage est estimé à{" "}
-						<span className="font-semibold text-lg">
-							{carbonEmission} kgCO₂
-						</span>
-					</p>
-
-					<div className="border-emerald-900/20 m-2 p-3 text-sm font-medium bg-emerald-100/30 rounded-md">
-						<p>
-							Moyen de transport :{" "}
-							<span className="font-normal">{transport}</span>
-						</p>
-						<p>
-							Distance moyenne :{" "}
-							<span className="font-normal">{distance} km</span>
-						</p>
-						<p>
-							Nombre de passagers :{" "}
-							<span className="font-normal">{passengers}</span>
-						</p>
-					</div>
-				</div>
+			{carbonEmission !== 0 && transport && (
+				<Summary
+					transport={transport.name}
+					passengers={passengers}
+					distance={distance}
+					carbonEmission={carbonEmission}
+				/>
 			)}
 		</div>
 	)

@@ -39,10 +39,15 @@ export async function GET(req: NextRequest) {
 
 		const data = await response.json()
 
-		const cities: City[] = data.features.map((feature) => ({
-			name: feature.properties.label,
-			coordinates: feature.geometry.coordinates,
-		}))
+		const cities: City[] = data.features.map(
+			(feature: {
+				properties: { label: unknown }
+				geometry: { coordinates: unknown }
+			}) => ({
+				name: feature.properties.label,
+				coordinates: feature.geometry.coordinates,
+			})
+		)
 
 		return NextResponse.json(cities)
 	} catch (error) {

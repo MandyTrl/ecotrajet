@@ -7,11 +7,17 @@ export enum TransportMode {
 	Car = "car",
 }
 
+export type Transport = {
+	type: TransportMode
+	name: string
+}
+
 export type TransportBtn = {
 	type: TransportMode
 	Icon: LucideIcon
 	name: string
 }
+
 export type City = {
 	name: string
 	coordinates: [number, number] | null
