@@ -1,9 +1,5 @@
-export enum TransportMode {
-	Plane = "plane",
-	Train = "train",
-	Bus = "bus",
-	Car = "car",
-}
+import { TransportMode } from "./types"
+
 export const emissionFactors: Record<TransportMode, number> = {
 	plane: 285,
 	train: 6,

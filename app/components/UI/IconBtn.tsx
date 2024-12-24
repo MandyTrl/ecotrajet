@@ -1,10 +1,10 @@
 "use client"
 import clsx from "clsx"
 import { LucideIcon } from "lucide-react"
-import { TransportMode } from "@/app/utils/carbonCalculator"
+import { Transport } from "@/app/utils/types"
 
 type IconBtnProps = {
-	transport: TransportMode
+	transport: Transport
 	isActive: boolean
 	Icon: LucideIcon
 	onClick?: () => void
@@ -13,8 +13,8 @@ type IconBtnProps = {
 const IconButton = ({ transport, isActive, Icon, onClick }: IconBtnProps) => {
 	return (
 		<button
-			key={transport}
-			aria-label={`Mode de transport : ${transport}`}
+			key={transport.name}
+			aria-label={`Mode de transport : ${transport.name}`}
 			onClick={onClick}
 			className={clsx(
 				"rounded-full p-2 border bg-emerald-100 ease-in-out duration-150 transition-all",

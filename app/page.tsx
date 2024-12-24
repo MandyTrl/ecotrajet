@@ -14,21 +14,9 @@ import Button from "./components/UI/Button"
 import IconBtn from "./components/UI/IconBtn"
 import SearchInput from "./components/UI/SearchInput"
 import { UserLocationContext } from "./utils/Context"
-import {
-	calculateCarbonEmission,
-	TransportMode,
-} from "./utils/carbonCalculator"
+import { calculateCarbonEmission } from "./utils/carbonCalculator"
+import { City, TransportBtn, TransportMode } from "./utils/types"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
-
-export type City = {
-	name: string
-	coordinates: [number, number] | null
-}
-
-type TransportBtn = {
-	type: TransportMode
-	Icon: LucideIcon
-}
 
 export default function Home() {
 	const { handleUserLocation, userLocation } = useContext(UserLocationContext)
@@ -47,8 +35,11 @@ export default function Home() {
 		name: "",
 		coordinates: null,
 	})
-	const [transport, setTransport] = useState<TransportMode | null>(null)
+	const [transport, setTransport] = useState<TransportBtn | null>(null)
+	const [distance, setDistance] = useState<number>(0)
 	const [carbonEmission, setCarbonEmission] = useState<number>(0)
+
+	const [passengers, setPassengers] = useState<number>(1)
 
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -58,10 +49,10 @@ export default function Home() {
 	// const [showToast, setShowToast] = useState(false)
 
 	const transportModes: TransportBtn[] = [
-		{ type: TransportMode.Plane, Icon: Plane },
-		{ type: TransportMode.Train, Icon: TrainFront },
-		{ type: TransportMode.Bus, Icon: BusFront },
-		{ type: TransportMode.Car, Icon: CarFront },
+		{ type: TransportMode.Plane, Icon: Plane, name: "Avion" },
+		{ type: TransportMode.Train, Icon: TrainFront, name: "Train" },
+		{ type: TransportMode.Bus, Icon: BusFront, name: "Bus" },
+		{ type: TransportMode.Car, Icon: CarFront, name: "Voiture" },
 	]
 
 	//gérer la géolocalisation à l'initialisation
@@ -102,8 +93,9 @@ export default function Home() {
 			)
 			if (!response.ok) throw new Error("Failed to fetch distance")
 			const distance = await response.json()
+			setDistance(distance)
 			if (transport)
-				setCarbonEmission(calculateCarbonEmission(distance, transport))
+				setCarbonEmission(calculateCarbonEmission(distance, transport.type))
 		} catch (error) {
 			console.error("Error fetching distance:", error)
 		}
@@ -111,7 +103,8 @@ export default function Home() {
 
 	const handleClickCalculate = () => {
 		if (
-			transport === TransportMode.Car &&
+			transport &&
+			transport.type === TransportMode.Car &&
 			departure.coordinates &&
 			arrival.coordinates
 		) {
@@ -156,7 +149,7 @@ export default function Home() {
 
 				<SearchInput
 					name="departure"
-					placeholder="from Paris"
+					placeholder="de Paris"
 					type="text"
 					labelName="Départ"
 					onSelect={(value: string) => {
@@ -169,7 +162,7 @@ export default function Home() {
 				/>
 				<SearchInput
 					name="arrival"
-					placeholder="to Edinburgh"
+					placeholder="à Édimbourg"
 					type="text"
 					labelName="Arrivée"
 					onSelect={(value: string) => {
@@ -203,7 +196,7 @@ export default function Home() {
 			<div className="w-full flex items-center mt-5 gap-x-3">
 				<p className="font-semibold text-base">En :</p>
 				{transportModes.map((mode: TransportBtn) => {
-					const isActive = transport === mode.type
+					const isActive = transport!.mode === mode.type
 					return (
 						<IconBtn
 							key={mode.type}
@@ -227,9 +220,28 @@ export default function Home() {
 			/>
 
 			{carbonEmission !== 0 && (
-				<div className="mb-5 p-2 border border-emerald-500 rounded-md">
-					L&apos;émission de ce voyage est estimé à{" "}
-					<span className="font-semibold text-lg">{carbonEmission} kgCO₂</span>
+				<div className="mb-5 border border-emerald-500 rounded-md">
+					<p className="p-3">
+						L&apos;émission de ce voyage est estimé à{" "}
+						<span className="font-semibold text-lg">
+							{carbonEmission} kgCO₂
+						</span>
+					</p>
+
+					<div className="border-emerald-900/20 m-2 p-3 text-sm font-medium bg-emerald-100/30 rounded-md">
+						<p>
+							Moyen de transport :{" "}
+							<span className="font-normal">{transport}</span>
+						</p>
+						<p>
+							Distance moyenne :{" "}
+							<span className="font-normal">{distance} km</span>
+						</p>
+						<p>
+							Nombre de passagers :{" "}
+							<span className="font-normal">{passengers}</span>
+						</p>
+					</div>
 				</div>
 			)}
 		</div>
