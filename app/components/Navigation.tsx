@@ -12,7 +12,7 @@ export const Navigation = ({ isShow }: NavigationProps) => {
 				isShow
 					? "w-full h-fit scale-100 opacity-100"
 					: "w-0 h-0 scale-0 opacity-0",
-				"absolute top-20 right-0 origin-top-right bg-white p-5 ease-in-out duration-500 transition-all overflow-hidden"
+				"absolute top-20 right-0 origin-top-right bg-white p-5 ease-in-out duration-500 transition-all overflow-hidden -z-20"
 			)}>
 			<ul className="w-full flex flex-col space-y-4">
 				<li className="group block">

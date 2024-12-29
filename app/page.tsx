@@ -1,5 +1,5 @@
 "use client"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import {
 	BusFront,
@@ -36,6 +36,8 @@ export default function Home() {
 		coordinates: null,
 	})
 	const [transport, setTransport] = useState<Transport | null>(null)
+	const transportRef = useRef(transport)
+	const transportHasChanged = transportRef.current?.type !== transport?.type
 	const [distance, setDistance] = useState<number>(0)
 	const [carbonEmission, setCarbonEmission] = useState<number>(0)
 
@@ -61,6 +63,10 @@ export default function Home() {
 
 		// setShowToast(true)
 	}, [handleUserLocation])
+
+	useEffect(() => {
+		transportRef.current = transport
+	}, [transport])
 
 	const fetchCities = async (value: string) => {
 		try {
@@ -88,7 +94,7 @@ export default function Home() {
 
 	const fetchDistance = async () => {
 		const url =
-			transport && transport.type === TransportMode.Car
+			transport && (transport.type === TransportMode.Car || TransportMode.Bus)
 				? `/api/getDrivingDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
 				: `/api/getTrainDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
 
@@ -225,7 +231,7 @@ export default function Home() {
 				onClick={handleClickCalculate}
 			/>
 
-			{carbonEmission !== 0 && transport && (
+			{!transportHasChanged && carbonEmission !== 0 && transport && (
 				<Summary
 					transport={transport.name}
 					passengers={passengers}

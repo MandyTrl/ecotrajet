@@ -9,7 +9,9 @@ export default function CalculationAndSources() {
 				<div className="flex flex-col gap-3">
 					<div>
 						<h3 className="text-lg">ORS (Open Route Service)</h3>
-						<p>Calcul pour les distances en voiture et en train.</p>
+						<p>
+							Calcul pour les distances en voiture, bus/autocars et en train.
+						</p>
 					</div>
 					<div>
 						<h3 className="text-lg">Base Empreinte®</h3>

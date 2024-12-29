@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
+const apiKey = process.env.ORS_API_KEY
+
 export async function GET(req: NextRequest) {
 	const { searchParams } = new URL(req.url)
 	const start = searchParams.get("from")
@@ -12,7 +14,6 @@ export async function GET(req: NextRequest) {
 		)
 	}
 
-	const apiKey = process.env.ORS_API_KEY
 	if (!apiKey) {
 		return NextResponse.json({ error: "API key is missing" }, { status: 500 })
 	}

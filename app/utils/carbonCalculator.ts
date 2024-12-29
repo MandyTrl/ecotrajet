@@ -3,7 +3,7 @@ import { TransportMode } from "./types"
 export const emissionFactors: Record<TransportMode, number> = {
 	plane: 285,
 	train: 7,
-	bus: 105,
+	bus: 29.5,
 	car: 190,
 }
 
@@ -14,7 +14,9 @@ export const calculateCarbonEmission = (
 	const fabricationCost =
 		transport === TransportMode.Car
 			? 4.5
-			: // : transport === TransportMode.Train
+			: // : transport === TransportMode.Bus
+			  //   ? 4
+			  // : transport === TransportMode.Train
 			  // ? 7
 			  0
 
