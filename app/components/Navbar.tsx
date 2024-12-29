@@ -24,9 +24,9 @@ export const Navbar = () => {
 				/>
 			</Link>
 
-			<div>
+			<div className="flex flex-col items-end">
 				{!isShow ? (
-					<div className="hover:cursor-pointer hover:bg-emerald-100/70 ease-in-out duration-500 transform-all p-1 rounded-full hover:*:scale-90">
+					<div className="hover:cursor-pointer hover:bg-emerald-100/70 ease-in-out duration-500 transform-all p-1 rounded-full hover:*:scale-75">
 						<Menu
 							color="#032E21"
 							size={30}
@@ -39,7 +39,7 @@ export const Navbar = () => {
 					<div className="hover:cursor-pointer hover:*:scale-110">
 						<X
 							color="#032E21"
-							size={30}
+							size={26}
 							strokeWidth={1}
 							onClick={handleNavigation}
 							className="ease-in-out duration-300 transform-all"
