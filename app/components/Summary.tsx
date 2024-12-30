@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import { UsersRound } from "lucide-react"
 
 type SummaryProps = {
@@ -5,6 +6,7 @@ type SummaryProps = {
 	passengers: number
 	distance: number
 	carbonEmission: number
+	isShow: boolean
 }
 
 export const Summary = ({
@@ -12,9 +14,14 @@ export const Summary = ({
 	passengers,
 	distance,
 	carbonEmission,
+	isShow,
 }: SummaryProps) => {
 	return (
-		<div className="w-full mb-5 p-3 border border-emerald-500 rounded-md">
+		<div
+			className={clsx(
+				isShow ? "h-32 opacity-100" : "h-0 opacity-0",
+				"w-full mb-5 p-3 border border-emerald-500 rounded-md ease-in-out transform-all duration-300"
+			)}>
 			<div className="flex items-center justify-between">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center">

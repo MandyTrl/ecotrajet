@@ -50,6 +50,9 @@ export default function Home() {
 		true
 	// const [showToast, setShowToast] = useState(false)
 
+	const showSummary: boolean =
+		!transportHasChanged && carbonEmission !== 0 && transport !== null
+
 	const transportModes: TransportBtn[] = [
 		{ type: TransportMode.Plane, Icon: Plane, name: "Avion" },
 		{ type: TransportMode.Train, Icon: TrainFront, name: "Train" },
@@ -139,9 +142,7 @@ export default function Home() {
 					dismissToast={dismissToast}
 				/>
 			)} */}
-
 			<HeadSection />
-
 			<div className="relative w-full flex flex-col mt-4 pl-3">
 				<p className="absolute top-[3px] -left-[6px] border-2 border-emerald-500 rounded-full h-[10px] w-[10px] bg-white z-10"></p>
 				<p className="absolute top-[9px] -left-[3px] border-dotted border-l-4 border-emerald-500 h-[52px]"></p>
@@ -179,7 +180,6 @@ export default function Home() {
 					selectedValue={arrival.name}
 				/>
 			</div>
-
 			<ul
 				role="listbox"
 				className={clsx(
@@ -197,7 +197,6 @@ export default function Home() {
 					</li>
 				))}
 			</ul>
-
 			<div className="w-full flex items-center mt-5 gap-x-3">
 				<p className="font-semibold text-base">En :</p>
 				{transportModes.map((mode: TransportBtn) => {
@@ -224,21 +223,19 @@ export default function Home() {
 					)
 				})}
 			</div>
-
 			<Button
 				text="Calculer"
 				disabled={unableBtn}
 				onClick={handleClickCalculate}
 			/>
 
-			{!transportHasChanged && carbonEmission !== 0 && transport && (
-				<Summary
-					transport={transport.name}
-					passengers={passengers}
-					distance={distance}
-					carbonEmission={carbonEmission}
-				/>
-			)}
+			<Summary
+				transport={transport ? transport.name : "Pas de transport choisi"}
+				passengers={passengers}
+				distance={distance}
+				carbonEmission={carbonEmission}
+				isShow={showSummary}
+			/>
 		</div>
 	)
 }
