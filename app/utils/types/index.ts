@@ -1,24 +1,33 @@
 import { LucideIcon } from "lucide-react"
 
-export enum TransportMode {
+enum TransportMode {
 	Plane = "plane",
 	Train = "train",
 	Bus = "bus",
 	Car = "car",
 }
 
-export type Transport = {
+type Transport = {
 	type: TransportMode
 	name: string
 }
 
-export type TransportBtn = {
+type TransportBtn = {
 	type: TransportMode
 	Icon: LucideIcon
 	name: string
 }
 
-export type City = {
+type City = {
 	name: string
 	coordinates: [number, number] | null
 }
+type Airport = {
+	name: string
+	latitude: number
+	longitude: number
+	type: string
+}
+
+export { TransportMode }
+export type { Airport, City, TransportBtn, Transport }
