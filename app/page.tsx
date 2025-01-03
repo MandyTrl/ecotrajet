@@ -163,8 +163,6 @@ export default function Home() {
 	// 	setShowToast(false)
 	// }
 
-	console.log(departure)
-
 	return (
 		<div className="flex flex-col items-center justify-center">
 			{/* {showToast && (

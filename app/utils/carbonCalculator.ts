@@ -1,27 +1,57 @@
 import { TransportMode } from "./types"
 
-export const emissionFactors: Record<TransportMode, number> = {
-	plane: 285,
-	train: 7,
-	bus: 29.5,
-	car: 190,
+export const emissionFactors: Record<
+	TransportMode,
+	number | Record<string, number>
+> = {
+	plane: {
+		short: 251, //0 à 500 km
+		medium: 178, //500 à 1000 km
+		long: 151, //1000 à 3500 km
+		veryLong: 133, //> 3500 km
+	},
+	train: 7, //facteur moyen
+	bus: 29.5, //facteur moyen
+	car: {
+		short: 131, //0 à 50km
+		long: 107, //> 50km
+	},
 }
 
 export const calculateCarbonEmission = (
 	distance: number,
 	transport: TransportMode
 ): number => {
+	let emissionFactor: number
+
+	if (transport === TransportMode.Plane) {
+		if (distance <= 500) {
+			emissionFactor = (emissionFactors.plane as Record<string, number>).short
+		} else if (distance <= 1000) {
+			emissionFactor = (emissionFactors.plane as Record<string, number>).medium
+		} else if (distance <= 3500) {
+			emissionFactor = (emissionFactors.plane as Record<string, number>).long
+		} else {
+			emissionFactor = (emissionFactors.plane as Record<string, number>)
+				.veryLong
+		}
+	} else if (transport === TransportMode.Car) {
+		if (distance <= 50) {
+			emissionFactor = (emissionFactors.car as Record<string, number>).short
+		} else {
+			emissionFactor = (emissionFactors.car as Record<string, number>).long
+		}
+	} else {
+		emissionFactor = emissionFactors[transport] as number
+	}
+
 	const fabricationCost =
 		transport === TransportMode.Car
 			? 4.5
-			: // : transport === TransportMode.Bus
-			  //   ? 4
-			  // : transport === TransportMode.Train
-			  // ? 7
-			  0
+			: transport === TransportMode.Plane
+			? 38
+			: 0
 
-	const emissionFactor = emissionFactors[transport] // gCO₂/pkm
-	return Math.round((distance * emissionFactor) / 1000) + fabricationCost //résultat en kgCO₂
+	//calcul des émissions : distance * facteur d'émission (gCO₂/pkm) / 1000 (pour kgCO₂)
+	return Math.round((distance * emissionFactor) / 1000) + fabricationCost
 }
-
-// calcul =>     Emissions = Distance(km) × Facteur d’emission(gCO₂/pkm)
