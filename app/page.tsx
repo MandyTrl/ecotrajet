@@ -14,8 +14,15 @@ import IconBtn from "./components/UI/IconBtn"
 import SearchInput from "./components/UI/SearchInput"
 import { UserLocationContext } from "./utils/Context"
 import { calculateCarbonEmission } from "./utils/carbonCalculator"
-import { City, Transport, TransportBtn, TransportMode } from "./utils/types"
+import {
+	City,
+	CityORS,
+	Transport,
+	TransportBtn,
+	TransportMode,
+} from "./utils/types"
 import { Summary } from "./components/Summary"
+import { calculateHaversineDistance } from "./utils/calculateHarvesineDistance"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export default function Home() {
@@ -85,32 +92,54 @@ export default function Home() {
 		}
 	}
 
-	const handleCityClick = (city: City, field: "departure" | "arrival") => {
-		if (field === "departure") {
-			setDeparture({ name: city.name, coordinates: city.coordinates })
+	const handleCityClick = (city: CityORS, field: "departure" | "arrival") => {
+		if (field === "departure" && city) {
+			setDeparture({
+				name: city.name,
+				coordinates: { lat: city.coordinates![1], lon: city.coordinates![0] },
+			})
 		} else {
-			setArrival({ name: city.name, coordinates: city.coordinates })
+			setArrival({
+				name: city.name,
+				coordinates: { lat: city.coordinates![1], lon: city.coordinates![0] },
+			})
 		}
 		setSuggestions([])
 		setIsOpen(false)
 	}
 
 	const fetchDistance = async () => {
-		const url =
-			transport && (transport.type === TransportMode.Car || TransportMode.Bus)
-				? `/api/getDrivingDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
-				: `/api/getTrainDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
-
-		try {
-			const response = await fetch(url)
-
-			if (!response.ok) throw new Error("Failed to fetch distance")
-			const distance = await response.json()
+		if (
+			transport &&
+			transport.type === TransportMode.Plane &&
+			departure.coordinates &&
+			arrival.coordinates
+		) {
+			const distance = calculateHaversineDistance(
+				departure.coordinates.lat,
+				departure.coordinates.lon,
+				arrival.coordinates.lat,
+				arrival.coordinates.lon
+			)
 			setDistance(distance)
-			if (transport)
-				setCarbonEmission(calculateCarbonEmission(distance, transport.type))
-		} catch (error) {
-			console.error("Error fetching distance:", error)
+			setCarbonEmission(calculateCarbonEmission(distance, transport.type))
+		} else {
+			const url =
+				transport && (transport.type === TransportMode.Car || TransportMode.Bus)
+					? `/api/getDrivingDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
+					: `/api/getTrainDistance?&from=${departure.coordinates}&to=${arrival.coordinates}`
+
+			try {
+				const response = await fetch(url)
+
+				if (!response.ok) throw new Error("Failed to fetch distance")
+				const distance = await response.json()
+				setDistance(distance)
+				if (transport)
+					setCarbonEmission(calculateCarbonEmission(distance, transport.type))
+			} catch (error) {
+				console.error("Error fetching distance:", error)
+			}
 		}
 	}
 
@@ -133,6 +162,8 @@ export default function Home() {
 	// const dismissToast = () => {
 	// 	setShowToast(false)
 	// }
+
+	console.log(departure)
 
 	return (
 		<div className="flex flex-col items-center justify-center">
@@ -188,7 +219,7 @@ export default function Home() {
 						: "opacity-0 max-h-0",
 					"w-full shadow border-t border-t-emerald-500 bg-white mt-1 ring-1 ring-slate-200/40 transition-all duration-500 ease-out"
 				)}>
-				{suggestions.map((city: City, index: number) => (
+				{suggestions.map((city: CityORS, index: number) => (
 					<li
 						key={index}
 						className="hover:text-emerald-700 cursor-pointer my-[2px]"

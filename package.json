@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev --turbopack",
-	    "convert": "TS_NODE_ESM=true node --loader ts-node/esm app/utils/convert.ts",
+		"convert": "TS_NODE_ESM=true node --loader ts-node/esm app/utils/convert.ts",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"

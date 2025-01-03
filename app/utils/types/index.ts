@@ -18,10 +18,20 @@ type TransportBtn = {
 	name: string
 }
 
+type Coordinates = {
+	lat: number
+	lon: number
+}
+
 type City = {
 	name: string
-	coordinates: [number, number] | null
+	coordinates: Coordinates | null
 }
+type CityORS = {
+	name: string
+	coordinates: [number, number]
+}
+
 type Airport = {
 	name: string
 	latitude: number
@@ -30,4 +40,4 @@ type Airport = {
 }
 
 export { TransportMode }
-export type { Airport, City, TransportBtn, Transport }
+export type { Airport, City, CityORS, TransportBtn, Transport, Coordinates }
