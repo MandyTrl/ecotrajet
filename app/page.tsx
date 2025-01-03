@@ -1,28 +1,16 @@
 "use client"
 import { useContext, useEffect, useRef, useState } from "react"
 import clsx from "clsx"
-import {
-	BusFront,
-	CarFront,
-	FlagTriangleRight,
-	Plane,
-	TrainFront,
-} from "lucide-react"
+import { FlagTriangleRight } from "lucide-react"
 import { HeadSection } from "./components/HeadSection"
 import Button from "./components/UI/Button"
-import IconBtn from "./components/UI/IconBtn"
 import SearchInput from "./components/UI/SearchInput"
 import { UserLocationContext } from "./utils/Context"
 import { calculateCarbonEmission } from "./utils/carbonCalculator"
-import {
-	City,
-	CityORS,
-	Transport,
-	TransportBtn,
-	TransportMode,
-} from "./utils/types"
+import { City, CityORS, Transport, TransportMode } from "./utils/types"
 import { Summary } from "./components/Summary"
 import { calculateHaversineDistance } from "./utils/calculateHarvesineDistance"
+import { TransportSelector } from "./components/TransportSelector"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export default function Home() {
@@ -59,13 +47,6 @@ export default function Home() {
 
 	const showSummary: boolean =
 		!transportHasChanged && carbonEmission !== 0 && transport !== null
-
-	const transportModes: TransportBtn[] = [
-		{ type: TransportMode.Plane, Icon: Plane, name: "Avion" },
-		{ type: TransportMode.Train, Icon: TrainFront, name: "Train" },
-		{ type: TransportMode.Bus, Icon: BusFront, name: "Bus" },
-		{ type: TransportMode.Car, Icon: CarFront, name: "Voiture" },
-	]
 
 	//gérer la géolocalisation à l'initialisation
 	useEffect(() => {
@@ -149,6 +130,10 @@ export default function Home() {
 		}
 	}
 
+	const handleClickTransport = (mode: Transport) => {
+		setTransport((prevState) => (prevState?.type === mode.type ? null : mode))
+	}
+
 	//gestionnaire pour le bouton de géolocalisation dans le toast
 	// const handleGeolocation = async () => {
 	// 	try {
@@ -226,32 +211,13 @@ export default function Home() {
 					</li>
 				))}
 			</ul>
-			<div className="w-full flex items-center mt-5 gap-x-3">
-				<p className="font-semibold text-base">En :</p>
-				{transportModes.map((mode: TransportBtn) => {
-					const isActive = transport ? mode.type === transport.type : false
 
-					return (
-						<IconBtn
-							key={mode.type}
-							transport={mode.type}
-							isActive={isActive}
-							passengers={passengers}
-							onClick={() =>
-								setTransport((prevState) => {
-									return prevState?.type === mode.type
-										? null
-										: {
-												type: mode.type,
-												name: mode.name,
-										  }
-								})
-							}
-							Icon={mode.Icon}
-						/>
-					)
-				})}
-			</div>
+			<TransportSelector
+				transport={transport}
+				passengers={passengers}
+				onSelectTransport={handleClickTransport}
+			/>
+
 			<Button
 				text="Calculer"
 				disabled={unableBtn}

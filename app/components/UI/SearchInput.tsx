@@ -35,7 +35,7 @@ const SearchInput = ({
 					value={selectedValue}
 					onChange={handleInputChange}
 					onBlur={onBlur}
-					autoComplete="false"
+					autoComplete="off"
 				/>
 				{selectedValue.length >= 2 && (
 					<button
