@@ -4,7 +4,7 @@ import worldHug from "@/public/world-hug.svg"
 
 export default function Project() {
 	return (
-		<div className="my-6 flex flex-col gap-y-10">
+		<div className="w-full flex flex-col gap-y-10">
 			<div className="flex flex-col">
 				<h1 className="text-2xl font-medium">À propos</h1>
 				<Image

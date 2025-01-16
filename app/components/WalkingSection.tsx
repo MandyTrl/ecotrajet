@@ -9,6 +9,7 @@ export const WalkingSection = () => {
 				width={300}
 				height={300}
 				alt="boy with dog walking"
+				className="justify-self-center"
 				priority
 			/>
 			<p className="text-sm mb-4 tracking-widder">

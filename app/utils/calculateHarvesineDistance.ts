@@ -3,10 +3,10 @@
 // La formule de haversine permet de déterminer la distance entre deux points d'une sphère, à partir de leurs longitudes et latitudes. Cette version se base sur le modèle WGS84 en prenant en compte l'aplatissement terrestre.
 
 export const calculateHaversineDistance = (
-	startLat: number,
 	startLon: number,
-	endLat: number,
-	endLon: number
+	startLat: number,
+	endLon: number,
+	endLat: number
 ): number => {
 	const toRad = (value: number) => (value * Math.PI) / 180
 
@@ -21,8 +21,8 @@ export const calculateHaversineDistance = (
 		equatorialRadius * (1 - flattening * Math.sin(toRad(avgLat)) ** 2)
 
 	//formule de Haversine avec rayon ajusté
-	const distanceLat = toRad(endLat - startLat)
 	const distanceLon = toRad(endLon - startLon)
+	const distanceLat = toRad(endLat - startLat)
 	const a =
 		Math.sin(distanceLat / 2) ** 2 +
 		Math.cos(toRad(startLat)) *

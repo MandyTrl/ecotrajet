@@ -28,7 +28,7 @@ const IconButton = ({
 			aria-label={`Mode de transport : ${transport}`}
 			onClick={onClick}
 			className={clsx(
-				"relative w-fit rounded-full p-2 border bg-emerald-100 ease-in-out duration-150 transition-all",
+				"relative w-fit rounded-lg p-2 border bg-emerald-100 ease-in-out duration-150 transition-all",
 				isActive
 					? "border-emerald-700"
 					: "border-transparent hover:border-emerald-900"

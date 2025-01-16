@@ -47,7 +47,7 @@ export const Navbar = () => {
 					</div>
 				)}
 
-				<Navigation isShow={isShow} />
+				<Navigation isShow={isShow} handleIsShow={() => setIsShow(false)} />
 			</div>
 		</header>
 	)

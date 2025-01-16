@@ -46,20 +46,21 @@ export default function Home() {
 		} else {
 			if (transport && transport.type === TransportMode.Plane) {
 				const distance = calculateHaversineDistance(
-					departure.coordinates.lat,
 					departure.coordinates.lon,
-					arrival.coordinates.lat,
-					arrival.coordinates.lon
+					departure.coordinates.lat,
+					arrival.coordinates.lon,
+					arrival.coordinates.lat
 				)
 				setDistance(distance)
 				setCarbonEmission(calculateCarbonEmission(distance, transport.type))
 			} else {
-				const fromCoordinates = `${departure.coordinates.lat},${departure.coordinates.lon}`
-				const toCoordinates = `${arrival.coordinates.lat},${arrival.coordinates.lon}`
+				const fromCoordinates = `${departure.coordinates.lon},${departure.coordinates.lat}`
+				const toCoordinates = `${arrival.coordinates.lon},${arrival.coordinates.lat}`
 
 				const url =
 					transport &&
-					(transport.type === TransportMode.Car || TransportMode.Bus)
+					(transport.type === TransportMode.Car ||
+						transport.type === TransportMode.Bus)
 						? `/api/getDrivingDistance?from=${fromCoordinates}&to=${toCoordinates}`
 						: `/api/getTrainDistance?from=${fromCoordinates}&to=${toCoordinates}`
 
@@ -103,7 +104,7 @@ export default function Home() {
 	// }
 
 	return (
-		<div className="flex flex-col items-center justify-center">
+		<div className="w-full flex flex-col items-center justify-center">
 			{/* {showToast && (
 				<ToastGeoloc
 					handleGeolocation={handleGeolocation}

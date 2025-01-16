@@ -3,9 +3,10 @@ import Link from "next/link"
 
 type NavigationProps = {
 	isShow: boolean
+	handleIsShow: () => void
 }
 
-export const Navigation = ({ isShow }: NavigationProps) => {
+export const Navigation = ({ isShow, handleIsShow }: NavigationProps) => {
 	return (
 		<nav
 			className={clsx(
@@ -18,14 +19,16 @@ export const Navigation = ({ isShow }: NavigationProps) => {
 				<li className="group block">
 					<Link
 						href="/calculs-et-sources"
-						className="hover:scale-110 transition-transform duration-300 inline-block">
+						className="hover:scale-110 transition-transform duration-300 inline-block"
+						onClick={handleIsShow}>
 						Calcul et sources
 					</Link>
 				</li>
 				<li className="group block">
 					<Link
 						href="/a-propos"
-						className="hover:scale-110 transition-transform duration-300 inline-block">
+						className="hover:scale-110 transition-transform duration-300 inline-block"
+						onClick={handleIsShow}>
 						À Propos
 					</Link>
 				</li>
