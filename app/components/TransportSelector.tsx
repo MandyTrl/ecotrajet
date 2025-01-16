@@ -4,8 +4,8 @@ import IconBtn from "./UI/IconBtn"
 
 type TransportSelectorProps = {
 	transport: Transport | null
-	passengers: number
 	onSelectTransport: (mode: Transport) => void
+	passengers: number
 }
 
 export const TransportSelector = ({

@@ -1,0 +1,83 @@
+import Link from "next/link"
+import Image from "next/image"
+import worldHug from "@/public/world-hug.svg"
+
+export default function Project() {
+	return (
+		<div className="my-6 flex flex-col gap-y-10">
+			<div className="flex flex-col">
+				<h1 className="text-2xl font-medium">À propos</h1>
+				<Image
+					src={worldHug}
+					width={300}
+					height={300}
+					alt="girl hug Earth"
+					priority
+					className="self-center"
+				/>
+			</div>
+
+			<div className="flex flex-col gap-y-3">
+				<h2 className="text-xl font-medium mb-2">Présentation</h2>
+				<p>
+					<span className="font-semibold">ecotrajet</span> est un projet
+					indépendant, totalement gratuit qui utilise des données publiques et
+					des ressources open-sources reconnues. Pour plus d&apos;informations à
+					ce sujet veuillez-consulter la page{" "}
+					<Link
+						href="/calculs-et-sources"
+						className="underline text-emerald-600 hover:text-emerald-500 transition-color duration-300">
+						Calcul et sources
+					</Link>
+					.
+				</p>
+				<p>
+					Avec <span className="font-semibold">ecotrajet</span>, nous espérons
+					sensibiliser davantage de personnes aux enjeux environnementaux et à
+					l&apos;importance de choisir des moyens de transport moins polluants
+					lorsque cela est possible.
+				</p>
+			</div>
+
+			<div className="flex flex-col gap-y-3">
+				<h2 className="text-xl font-medium mb-2">Origine du projet</h2>
+				<p>
+					En tant que passionnée par la nature et les voyages, j&apos;ai créé{" "}
+					<span className="font-semibold">ecotrajet</span> pour allier curiosité
+					et responsabilité environnementale. Mon objectif est de rendre les
+					données complexes accessibles à tous et de permettre à chacun de faire
+					des choix plus éclairés.
+				</p>
+				<p>
+					Ce site est un outil destiné à tout ceux soucieux de limiter leur
+					bilan carbone ou curieux de connaître l&apos;impact de leur voyage.{" "}
+					<span className="font-semibold">ecotrajet</span> donne une
+					approximation de l&apos;empreinte carbone génerée d&apos;un
+					déplacement en fonction du transport utilisé.
+				</p>
+				<p>
+					La première version a été développée et designée en un mois seulement.
+					Des améliorations sont prévues, et nous sommes preneur de tout retour
+					constructif ou proposition pour rendre cette expérience meilleure.
+				</p>
+			</div>
+
+			<div>
+				<h2 className="text-xl font-medium mb-2">Améliorations prévues</h2>
+
+				<ul className="list-disc list-inside ml-4">
+					<li>
+						Prise en compte d&apos;autres modes de transport (covoiturage,
+						ferries).
+					</li>
+					<li>Options pour comparer plusieurs trajets en simultané.</li>
+				</ul>
+			</div>
+			<p>
+				Merci de votre enthousiasme et d&apos;utiliser{" "}
+				<span className="font-semibold">ecotrajet</span> pour vos simulations
+				d&apos;empreinte carbone !
+			</p>
+		</div>
+	)
+}

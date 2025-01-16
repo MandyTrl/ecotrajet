@@ -24,9 +24,9 @@ export const Navigation = ({ isShow }: NavigationProps) => {
 				</li>
 				<li className="group block">
 					<Link
-						href="/le-projet"
+						href="/a-propos"
 						className="hover:scale-110 transition-transform duration-300 inline-block">
-						Le projet
+						À Propos
 					</Link>
 				</li>
 				<li className="group block">
