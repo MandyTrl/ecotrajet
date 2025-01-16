@@ -22,11 +22,13 @@ export default function Project() {
 				<p>
 					<span className="font-semibold">ecotrajet</span> est un projet
 					indépendant, totalement gratuit qui utilise des données publiques et
-					des ressources open-sources reconnues. Pour plus d&apos;informations à
-					ce sujet veuillez-consulter la page{" "}
+					des ressources open-sources reconnues. Il estime l&apos;empreinte
+					carbone génerée d&apos;un déplacement en fonction du transport
+					utilisé. Pour plus d&apos;informations à ce sujet veuillez-consulter
+					la page{" "}
 					<Link
 						href="/calculs-et-sources"
-						className="underline text-emerald-600 hover:text-emerald-500 transition-color duration-300">
+						className="text-sm underline bg-emerald-200 hover:text-emerald-500 transition-color duration-300">
 						Calcul et sources
 					</Link>
 					.
@@ -49,11 +51,8 @@ export default function Project() {
 					des choix plus éclairés.
 				</p>
 				<p>
-					Ce site est un outil destiné à tout ceux soucieux de limiter leur
-					bilan carbone ou curieux de connaître l&apos;impact de leur voyage.{" "}
-					<span className="font-semibold">ecotrajet</span> donne une
-					approximation de l&apos;empreinte carbone génerée d&apos;un
-					déplacement en fonction du transport utilisé.
+					Cet outil est donc destiné à tout ceux soucieux de limiter leur bilan
+					carbone ou curieux de connaître l&apos;impact de leur voyage.
 				</p>
 				<p>
 					La première version a été développée et designée en un mois seulement.

@@ -13,7 +13,7 @@ export const Navbar = () => {
 	}
 
 	return (
-		<header className="w-full px-5 sticky top-0 bg-white w-full flex items-center justify-between shadow-sm">
+		<header className="w-full px-5 sticky top-0 bg-white w-full flex items-center justify-between shadow-sm z-30">
 			<Link href="/">
 				<Image
 					src="/logo.png"

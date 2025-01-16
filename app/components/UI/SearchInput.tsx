@@ -25,7 +25,7 @@ const SearchInput = ({
 
 	return (
 		<div>
-			<div className="w-full flex items-center justify-around my-[2px] rounded-md bg-emerald-100/50 placeholder:text-emerald-700 border-b border-transparent focus-within:border-emerald-500">
+			<div className="w-full flex items-center justify-around my-[2px] rounded-md bg-[#E8FCF2] placeholder:text-emerald-700 border-b border-transparent focus-within:border-emerald-500">
 				<input
 					id={name}
 					name={name}
