@@ -18,7 +18,10 @@ export default function Project() {
 			</div>
 
 			<div className="flex flex-col gap-y-3">
-				<h2 className="text-xl font-medium mb-2">Présentation</h2>
+				<h2 className="text-xl font-medium border-b-2 border-emerald-200">
+					Présentation
+				</h2>
+
 				<p>
 					<span className="font-semibold">ecotrajet</span> est un projet
 					indépendant, totalement gratuit qui utilise des données publiques et
@@ -42,13 +45,16 @@ export default function Project() {
 			</div>
 
 			<div className="flex flex-col gap-y-3">
-				<h2 className="text-xl font-medium mb-2">Origine du projet</h2>
+				<h2 className="text-xl font-medium border-b-2 border-emerald-200">
+					Origine du projet
+				</h2>
+
 				<p>
 					En tant que passionnée par la nature et les voyages, j&apos;ai créé{" "}
-					<span className="font-semibold">ecotrajet</span> pour allier curiosité
-					et responsabilité environnementale. Mon objectif est de rendre les
-					données complexes accessibles à tous et de permettre à chacun de faire
-					des choix plus éclairés.
+					<span className="font-semibold">ecotrajet</span> car j'étais curieuse
+					de connaître la responsabilité environnementale qu'implique un voyage.
+					Mon objectif est de rendre les données complexes accessibles à tous et
+					de permettre à chacun de faire des choix plus éclairés.
 				</p>
 				<p>
 					Cet outil est donc destiné à tout ceux soucieux de limiter leur bilan
@@ -62,14 +68,20 @@ export default function Project() {
 			</div>
 
 			<div>
-				<h2 className="text-xl font-medium mb-2">Améliorations prévues</h2>
+				<h2 className="text-xl font-medium border-b-2 border-emerald-200">
+					Améliorations prévues
+				</h2>
 
 				<ul className="list-disc list-inside ml-4">
 					<li>
 						Prise en compte d&apos;autres modes de transport (covoiturage,
 						ferries).
 					</li>
-					<li>Options pour comparer plusieurs trajets en simultané.</li>
+					<li>
+						Calculer le ratio du voyage avec le bugdet carbone annuel estimé par
+						personne.
+					</li>
+					<li>Intégrer une map pour visualiser l&apos;itinéraire.</li>
 				</ul>
 			</div>
 			<p>

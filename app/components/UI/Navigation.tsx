@@ -11,9 +11,9 @@ export const Navigation = ({ isShow, handleIsShow }: NavigationProps) => {
 		<nav
 			className={clsx(
 				isShow
-					? "w-full h-fit scale-100 opacity-100"
-					: "w-0 h-0 scale-0 opacity-0",
-				"absolute top-20 right-0 origin-top-right bg-white p-5 ease-in-out duration-500 transition-all overflow-hidden -z-20"
+					? "max-h-96 scale-y-100 opacity-100"
+					: "max-h-0 scale-y-0 opacity-0",
+				"w-full absolute top-20 right-0 origin-top bg-white p-5 ease-in-out duration-500 transition-all overflow-hidden -z-20"
 			)}>
 			<ul className="w-full flex flex-col space-y-4">
 				<li className="group block">

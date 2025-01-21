@@ -14,33 +14,37 @@ export async function GET(req: NextRequest) {
 		)
 	}
 
-	const useGMapsAPI = haversineDistance > 6000
+	// const useGMapsAPI = haversineDistance > 6000
 	const modeGMaps = mode !== "car" ? "transit" : "driving"
 	const modeORS = mode !== "car" ? "cycling-regular" : "driving-car"
 
-	const apiKey = useGMapsAPI
-		? process.env.GOOGLE_MAPS_API_KEY
-		: process.env.ORS_API_KEY
+	const apiKey =
+		// useGMapsAPI
+		// 	? process.env.GOOGLE_MAPS_API_KEY
+		// 	:
+		process.env.ORS_API_KEY
 
-	const url = useGMapsAPI
-		? `https://maps.googleapis.com/maps/api/directions/json?origin=${from}&destination=${to}&mode=${modeGMaps}&key=${apiKey}`
-		: `https://api.openrouteservice.org/v2/directions/${modeORS}?api_key=${apiKey}&start=${from}&end=${to}`
+	const url =
+		// useGMapsAPI
+		// ? `https://maps.googleapis.com/maps/api/directions/json?origin=${from}&destination=${to}&mode=${modeGMaps}&key=${apiKey}`
+		// :
+		`https://api.openrouteservice.org/v2/directions/${modeORS}?api_key=${apiKey}&start=${from}&end=${to}`
 
 	try {
 		const response = await fetch(url)
 		const data = await response.json()
 
-		if (useGMapsAPI) {
-			const distance = data.routes[0]?.legs[0]?.distance?.value
-			const distanceKm = (distance / 1000).toFixed(0)
+		// if (useGMapsAPI) {
+		// 	const distance = data.routes[0]?.legs[0]?.distance?.value
+		// 	const distanceKm = (distance / 1000).toFixed(0)
 
-			return NextResponse.json(distanceKm)
-		} else {
-			const distance = data.features[0].properties.summary.distance
-			const distanceKm = (distance / 1000).toFixed(0)
+		// 	return NextResponse.json(distanceKm)
+		// } else {
+		const distance = data.features[0].properties.summary.distance
+		const distanceKm = (distance / 1000).toFixed(0)
 
-			return NextResponse.json(distanceKm)
-		}
+		return NextResponse.json(distanceKm)
+		// }
 	} catch (error: unknown) {
 		const errorMessage =
 			error instanceof Error ? error.message : "Internal server error"
