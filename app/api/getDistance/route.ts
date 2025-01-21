@@ -32,14 +32,12 @@ export async function GET(req: NextRequest) {
 
 		if (useGMapsAPI) {
 			const distance = data.routes[0]?.legs[0]?.distance?.value
-			const distanceKm = (distance / 1000).toFixed(1)
+			const distanceKm = (distance / 1000).toFixed(0)
 
 			return NextResponse.json(distanceKm)
 		} else {
 			const distance = data.features[0].properties.summary.distance
-			console.log(distance)
-			const distanceKm = (distance / 1000).toFixed(1)
-			console.log(distanceKm)
+			const distanceKm = (distance / 1000).toFixed(0)
 
 			return NextResponse.json(distanceKm)
 		}

@@ -39,7 +39,11 @@ export default function Home() {
 	// const [showToast, setShowToast] = useState(false)
 
 	const showSummary: boolean =
-		!transportHasChanged && carbonEmission !== 0 && transport !== null
+		!transportHasChanged &&
+		carbonEmission !== 0 &&
+		transport !== null &&
+		arrival.coordinates !== null &&
+		departure.coordinates !== null
 
 	useEffect(() => {
 		transportRef.current = transport
@@ -68,6 +72,24 @@ export default function Home() {
 			}
 		}
 	}, [arrival.coordinates, departure.coordinates])
+
+	useEffect(() => {
+		if (!departure.name || !arrival.name) {
+			resetData()
+		}
+	}, [departure.name, arrival.name])
+
+	const resetData = () => {
+		setTransport(null)
+		setAvailableModes([
+			TransportMode.Car,
+			TransportMode.Bus,
+			TransportMode.Train,
+			TransportMode.Plane,
+		])
+		setDistance(0)
+		setCarbonEmission(0)
+	}
 
 	const handleCalculate = async () => {
 		if (!departure.coordinates || !arrival.coordinates || !transport) {
