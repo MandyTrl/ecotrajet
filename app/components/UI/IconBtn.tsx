@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+// import { useState } from "react"
 import clsx from "clsx"
 import { LucideIcon } from "lucide-react"
 import { TransportMode } from "@/app/utils/types"
@@ -8,6 +8,7 @@ type IconBtnProps = {
 	transport: TransportMode
 	passengers?: number
 	isActive: boolean
+	isDisabled: boolean
 	Icon: LucideIcon
 	onClick?: () => void
 }
@@ -16,6 +17,7 @@ const IconButton = ({
 	transport,
 	// passengers,
 	isActive,
+	isDisabled,
 	Icon,
 	onClick,
 }: IconBtnProps) => {
@@ -27,8 +29,9 @@ const IconButton = ({
 			key={transport}
 			aria-label={`Mode de transport : ${transport}`}
 			onClick={onClick}
+			disabled={isDisabled}
 			className={clsx(
-				"relative w-fit rounded-lg p-2 border bg-emerald-100 ease-in-out duration-150 transition-all",
+				"relative w-fit rounded-lg p-2 border bg-emerald-100 ease-in-out duration-150 transition-all disabled:bg-gray-100 disabled:text-gray-500 disabled:hover:border-transparent disabled:cursor-selector",
 				isActive
 					? "border-emerald-700"
 					: "border-transparent hover:border-emerald-900"

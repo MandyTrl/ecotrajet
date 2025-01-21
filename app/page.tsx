@@ -1,13 +1,13 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
-import { HeadSection } from "./components/HeadSection"
-import Button from "./components/UI/Button"
 import { calculateCarbonEmission } from "./utils/carbonCalculator"
 import { City, Transport, TransportMode } from "./utils/types"
-import { Summary } from "./components/Summary"
 import { calculateHaversineDistance } from "./utils/calculateHarvesineDistance"
-import { TransportSelector } from "./components/TransportSelector"
+import Button from "./components/UI/Button"
+import { Summary } from "./components/Summary"
+import { HeadSection } from "./components/HeadSection"
 import { CitiesSelector } from "./components/CitiesSelector"
+import { TransportSelector } from "./components/TransportSelector"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export default function Home() {
@@ -22,6 +22,12 @@ export default function Home() {
 	const [transport, setTransport] = useState<Transport | null>(null)
 	const transportRef = useRef(transport)
 	const transportHasChanged = transportRef.current?.type !== transport?.type
+	const [availableModes, setAvailableModes] = useState<TransportMode[]>([
+		TransportMode.Car,
+		TransportMode.Bus,
+		TransportMode.Train,
+		TransportMode.Plane,
+	])
 	const [distance, setDistance] = useState<number>(0)
 	const [carbonEmission, setCarbonEmission] = useState<number>(0)
 
@@ -39,53 +45,62 @@ export default function Home() {
 		transportRef.current = transport
 	}, [transport])
 
-	const fetchDistance = async () => {
-		if (!departure.coordinates || !arrival.coordinates) {
-			console.log("no coordinates !")
-			return
-		} else {
-			if (transport && transport.type === TransportMode.Plane) {
-				const distance = calculateHaversineDistance(
-					departure.coordinates.lon,
-					departure.coordinates.lat,
-					arrival.coordinates.lon,
-					arrival.coordinates.lat
-				)
-				setDistance(distance)
-				setCarbonEmission(calculateCarbonEmission(distance, transport.type))
+	useEffect(() => {
+		if (arrival.coordinates && departure.coordinates) {
+			const haversineDistance = calculateHaversineDistance(
+				departure.coordinates.lat,
+				departure.coordinates.lon,
+				arrival.coordinates.lat,
+				arrival.coordinates.lon
+			)
+
+			setDistance(haversineDistance)
+
+			if (haversineDistance > 6000) {
+				setAvailableModes([TransportMode.Plane])
 			} else {
-				const fromCoordinates = `${departure.coordinates.lon},${departure.coordinates.lat}`
-				const toCoordinates = `${arrival.coordinates.lon},${arrival.coordinates.lat}`
+				setAvailableModes([
+					TransportMode.Car,
+					TransportMode.Bus,
+					TransportMode.Train,
+					TransportMode.Plane,
+				])
+			}
+		}
+	}, [arrival.coordinates, departure.coordinates])
 
-				const url =
-					transport &&
-					(transport.type === TransportMode.Car ||
-						transport.type === TransportMode.Bus)
-						? `/api/getDrivingDistance?from=${fromCoordinates}&to=${toCoordinates}`
-						: `/api/getTrainDistance?from=${fromCoordinates}&to=${toCoordinates}`
+	const handleCalculate = async () => {
+		if (!departure.coordinates || !arrival.coordinates || !transport) {
+			console.error("Missing input data")
+			return
+		}
 
-				try {
-					const response = await fetch(url)
+		const from = `${departure.coordinates.lon},${departure.coordinates.lat}`
+		const to = `${arrival.coordinates.lon},${arrival.coordinates.lat}`
 
-					if (!response.ok) throw new Error("Failed to fetch distance")
-					const distance = await response.json()
-					setDistance(distance)
-					if (transport)
-						setCarbonEmission(calculateCarbonEmission(distance, transport.type))
-				} catch (error) {
-					console.error("Error fetching distance:", error)
+		if (transport.type === TransportMode.Plane) {
+			setCarbonEmission(calculateCarbonEmission(distance, transport.type))
+		} else {
+			try {
+				const response = await fetch(
+					`/api/getDistance?from=${from}&to=${to}&mode=${transport.type}&distance=${distance}`
+				)
+				const data = await response.json()
+				console.log("coucou", data)
+
+				if (response.ok) {
+					setDistance(data)
+					setCarbonEmission(calculateCarbonEmission(distance, transport.type))
+				} else {
+					console.error(data.error)
 				}
+			} catch (error) {
+				console.error("Error fetching distance:", error)
 			}
 		}
 	}
 
-	const handleClickCalculate = () => {
-		if (transport && departure.coordinates && arrival.coordinates) {
-			fetchDistance()
-		}
-	}
-
-	const handleClickTransport = (mode: Transport) => {
+	const handleTransport = (mode: Transport) => {
 		setTransport((prevState) => (prevState?.type === mode.type ? null : mode))
 	}
 
@@ -122,15 +137,12 @@ export default function Home() {
 
 			<TransportSelector
 				transport={transport}
+				availableModes={availableModes}
 				passengers={passengers}
-				onSelectTransport={handleClickTransport}
+				onSelectTransport={handleTransport}
 			/>
 
-			<Button
-				text="Calculer"
-				disabled={unableBtn}
-				onClick={handleClickCalculate}
-			/>
+			<Button text="Calculer" disabled={unableBtn} onClick={handleCalculate} />
 
 			<Summary
 				transport={transport ? transport.name : "Pas de transport choisi"}

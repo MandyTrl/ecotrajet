@@ -5,6 +5,7 @@ import IconBtn from "./UI/IconBtn"
 type TransportSelectorProps = {
 	transport: Transport | null
 	onSelectTransport: (mode: Transport) => void
+	availableModes: TransportMode[]
 	passengers: number
 }
 
@@ -12,6 +13,7 @@ export const TransportSelector = ({
 	transport,
 	onSelectTransport,
 	passengers,
+	availableModes,
 }: TransportSelectorProps) => {
 	const transportModes: TransportBtn[] = [
 		{ type: TransportMode.Plane, Icon: Plane, name: "Avion" },
@@ -23,6 +25,7 @@ export const TransportSelector = ({
 		<div className="w-full flex items-center mt-5 gap-x-3">
 			<p className="font-semibold text-base">En :</p>
 			{transportModes.map((mode: TransportBtn) => {
+				const isDisabled = !availableModes.includes(mode.type)
 				const isActive = transport ? mode.type === transport.type : false
 
 				return (
@@ -30,8 +33,10 @@ export const TransportSelector = ({
 						key={mode.type}
 						transport={mode.type}
 						isActive={isActive}
+						isDisabled={isDisabled}
 						passengers={passengers}
 						onClick={() =>
+							!isDisabled &&
 							onSelectTransport({
 								type: mode.type,
 								name: mode.name,
