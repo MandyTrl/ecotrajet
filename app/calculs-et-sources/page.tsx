@@ -10,7 +10,7 @@ export default function CalculationAndSources() {
 					API
 				</h2>
 
-				<div className="flex flex-col gap-y-6">
+				<div className="flex flex-col gap-y-6 lg:gap-y-8">
 					<div>
 						<h3 className="text-lg">ORS (Open Route Service)</h3>
 						<ul className="list-disc list-inside ml-4">
@@ -42,7 +42,7 @@ export default function CalculationAndSources() {
 						<Link
 							href="https://prod-basecarbonesolo.ademe-dri.fr/documentation/UPLOAD_DOC_FR/index.htm?sommaire.htm"
 							className="text-sm underline bg-emerald-200 hover:text-emerald-500 transition-color duration-300">
-							Parcourir la documentation de Base Empreinte
+							Parcourir la documentation de Base Empreinte®
 						</Link>
 					</div>
 				</div>
@@ -53,7 +53,7 @@ export default function CalculationAndSources() {
 					Calcul
 				</h2>
 
-				<div className="flex flex-col gap-y-6">
+				<div className="flex flex-col gap-y-6 lg:gap-y-8">
 					<div>
 						<h3 className="text-lg">Coût de fabrication</h3>
 						<p>
@@ -88,7 +88,7 @@ export default function CalculationAndSources() {
 							meilleure granularité nous vous recommandons de vous référer à
 							Base Empreinte®.
 						</p>
-						<p className="mt-6 mb-2 p-2 border border-emerald-900 rounded-md">
+						<p className="w-full lg:w-fit mt-6 mb-2 p-2 border border-emerald-900 rounded-md">
 							Exemple pour un trajet en voiture 🚗{" "}
 						</p>
 						<p>
@@ -115,7 +115,7 @@ export default function CalculationAndSources() {
 					Autres sources
 				</h2>
 
-				<div className="flex flex-col gap-y-6">
+				<div className="flex flex-col gap-y-6 lg:gap-y-8">
 					<div>
 						<h3 className="text-lg">Bon Pote</h3>
 						<p>
