@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
 	}
 
 	// const useGMapsAPI = haversineDistance > 6000
-	const modeGMaps = mode !== "car" ? "transit" : "driving"
+	// const modeGMaps = mode !== "car" ? "transit" : "driving"
 	const modeORS = mode !== "car" ? "cycling-regular" : "driving-car"
 
 	const apiKey =

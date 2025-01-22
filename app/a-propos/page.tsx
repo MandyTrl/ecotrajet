@@ -51,10 +51,11 @@ export default function Project() {
 
 				<p>
 					En tant que passionnée par la nature et les voyages, j&apos;ai créé{" "}
-					<span className="font-semibold">ecotrajet</span> car j'étais curieuse
-					de connaître la responsabilité environnementale qu'implique un voyage.
-					Mon objectif est de rendre les données complexes accessibles à tous et
-					de permettre à chacun de faire des choix plus éclairés.
+					<span className="font-semibold">ecotrajet</span> car j&apos;étais
+					curieuse de connaître la responsabilité environnementale
+					qu&apos;implique un voyage. Mon objectif est de rendre les données
+					complexes accessibles à tous et de permettre à chacun de faire des
+					choix plus éclairés.
 				</p>
 				<p>
 					Cet outil est donc destiné à tout ceux soucieux de limiter leur bilan

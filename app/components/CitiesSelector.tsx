@@ -35,6 +35,8 @@ export const CitiesSelector = ({
 	>(null)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
+	const hasSuggestions = suggestions && suggestions.length !== 0
+
 	const fetchCities = async (value: string) => {
 		try {
 			const response = await fetch(
@@ -116,9 +118,11 @@ export const CitiesSelector = ({
 					isOpen
 						? "opacity-100 translate-y-0 max-h-96 p-2"
 						: "opacity-0 max-h-0",
-					"w-full shadow border-t border-t-emerald-500 bg-white mt-1 ring-1 ring-slate-200/40 transition-all duration-500 ease-out"
+					hasSuggestions &&
+						"border-t border-t-emerald-500 shadow ring-1 ring-slate-200/40",
+					"w-full bg-white mt-1 transition-all duration-500 ease-out"
 				)}>
-				{suggestions &&
+				{hasSuggestions ? (
 					suggestions.map((city: CityORS, index: number) => (
 						<li
 							key={index}
@@ -126,7 +130,13 @@ export const CitiesSelector = ({
 							onClick={() => handleCityClick(city)}>
 							{city.name}
 						</li>
-					))}
+					))
+				) : (
+					<p className="text-red-600 my-[2px]">
+						Oups.. aucune suggestion trouvée, veuillez réitérer avec une autre
+						ville
+					</p>
+				)}
 			</ul>
 		</div>
 	)

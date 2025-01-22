@@ -17,15 +17,19 @@ export const Navigation = ({ isMobile, handleIsShow }: NavigationProps) => {
 				<Link
 					href="/calculs-et-sources"
 					className="hover:scale-110 transition-transform duration-300 ease-in-out inline-block"
-					onClick={isMobile && handleIsShow}>
-					Calcul et sources
+					onClick={() => {
+						if (isMobile && handleIsShow) handleIsShow()
+					}}>
+					Calculs et sources
 				</Link>
 			</li>
 			<li className="group block">
 				<Link
 					href="/a-propos"
 					className="hover:scale-110 transition-transform duration-300 ease-in-out inline-block"
-					onClick={isMobile && handleIsShow}>
+					onClick={() => {
+						if (isMobile && handleIsShow) handleIsShow()
+					}}>
 					À Propos
 				</Link>
 			</li>

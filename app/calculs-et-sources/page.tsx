@@ -27,7 +27,7 @@ export default function CalculationAndSources() {
 						<Link
 							href="https://giscience.github.io/openrouteservice/"
 							className="text-sm underline bg-emerald-200 hover:text-emerald-500 transition-color duration-300">
-							Parcourir la documentation d'ORS
+							Parcourir la documentation d&apos;ORS
 						</Link>
 					</div>
 
@@ -35,8 +35,8 @@ export default function CalculationAndSources() {
 						<h3 className="text-lg">Base Empreinte®</h3>
 						<p>
 							Administrée par l&apos;ADEME, cette base est utilisée pour le
-							calcul des facteurs d'émissions carbone, incluant le coût de
-							fabrication et l'impact environnemental.
+							calcul des facteurs d&apos;émissions carbone, incluant le coût de
+							fabrication et l&apos;impact environnemental.
 						</p>
 						👉{" "}
 						<Link
@@ -66,8 +66,8 @@ export default function CalculationAndSources() {
 						<h3 className="text-lg">Harversine 🐦‍⬛</h3>
 						<p>
 							La méthode de Haversine est une formule mathématique utilisée pour
-							calculer la distance "à vol dl&apos;oiseau" entre deux points sur
-							la surface d'une sphère, comme la Terre.
+							calculer la distance &quot;à vol dl&apos;oiseau&quot; entre deux
+							points sur la surface dl&apos;une sphère, comme la Terre.
 						</p>
 						<p>
 							Nous avons utilisé cette méthode pour pouvoir calculer les voyages
@@ -130,14 +130,14 @@ export default function CalculationAndSources() {
 					</div>
 					<div>
 						<h3 className="text-lg">
-							Article Le Monde : "Compenser son voyage en gestes
-							éco-responsables"
+							Article Le Monde : &quot;Compenser son voyage en gestes
+							éco-responsables&quot;
 						</h3>
 						<p>
 							Cet article propose une simulation basée sur la{" "}
-							<b>Base Empreinte®</b> pour estimer l'impact d'un vol en avion et
-							les écogestes nécessaires pour contrebalancer son empreinte
-							carbone.
+							<b>Base Empreinte®</b> pour estimer ll&apos;impact dl&apos;un vol
+							en avion et les écogestes nécessaires pour contrebalancer son
+							empreinte carbone.
 						</p>
 						👉{" "}
 						<Link

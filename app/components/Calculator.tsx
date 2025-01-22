@@ -29,7 +29,7 @@ export const Calculator = () => {
 	const [distance, setDistance] = useState<number>(0)
 	const [carbonEmission, setCarbonEmission] = useState<number>(0)
 
-	const [passengers, setPassengers] = useState<number>(1)
+	// const [passengers, setPassengers] = useState<number>(1)
 
 	const unableBtn: boolean =
 		(departure.name.length === 0 || arrival.name.length === 0 || !transport) &&
@@ -135,7 +135,7 @@ export const Calculator = () => {
 			<TransportSelector
 				transport={transport}
 				availableModes={availableModes}
-				passengers={passengers}
+				passengers={1}
 				onSelectTransport={handleTransport}
 			/>
 
@@ -143,7 +143,7 @@ export const Calculator = () => {
 
 			<Summary
 				transport={transport ? transport.name : "Pas de transport choisi"}
-				passengers={passengers}
+				passengers={1}
 				distance={distance}
 				carbonEmission={carbonEmission}
 				isShow={showSummary}
