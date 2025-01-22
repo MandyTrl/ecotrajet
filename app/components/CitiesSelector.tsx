@@ -73,7 +73,7 @@ export const CitiesSelector = ({
 	}, [handleUserLocation])
 
 	return (
-		<div className="relative w-full flex flex-col mt-4 pl-3">
+		<div className="relative w-full h-full flex flex-col mt-4 pl-3">
 			<p className="absolute top-[3px] -left-[6px] border-2 border-emerald-500 rounded-full h-[10px] w-[10px] bg-white z-10"></p>
 			<p className="absolute top-[9px] -left-[3px] border-dotted border-l-4 border-emerald-500 h-[52px]"></p>
 			<FlagTriangleRight
