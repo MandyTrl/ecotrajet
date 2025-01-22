@@ -32,8 +32,7 @@ export const Calculator = () => {
 	// const [passengers, setPassengers] = useState<number>(1)
 
 	const unableBtn: boolean =
-		(departure.name.length === 0 || arrival.name.length === 0 || !transport) &&
-		true
+		(!departure.coordinates || !arrival.coordinates || !transport) && true
 	// const [showToast, setShowToast] = useState(false)
 
 	const showSummary: boolean =

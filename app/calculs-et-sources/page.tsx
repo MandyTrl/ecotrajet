@@ -3,7 +3,7 @@ import Link from "next/link"
 export default function CalculationAndSources() {
 	return (
 		<div className="w-full flex flex-col gap-y-10">
-			<h1 className="text-2xl font-medium">Calculs et sources</h1>
+			<h1 className="text-2xl md:text-3xl font-medium">Calculs et sources</h1>
 
 			<div className="flex flex-col gap-y-3">
 				<h2 className="text-xl font-medium border-b-2 border-emerald-200">
@@ -26,7 +26,8 @@ export default function CalculationAndSources() {
 						👉{" "}
 						<Link
 							href="https://giscience.github.io/openrouteservice/"
-							className="text-sm underline bg-emerald-200 hover:text-emerald-500 transition-color duration-300">
+							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
+							{" "}
 							Parcourir la documentation d&apos;ORS
 						</Link>
 					</div>
@@ -41,7 +42,8 @@ export default function CalculationAndSources() {
 						👉{" "}
 						<Link
 							href="https://prod-basecarbonesolo.ademe-dri.fr/documentation/UPLOAD_DOC_FR/index.htm?sommaire.htm"
-							className="text-sm underline bg-emerald-200 hover:text-emerald-500 transition-color duration-300">
+							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
+							{" "}
 							Parcourir la documentation de Base Empreinte®
 						</Link>
 					</div>
@@ -88,7 +90,7 @@ export default function CalculationAndSources() {
 							meilleure granularité nous vous recommandons de vous référer à
 							Base Empreinte®.
 						</p>
-						<p className="w-full lg:w-fit mt-6 mb-2 p-2 border border-emerald-900 rounded-md">
+						<p className="flex group w-full lg:hover:px-6 lg:w-fit mt-6 mb-2 p-2 border border-emerald-900 rounded-md duration-300 transform-all ease-in-out">
 							Exemple pour un trajet en voiture 🚗{" "}
 						</p>
 						<p>
@@ -124,7 +126,7 @@ export default function CalculationAndSources() {
 						👉{" "}
 						<Link
 							href="https://bonpote.com/"
-							className="text-sm underline bg-emerald-200 hover:text-emerald-500 transition-color duration-300">
+							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
 							Visiter le site Bon Pote
 						</Link>
 					</div>
@@ -142,7 +144,8 @@ export default function CalculationAndSources() {
 						👉{" "}
 						<Link
 							href="https://www.lemonde.fr/les-decodeurs/article/2023/12/05/vous-voulez-compenser-votre-vol-en-avion-par-des-ecogestes-voici-combien-de-temps-cela-vous-prendra_6204046_4355770.html"
-							className="text-sm underline bg-emerald-200 hover:text-emerald-500 transition-color duration-300">
+							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
+							{" "}
 							Lire l&apos;article
 						</Link>
 					</div>
@@ -156,7 +159,8 @@ export default function CalculationAndSources() {
 						👉{" "}
 						<Link
 							href="https://storyset.com/"
-							className="text-sm underline bg-emerald-200 hover:text-emerald-500 transition-color duration-300">
+							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
+							{" "}
 							Visiter le site Storyset
 						</Link>
 					</div>

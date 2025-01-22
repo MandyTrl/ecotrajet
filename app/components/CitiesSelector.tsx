@@ -132,7 +132,7 @@ export const CitiesSelector = ({
 						</li>
 					))
 				) : (
-					<p className="text-red-600 my-[2px]">
+					<p className="text-red-600 text-sm">
 						Oups.. aucune suggestion trouvée, veuillez réitérer avec une autre
 						ville
 					</p>
