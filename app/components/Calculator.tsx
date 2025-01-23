@@ -2,44 +2,40 @@
 import { useState, useRef, useEffect, useContext } from "react"
 import { calculateHaversineDistance } from "../utils/calculateHarvesineDistance"
 import { calculateCarbonEmission } from "../utils/carbonCalculator"
-import { City, Transport, TransportMode } from "../utils/types"
+import { Transport, TransportMode } from "../utils/types"
 import Button from "./UI/Button"
-import { Summary } from "./Summary"
 import { CitiesSelector } from "./CitiesSelector"
 import { TransportSelector } from "./TransportSelector"
-import { CoordinatesContext } from "../utils/Context"
+import { CoordinatesContext, SummaryContext } from "../utils/Context"
 
 export const Calculator = () => {
 	const { coordinates, handleCoordinates } = useContext(CoordinatesContext)
+	const { summary, updateSummary } = useContext(SummaryContext)
 
-	const [transport, setTransport] = useState<Transport | null>(null)
-	const transportRef = useRef(transport)
-	const transportHasChanged = transportRef.current?.type !== transport?.type
+	const transportRef = useRef(summary.transport)
+	const transportHasChanged =
+		transportRef.current?.type !== summary.transport?.type
 	const [availableModes, setAvailableModes] = useState<TransportMode[]>([
 		TransportMode.Car,
 		TransportMode.Bus,
 		TransportMode.Train,
 		TransportMode.Plane,
 	])
-	const [distance, setDistance] = useState<number>(0)
-	const [carbonEmission, setCarbonEmission] = useState<number>(0)
-
 	// const [passengers, setPassengers] = useState<number>(1)
 
 	const disableBtn: boolean =
-		(!coordinates.from || !coordinates.to || !transport) && true
-	// const [showToast, setShowToast] = useState(false)
+		(!coordinates.from || !coordinates.to || !summary.transport) && true
 
 	const showSummary: boolean =
 		!transportHasChanged &&
-		carbonEmission !== 0 &&
-		transport !== null &&
+		summary.carbonEmission !== 0 &&
+		summary.transport !== null &&
 		coordinates.from !== null &&
 		coordinates.to !== null
 
 	useEffect(() => {
-		transportRef.current = transport
-	}, [transport])
+		transportRef.current = summary.transport
+	}, [summary.transport])
 
 	useEffect(() => {
 		if (coordinates.from && coordinates.to) {
@@ -50,7 +46,7 @@ export const Calculator = () => {
 				coordinates.to.lon
 			)
 
-			setDistance(haversineDistance)
+			updateSummary({ distance: haversineDistance })
 
 			if (haversineDistance > 6000) {
 				setAvailableModes([TransportMode.Plane])
@@ -72,7 +68,7 @@ export const Calculator = () => {
 	}, [coordinates.from, coordinates.to])
 
 	const resetData = () => {
-		if (!coordinates.from && !coordinates.to && !transport) {
+		if (!coordinates.from && !coordinates.to && !summary.transport) {
 			//si tout est déjà réinitialisé, ne pas reset les données
 			return
 		}
@@ -83,19 +79,17 @@ export const Calculator = () => {
 			handleCoordinates({ from: null, to: coordinates.to })
 		}
 
-		setTransport(null)
+		updateSummary({ distance: 0, carbonEmission: 0, transport: null })
 		setAvailableModes([
 			TransportMode.Car,
 			TransportMode.Bus,
 			TransportMode.Train,
 			TransportMode.Plane,
 		])
-		setDistance(0)
-		setCarbonEmission(0)
 	}
 
 	const handleCalculate = async () => {
-		if (!coordinates.from || !coordinates.to || !transport) {
+		if (!coordinates.from || !coordinates.to || !summary.transport) {
 			console.error("Missing input data")
 			return
 		}
@@ -103,18 +97,30 @@ export const Calculator = () => {
 		const from = `${coordinates.from.lon},${coordinates.from.lat}`
 		const to = `${coordinates.to.lon},${coordinates.to.lat}`
 
-		if (transport.type === TransportMode.Plane) {
-			setCarbonEmission(calculateCarbonEmission(distance, transport.type))
+		if (summary.transport.type === TransportMode.Plane) {
+			updateSummary({
+				carbonEmission: calculateCarbonEmission(
+					summary.distance,
+					summary.transport.type
+				),
+				isSummaryVisible: true,
+			})
 		} else {
 			try {
 				const response = await fetch(
-					`/api/getDistance?from=${from}&to=${to}&mode=${transport.type}&distance=${distance}`
+					`/api/getDistance?from=${from}&to=${to}&mode=${summary.transport.type}&distance=${summary.distance}`
 				)
 				const data = await response.json()
 
 				if (response.ok) {
-					setDistance(data)
-					setCarbonEmission(calculateCarbonEmission(distance, transport.type))
+					updateSummary({
+						distance: data,
+						carbonEmission: calculateCarbonEmission(
+							summary.distance,
+							summary.transport.type
+						),
+						isSummaryVisible: true,
+					})
 				} else {
 					console.error(data.error)
 				}
@@ -125,7 +131,9 @@ export const Calculator = () => {
 	}
 
 	const handleTransport = (mode: Transport) => {
-		setTransport((prevState) => (prevState?.type === mode.type ? null : mode))
+		updateSummary({
+			transport: summary.transport?.type === mode.type ? null : mode,
+		})
 	}
 
 	return (
@@ -133,21 +141,13 @@ export const Calculator = () => {
 			<CitiesSelector />
 
 			<TransportSelector
-				transport={transport}
+				transport={summary.transport}
 				availableModes={availableModes}
 				passengers={1}
 				onSelectTransport={handleTransport}
 			/>
 
 			<Button text="Calculer" disabled={disableBtn} onClick={handleCalculate} />
-
-			<Summary
-				transport={transport ? transport.name : "Pas de transport choisi"}
-				passengers={1}
-				distance={distance}
-				carbonEmission={carbonEmission}
-				isShow={showSummary}
-			/>
 		</div>
 	)
 }

@@ -1,6 +1,7 @@
 import { Map } from "./components/Map"
 import { Calculator } from "./components/Calculator"
 import { WalkingSection } from "./components/WalkingSection"
+import { Summary } from "./components/Summary"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export default function Home() {
@@ -35,7 +36,9 @@ export default function Home() {
 				<WalkingSection />
 				<Calculator />
 			</div>
+
 			<Map />
+			<Summary />
 		</div>
 	)
 }

@@ -1,6 +1,7 @@
 "use client"
 import { createContext, ReactNode, useState } from "react"
 import { fetchUserLocation } from "../fetchUserLocation"
+import { Transport } from "../types"
 
 // UserLocation Context
 export type UserLocationContextProps = {
@@ -13,12 +14,12 @@ export const UserLocationContext = createContext<UserLocationContextProps>({
 	handleUserLocation: async () => {},
 })
 
+// Coordinates Context
 export type CoordinatesType = {
 	from: { name: string; lat: number; lon: number } | null
 	to: { name: string; lat: number; lon: number } | null
 }
 
-// Coordinates Context
 export type CoordinatesContextProps = {
 	coordinates: CoordinatesType
 	handleCoordinates: ({ from, to }: CoordinatesType) => void
@@ -27,6 +28,31 @@ export type CoordinatesContextProps = {
 export const CoordinatesContext = createContext<CoordinatesContextProps>({
 	coordinates: { from: null, to: null },
 	handleCoordinates: () => {},
+})
+
+// Summary Context
+type SummaryData = {
+	transport: Transport | null
+	distance: number
+	carbonEmission: number
+	passengers: number
+	isSummaryVisible: boolean
+}
+
+export type SummaryContextProps = {
+	summary: SummaryData
+	updateSummary: (data: Partial<SummaryData>) => void
+}
+
+export const SummaryContext = createContext<SummaryContextProps>({
+	summary: {
+		transport: null,
+		distance: 0,
+		carbonEmission: 0,
+		passengers: 1,
+		isSummaryVisible: false,
+	},
+	updateSummary: () => {},
 })
 
 // Provider pour encapsuler la logique de gestion des états
@@ -40,6 +66,18 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 		from: null,
 		to: null,
 	})
+
+	const [summary, setSummary] = useState<SummaryData>({
+		transport: null,
+		distance: 0,
+		carbonEmission: 0,
+		passengers: 1,
+		isSummaryVisible: false,
+	})
+
+	const updateSummary = (data: Partial<SummaryData>) => {
+		setSummary((prev) => ({ ...prev, ...data }))
+	}
 
 	const handleCoordinates = ({
 		from,
@@ -70,7 +108,9 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 					coordinates,
 					handleCoordinates,
 				}}>
-				{children}
+				<SummaryContext.Provider value={{ summary, updateSummary }}>
+					{children}
+				</SummaryContext.Provider>
 			</CoordinatesContext.Provider>
 		</UserLocationContext.Provider>
 	)
