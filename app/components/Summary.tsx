@@ -11,13 +11,15 @@ export const Summary = () => {
 		<div
 			className={clsx(
 				summary.isSummaryVisible
-					? "h-[165px] opacity-100"
-					: "h-0 opacity-0 hidden",
+					? "max-h-[220px] h-fit opacity-100"
+					: "max-h-0 opacity-0 hidden",
 				"w-full ease-in-out transform-all duration-300"
 			)}>
-			<p className="mb-4 font-semibold">Résultat</p>
+			<p className="pb-2 mb-5 font-semibold border-b border-emerald-900">
+				Résultat
+			</p>
 
-			<div className="w-full flex flex-col justify-between mt-2 mb-5 p-5 bg-[#E8FCF2] shadow rounded-md">
+			<div className="w-full flex flex-col justify-between">
 				<div className="flex justify-between">
 					<div className="flex items-center justify-between mb-3">
 						<div className="flex items-center">
@@ -38,12 +40,12 @@ export const Summary = () => {
 					</p>
 				</div>
 
-				<p className="mt-6">
-					L&apos;émission de ce voyage est estimé à{" "}
-					<span className="font-semibold text-lg bg-emerald-200">
+				<div className="mt-6">
+					<p>L&apos;émission de ce voyage est estimé à </p>
+					<p className="w-full h-fit py-5 text-center font-semibold text-2xl bg-emerald-200 rounded-md">
 						{summary.carbonEmission} kgCO₂
-					</span>
-				</p>
+					</p>
+				</div>
 			</div>
 		</div>
 	)
