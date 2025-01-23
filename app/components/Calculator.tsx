@@ -1,5 +1,5 @@
 "use client"
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useContext } from "react"
 import { calculateHaversineDistance } from "../utils/calculateHarvesineDistance"
 import { calculateCarbonEmission } from "../utils/carbonCalculator"
 import { City, Transport, TransportMode } from "../utils/types"
@@ -7,16 +7,11 @@ import Button from "./UI/Button"
 import { Summary } from "./Summary"
 import { CitiesSelector } from "./CitiesSelector"
 import { TransportSelector } from "./TransportSelector"
+import { CoordinatesContext } from "../utils/Context"
 
 export const Calculator = () => {
-	const [departure, setDeparture] = useState<City>({
-		name: "",
-		coordinates: null,
-	})
-	const [arrival, setArrival] = useState<City>({
-		name: "",
-		coordinates: null,
-	})
+	const { coordinates, handleCoordinates } = useContext(CoordinatesContext)
+
 	const [transport, setTransport] = useState<Transport | null>(null)
 	const transportRef = useRef(transport)
 	const transportHasChanged = transportRef.current?.type !== transport?.type
@@ -31,28 +26,28 @@ export const Calculator = () => {
 
 	// const [passengers, setPassengers] = useState<number>(1)
 
-	const unableBtn: boolean =
-		(!departure.coordinates || !arrival.coordinates || !transport) && true
+	const disableBtn: boolean =
+		(!coordinates.from || !coordinates.to || !transport) && true
 	// const [showToast, setShowToast] = useState(false)
 
 	const showSummary: boolean =
 		!transportHasChanged &&
 		carbonEmission !== 0 &&
 		transport !== null &&
-		arrival.coordinates !== null &&
-		departure.coordinates !== null
+		coordinates.from !== null &&
+		coordinates.to !== null
 
 	useEffect(() => {
 		transportRef.current = transport
 	}, [transport])
 
 	useEffect(() => {
-		if (arrival.coordinates && departure.coordinates) {
+		if (coordinates.from && coordinates.to) {
 			const haversineDistance = calculateHaversineDistance(
-				departure.coordinates.lat,
-				departure.coordinates.lon,
-				arrival.coordinates.lat,
-				arrival.coordinates.lon
+				coordinates.from.lat,
+				coordinates.from.lon,
+				coordinates.to.lat,
+				coordinates.to.lon
 			)
 
 			setDistance(haversineDistance)
@@ -68,15 +63,26 @@ export const Calculator = () => {
 				])
 			}
 		}
-	}, [arrival.coordinates, departure.coordinates])
+	}, [coordinates.from, coordinates.to])
 
 	useEffect(() => {
-		if (!departure.name || !arrival.name) {
+		if (!coordinates.from || !coordinates.to) {
 			resetData()
 		}
-	}, [departure.name, arrival.name])
+	}, [coordinates.from, coordinates.to])
 
 	const resetData = () => {
+		if (!coordinates.from && !coordinates.to && !transport) {
+			//si tout est déjà réinitialisé, ne pas reset les données
+			return
+		}
+
+		if (coordinates.from) {
+			handleCoordinates({ from: coordinates.from, to: null })
+		} else if (coordinates.to) {
+			handleCoordinates({ from: null, to: coordinates.to })
+		}
+
 		setTransport(null)
 		setAvailableModes([
 			TransportMode.Car,
@@ -89,13 +95,13 @@ export const Calculator = () => {
 	}
 
 	const handleCalculate = async () => {
-		if (!departure.coordinates || !arrival.coordinates || !transport) {
+		if (!coordinates.from || !coordinates.to || !transport) {
 			console.error("Missing input data")
 			return
 		}
 
-		const from = `${departure.coordinates.lon},${departure.coordinates.lat}`
-		const to = `${arrival.coordinates.lon},${arrival.coordinates.lat}`
+		const from = `${coordinates.from.lon},${coordinates.from.lat}`
+		const to = `${coordinates.to.lon},${coordinates.to.lat}`
 
 		if (transport.type === TransportMode.Plane) {
 			setCarbonEmission(calculateCarbonEmission(distance, transport.type))
@@ -124,12 +130,7 @@ export const Calculator = () => {
 
 	return (
 		<div className="w-full h-full flex flex-col justify-between">
-			<CitiesSelector
-				departure={departure}
-				onSelectDeparture={setDeparture}
-				arrival={arrival}
-				onSelectArrival={setArrival}
-			/>
+			<CitiesSelector />
 
 			<TransportSelector
 				transport={transport}
@@ -138,7 +139,7 @@ export const Calculator = () => {
 				onSelectTransport={handleTransport}
 			/>
 
-			<Button text="Calculer" disabled={unableBtn} onClick={handleCalculate} />
+			<Button text="Calculer" disabled={disableBtn} onClick={handleCalculate} />
 
 			<Summary
 				transport={transport ? transport.name : "Pas de transport choisi"}

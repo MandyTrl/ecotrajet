@@ -1,38 +1,23 @@
 "use client"
-import {
-	Dispatch,
-	SetStateAction,
-	useContext,
-	useEffect,
-	useState,
-} from "react"
+import { useContext, useEffect, useState } from "react"
 import clsx from "clsx"
 import { FlagTriangleRight } from "lucide-react"
-import { UserLocationContext } from "../utils/Context"
+import { UserLocationContext, CoordinatesContext } from "../utils/Context"
 import SearchInput from "./UI/SearchInput"
-import { City, CityORS } from "../utils/types"
+import { CityORS } from "../utils/types"
 
-type CitiesSelectorProps = {
-	departure: City
-	onSelectDeparture: Dispatch<SetStateAction<City>>
-	arrival: City
-	onSelectArrival: Dispatch<SetStateAction<City>>
-}
-
-export const CitiesSelector = ({
-	departure,
-	onSelectDeparture,
-	arrival,
-	onSelectArrival,
-}: CitiesSelectorProps) => {
+export const CitiesSelector = () => {
 	const { handleUserLocation, userLocation } = useContext(UserLocationContext)
+	const { coordinates, handleCoordinates } = useContext(CoordinatesContext)
+
+	const [fromInput, setFromInput] = useState<string>("")
+	const [toInput, setToInput] = useState<string>("")
+
 	const lat = userLocation ? userLocation.lat : null
 	const lon = userLocation ? userLocation.lon : null
 
 	const [suggestions, setSuggestions] = useState<CityORS[] | null>(null)
-	const [activeField, setActiveField] = useState<
-		"departure" | "arrival" | null
-	>(null)
+	const [activeField, setActiveField] = useState<"from" | "to" | null>(null)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	const hasSuggestions = suggestions && suggestions.length !== 0
@@ -51,28 +36,58 @@ export const CitiesSelector = ({
 		}
 	}
 
-	const handleCityClick = (city: CityORS) => {
-		if (activeField === "departure") {
-			onSelectDeparture({
-				name: city.name,
-				coordinates: { lat: city.coordinates[1], lon: city.coordinates[0] },
+	const onSelectFrom = (value: string) => {
+		setFromInput(value)
+
+		if (value === "") {
+			handleCoordinates({
+				from: null,
+				to: coordinates.to,
 			})
-		} else if (activeField === "arrival") {
-			onSelectArrival({
-				name: city.name,
-				coordinates: { lat: city.coordinates[1], lon: city.coordinates[0] },
+		}
+	}
+
+	const onSelectTo = (value: string) => {
+		setToInput(value)
+
+		if (value === "") {
+			handleCoordinates({
+				from: coordinates.from,
+				to: null,
+			})
+		}
+	}
+
+	const handleCityClick = (city: CityORS) => {
+		if (activeField === "from") {
+			setFromInput(city.name)
+			handleCoordinates({
+				from: {
+					name: city.name,
+					lat: city.coordinates[1],
+					lon: city.coordinates[0],
+				},
+				to: coordinates.to,
+			})
+		} else if (activeField === "to") {
+			setToInput(city.name)
+			handleCoordinates({
+				from: coordinates.from,
+				to: {
+					name: city.name,
+					lat: city.coordinates[1],
+					lon: city.coordinates[0],
+				},
 			})
 		}
 		setSuggestions([])
 		setIsOpen(false)
 	}
 
-	//gérer la géolocalisation à l'initialisation
+	//géoloc à l'initialisation
 	useEffect(() => {
 		handleUserLocation()
-
-		// setShowToast(true)
-	}, [handleUserLocation])
+	}, [])
 
 	return (
 		<div className="relative w-full h-full flex flex-col mt-4 pl-3">
@@ -86,30 +101,30 @@ export const CitiesSelector = ({
 			/>
 
 			<SearchInput
-				name="departure"
+				name="from"
 				placeholder="de Paris"
 				type="text"
 				labelName="Départ"
 				onSelect={(value: string) => {
-					setActiveField("departure")
+					setActiveField("from")
+					onSelectFrom(value)
 					if (value.length >= 3) fetchCities(value)
-					onSelectDeparture({ name: value, coordinates: null })
 				}}
 				onBlur={() => setIsOpen(false)}
-				selectedValue={departure.name}
+				selectedValue={fromInput}
 			/>
 			<SearchInput
-				name="arrival"
+				name="to"
 				placeholder="à Édimbourg"
 				type="text"
 				labelName="Arrivée"
 				onSelect={(value: string) => {
-					setActiveField("arrival")
+					setActiveField("to")
+					onSelectTo(value)
 					if (value.length >= 3) fetchCities(value)
-					onSelectArrival({ name: value, coordinates: null })
 				}}
 				onBlur={() => setIsOpen(false)}
-				selectedValue={arrival.name}
+				selectedValue={toInput}
 			/>
 
 			<ul

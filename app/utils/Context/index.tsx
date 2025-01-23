@@ -13,12 +13,46 @@ export const UserLocationContext = createContext<UserLocationContextProps>({
 	handleUserLocation: async () => {},
 })
 
+export type CoordinatesType = {
+	from: { name: string; lat: number; lon: number } | null
+	to: { name: string; lat: number; lon: number } | null
+}
+
+// Coordinates Context
+export type CoordinatesContextProps = {
+	coordinates: CoordinatesType
+	handleCoordinates: ({ from, to }: CoordinatesType) => void
+}
+
+export const CoordinatesContext = createContext<CoordinatesContextProps>({
+	coordinates: { from: null, to: null },
+	handleCoordinates: () => {},
+})
+
 // Provider pour encapsuler la logique de gestion des états
 export const AppProviders = ({ children }: { children: ReactNode }) => {
 	const [userLocation, setUserLocation] = useState<{
 		lat: number
 		lon: number
 	} | null>(null)
+
+	const [coordinates, setCoordinates] = useState<CoordinatesType>({
+		from: null,
+		to: null,
+	})
+
+	const handleCoordinates = ({
+		from,
+		to,
+	}: {
+		from?: { name: string; lat: number; lon: number } | null
+		to?: { name: string; lat: number; lon: number } | null
+	}) => {
+		setCoordinates((prev) => ({
+			from: from !== undefined ? from : prev.from,
+			to: to !== undefined ? to : prev.to,
+		}))
+	}
 
 	const handleUserLocation = async () => {
 		const location = await fetchUserLocation()
@@ -31,7 +65,13 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 				userLocation,
 				handleUserLocation,
 			}}>
-			{children}
+			<CoordinatesContext.Provider
+				value={{
+					coordinates,
+					handleCoordinates,
+				}}>
+				{children}
+			</CoordinatesContext.Provider>
 		</UserLocationContext.Provider>
 	)
 }

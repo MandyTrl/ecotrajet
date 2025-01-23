@@ -10,10 +10,15 @@ export const fetchUserLocation = async (): Promise<{
 	try {
 		const position = await new Promise<GeolocationPosition>(
 			(resolve, reject) => {
-				navigator.geolocation.watchPosition(resolve, reject)
+				navigator.geolocation.getCurrentPosition(resolve, reject, {
+					enableHighAccuracy: true, //précision élevée si possible
+					timeout: 10000, //tps max pour obtenir la position
+					maximumAge: 0, //empêche la réutilisation de positions mises en cache
+				})
 			}
 		)
 		const { latitude, longitude } = position.coords
+
 		return { lat: latitude, lon: longitude }
 	} catch (error) {
 		console.warn("Geolocation permission denied or error occurred:", error)
