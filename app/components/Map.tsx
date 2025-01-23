@@ -93,7 +93,7 @@ export const Map = () => {
 	}, [userLocation, coordinates])
 
 	return (
-		<div className="w-full h-80 border-2 border-emerald-500">
+		<div className="w-full h-80 border-2 border-emerald-500 mb-6">
 			<div id="map" ref={mapContainerRef} className="w-full h-full"></div>
 		</div>
 	)

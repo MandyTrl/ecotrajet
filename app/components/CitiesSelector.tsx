@@ -19,6 +19,7 @@ export const CitiesSelector = () => {
 	const [suggestions, setSuggestions] = useState<CityORS[] | null>(null)
 	const [activeField, setActiveField] = useState<"from" | "to" | null>(null)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const [alert, setAlert] = useState<boolean>(false)
 
 	const hasSuggestions = suggestions && suggestions.length !== 0
 
@@ -29,7 +30,12 @@ export const CitiesSelector = () => {
 			)
 			if (!response.ok) throw new Error("Failed to fetch cities")
 			const cities = await response.json()
-			setSuggestions(cities)
+			if (cities.length === 0) {
+				setAlert(true)
+			} else {
+				setAlert(false)
+				setSuggestions(cities)
+			}
 			setIsOpen(true)
 		} catch (error) {
 			console.error("Error fetching city suggestions:", error)
@@ -40,6 +46,7 @@ export const CitiesSelector = () => {
 		setFromInput(value)
 
 		if (value === "") {
+			setAlert(false)
 			handleCoordinates({
 				from: null,
 				to: coordinates.to,
@@ -51,6 +58,7 @@ export const CitiesSelector = () => {
 		setToInput(value)
 
 		if (value === "") {
+			setAlert(false)
 			handleCoordinates({
 				from: coordinates.from,
 				to: null,
@@ -137,7 +145,15 @@ export const CitiesSelector = () => {
 						"border-t border-t-emerald-500 shadow ring-1 ring-slate-200/40",
 					"w-full bg-white mt-1 transition-all duration-500 ease-out"
 				)}>
-				{hasSuggestions ? (
+				{alert ? (
+					<p className="text-red-600 text-sm">
+						Oups.. aucune suggestion trouvée, veuillez réitérer avec une autre
+						ville
+					</p>
+				) : (
+					!alert &&
+					suggestions &&
+					suggestions.length !== 0 &&
 					suggestions.map((city: CityORS, index: number) => (
 						<li
 							key={index}
@@ -146,11 +162,6 @@ export const CitiesSelector = () => {
 							{city.name}
 						</li>
 					))
-				) : (
-					<p className="text-red-600 text-sm">
-						Oups.. aucune suggestion trouvée, veuillez réitérer avec une autre
-						ville
-					</p>
 				)}
 			</ul>
 		</div>
