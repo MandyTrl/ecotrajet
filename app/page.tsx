@@ -31,11 +31,11 @@ export default function Home() {
 				Compare l&apos;empreinte carbone de ton prochain voyage
 			</p>
 
-			<div className="w-full flex flex-col lg:flex-row items-end justify-between">
+			<div className="flex flex-col lg:flex-row lg:items-end">
 				<WalkingSection />
 				<Calculator />
-				<Map />
 			</div>
+			<Map />
 		</div>
 	)
 }
