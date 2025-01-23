@@ -1,3 +1,4 @@
+import { Map } from "./components/Map"
 import { Calculator } from "./components/Calculator"
 import { WalkingSection } from "./components/WalkingSection"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
@@ -32,8 +33,8 @@ export default function Home() {
 
 			<div className="w-full flex flex-col lg:flex-row items-end justify-between">
 				<WalkingSection />
-
 				<Calculator />
+				<Map />
 			</div>
 		</div>
 	)

@@ -26,6 +26,7 @@ export default function CalculationAndSources() {
 						👉{" "}
 						<Link
 							href="https://giscience.github.io/openrouteservice/"
+							target="_blank"
 							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
 							{" "}
 							Parcourir la documentation d&apos;ORS
@@ -42,6 +43,7 @@ export default function CalculationAndSources() {
 						👉{" "}
 						<Link
 							href="https://prod-basecarbonesolo.ademe-dri.fr/documentation/UPLOAD_DOC_FR/index.htm?sommaire.htm"
+							target="_blank"
 							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
 							{" "}
 							Parcourir la documentation de Base Empreinte®
@@ -80,10 +82,10 @@ export default function CalculationAndSources() {
 					<div>
 						<h3 className="text-lg">Emissions</h3>
 						<p>
-							D&apos;après la base de données <b>Base Empreinte®</b>, une
-							moyenne a été calculée pour regrouper l&apos;impact des différents
-							types de carburants. Cette moyenne est ensuite ajustée en fonction
-							de la distance (courte, longue, mixte).
+							D&apos;après la base de données <b>Base Empreinte</b>, une moyenne
+							a été calculée pour regrouper l&apos;impact des différents types
+							de carburants. Cette moyenne est ensuite ajustée en fonction de la
+							distance (courte, longue, mixte).
 						</p>
 						<p className="mt-2 text-sm">
 							<b>N.B.</b> Si vous souhaitez aller plus loin et avoir une
@@ -126,6 +128,7 @@ export default function CalculationAndSources() {
 						👉{" "}
 						<Link
 							href="https://bonpote.com/"
+							target="_blank"
 							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
 							Visiter le site Bon Pote
 						</Link>
@@ -136,14 +139,14 @@ export default function CalculationAndSources() {
 							éco-responsables&quot;
 						</h3>
 						<p>
-							Cet article propose une simulation basée sur la{" "}
-							<b>Base Empreinte®</b> pour estimer ll&apos;impact dl&apos;un vol
-							en avion et les écogestes nécessaires pour contrebalancer son
-							empreinte carbone.
+							Cet article propose une simulation basée sur <b>Base Empreinte</b>{" "}
+							pour estimer l&apos;impact dl&apos;un vol en avion et les
+							écogestes nécessaires pour contrebalancer son empreinte carbone.
 						</p>
 						👉{" "}
 						<Link
 							href="https://www.lemonde.fr/les-decodeurs/article/2023/12/05/vous-voulez-compenser-votre-vol-en-avion-par-des-ecogestes-voici-combien-de-temps-cela-vous-prendra_6204046_4355770.html"
+							target="_blank"
 							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
 							{" "}
 							Lire l&apos;article
@@ -159,6 +162,7 @@ export default function CalculationAndSources() {
 						👉{" "}
 						<Link
 							href="https://storyset.com/"
+							target="_blank"
 							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
 							{" "}
 							Visiter le site Storyset

@@ -28,6 +28,7 @@ export default function Project() {
 							veuillez-consulter la page{" "}
 							<Link
 								href="/calculs-et-sources"
+								target="_blank"
 								className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
 								{" "}
 								Calcul et sources
