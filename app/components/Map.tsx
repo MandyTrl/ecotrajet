@@ -48,21 +48,38 @@ export const Map = () => {
 			}
 		).addTo(map)
 
-		if (coordinates.from !== null) {
+		const markers: L.LatLngTuple[] = []
+
+		if (coordinates.from) {
+			markers.push([coordinates.from.lat, coordinates.from.lon])
 			L.marker([coordinates.from.lat, coordinates.from.lon], {
 				icon: customIcon,
-			}).addTo(map)
-		} else {
-			L.marker(defaultPosition, { icon: customIcon }).addTo(map)
+			})
+				.addTo(map)
+				.bindPopup("Point de départ")
 		}
 
-		if (coordinates.to !== null) {
+		if (coordinates.to) {
+			markers.push([coordinates.to.lat, coordinates.to.lon])
 			L.marker([coordinates.to.lat, coordinates.to.lon], {
 				icon: customIcon,
-			}).addTo(map)
+			})
+				.addTo(map)
+				.bindPopup("Point d'arrivée")
 		}
 
-		L.marker(defaultPosition, { icon: customIcon }).addTo(map)
+		if (!coordinates.from && !coordinates.to && userLocation) {
+			markers.push(defaultPosition)
+			L.marker(defaultPosition, { icon: customIcon })
+				.addTo(map)
+				.bindPopup("Votre position actuelle")
+		}
+
+		//ajuste la vue de la carte pour inclure tous les marqueurs
+		if (markers.length > 0) {
+			const bounds = L.latLngBounds(markers)
+			map.fitBounds(bounds, { padding: [50, 50] })
+		}
 
 		mapRef.current = map
 
