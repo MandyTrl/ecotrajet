@@ -1,13 +1,19 @@
 "use client"
+import Image, { StaticImageData } from "next/image"
+import clsx from "clsx"
 import { useBreakpoint } from "@/app/utils/hooks/useBreakpoints"
-import Image from "next/image"
 
 type IllustrationProps = {
-	source: string
+	source: string | StaticImageData
 	description?: string
+	center?: boolean
 }
 
-export const Illustration = ({ source, description }: IllustrationProps) => {
+export const Illustration = ({
+	source,
+	description,
+	center,
+}: IllustrationProps) => {
 	const bp = useBreakpoint()
 	const isMobile = bp === "mobile"
 
@@ -19,7 +25,7 @@ export const Illustration = ({ source, description }: IllustrationProps) => {
 			alt={description ? description : ""}
 			aria-hidden={description ? true : false}
 			priority
-			className="mx-auto lg:mx-0"
+			className={clsx(center ? "mx-auto" : "mx-auto lg:mx-0")}
 		/>
 	)
 }

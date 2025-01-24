@@ -26,7 +26,7 @@ export const CitiesSelector = () => {
 	const fetchCities = async (value: string) => {
 		try {
 			const response = await fetch(
-				`/api/getCity?city=${value}&lat=${lat}&lon=${lon}`
+				`/api/getCity?city=${value}&lon=${lon}&lat=${lat}`
 			)
 			if (!response.ok) throw new Error("Failed to fetch cities")
 			const cities = await response.json()
@@ -72,8 +72,8 @@ export const CitiesSelector = () => {
 			handleCoordinates({
 				from: {
 					name: city.name,
-					lat: city.coordinates[1],
 					lon: city.coordinates[0],
+					lat: city.coordinates[1],
 				},
 				to: coordinates.to,
 			})
@@ -83,8 +83,8 @@ export const CitiesSelector = () => {
 				from: coordinates.from,
 				to: {
 					name: city.name,
-					lat: city.coordinates[1],
 					lon: city.coordinates[0],
+					lat: city.coordinates[1],
 				},
 			})
 		}
@@ -98,7 +98,7 @@ export const CitiesSelector = () => {
 	}, [])
 
 	return (
-		<div className="relative w-full h-full flex flex-col mt-4 pl-3">
+		<div className="relative w-full flex flex-col mt-4 lg:mt-0 pl-3">
 			<p className="absolute top-[3px] -left-[6px] border-2 border-emerald-500 rounded-full h-[10px] w-[10px] bg-white z-10"></p>
 			<p className="absolute top-[9px] -left-[3px] border-dotted border-l-4 border-emerald-500 h-[52px]"></p>
 			<FlagTriangleRight

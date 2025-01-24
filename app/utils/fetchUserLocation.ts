@@ -19,7 +19,13 @@ export const fetchUserLocation = async (): Promise<{
 		)
 		const { latitude, longitude } = position.coords
 
-		return { lat: latitude, lon: longitude }
+		if (position.coords.accuracy > 500) {
+			alert(
+				"🎯 La position est approximative. Elle dépend fortement de votre appareil et de son environnement. Essayez d'activer le GPS ou de vérifier votre connexion pour plus de précisions."
+			)
+		}
+
+		return { lon: longitude, lat: latitude }
 	} catch (error) {
 		console.warn("Geolocation permission denied or error occurred:", error)
 		return null

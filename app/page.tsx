@@ -29,15 +29,16 @@ export default function Home() {
 			)} */}
 
 			<p className="w-full mb-3 md:mb-8 text-xl text-left lg:text-center md:text-2xl lg:text-3xl font-medium">
-				Compare l&apos;empreinte carbone de ton prochain voyage
+				Calcule l&apos;empreinte carbone de ton prochain voyage
 			</p>
 
-			<div className="flex flex-col lg:flex-row lg:items-end">
-				<WalkingSection />
+			<WalkingSection />
+
+			<div className="flex flex-col lg:flex-row lg:items-stretch lg:gap-x-10">
 				<Calculator />
+				<Map />
 			</div>
 
-			<Map />
 			<Summary />
 		</div>
 	)

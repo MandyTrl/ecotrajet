@@ -1,50 +1,77 @@
 import { NextRequest, NextResponse } from "next/server"
 
-export async function GET(req: NextRequest) {
-	const { searchParams } = new URL(req.url)
-	const from = searchParams.get("from")
-	const to = searchParams.get("to")
-	const mode = searchParams.get("mode")
-	const haversineDistance = Number(searchParams.get("distance"))
-
-	if (!from || !to || !mode || isNaN(haversineDistance)) {
-		return NextResponse.json(
-			{ error: "Missing or invalid query parameters" },
-			{ status: 400 }
-		)
-	}
-
-	// const useGMapsAPI = haversineDistance > 6000
-	// const modeGMaps = mode !== "car" ? "transit" : "driving"
-	const modeORS = mode !== "car" ? "cycling-regular" : "driving-car"
-
-	const apiKey =
-		// useGMapsAPI
-		// 	? process.env.GOOGLE_MAPS_API_KEY
-		// 	:
-		process.env.ORS_API_KEY
-
-	const url =
-		// useGMapsAPI
-		// ? `https://maps.googleapis.com/maps/api/directions/json?origin=${from}&destination=${to}&mode=${modeGMaps}&key=${apiKey}`
-		// :
-		`https://api.openrouteservice.org/v2/directions/${modeORS}?api_key=${apiKey}&start=${from}&end=${to}`
-
+export async function POST(req: NextRequest) {
 	try {
-		const response = await fetch(url)
-		const data = await response.json()
+		const { from, to, mode, distance } = await req.json()
 
-		// if (useGMapsAPI) {
-		// 	const distance = data.routes[0]?.legs[0]?.distance?.value
-		// 	const distanceKm = (distance / 1000).toFixed(0)
+		if (!from || !to || !mode || !distance) {
+			return NextResponse.json(
+				{ error: "Missing or invalid body parameters" },
+				{ status: 400 }
+			)
+		}
 
-		// 	return NextResponse.json(distanceKm)
-		// } else {
-		const distance = data.features[0].properties.summary.distance
-		const distanceKm = (distance / 1000).toFixed(0)
+		const apiKey = process.env.ORS_API_KEY
+		const modeORS = mode !== "car" ? "cycling-regular" : "driving-car"
 
-		return NextResponse.json(distanceKm)
-		// }
+		const headers: HeadersInit = {
+			"Content-Type": "application/json",
+		}
+
+		if (apiKey) {
+			headers.Authorization = apiKey
+		}
+
+		const fetchRoute = async (radius = 500, attempt = 1, maxAttempts = 3) => {
+			const url = `https://api.openrouteservice.org/v2/directions/${modeORS}`
+
+			const body = {
+				coordinates: [
+					from.split(",").map(Number), //convertit en tableau de nombres [lon, lat]
+					to.split(",").map(Number),
+				],
+
+				radiuses: [radius, radius], //rayon de recherche
+				options: { avoid_features: [] }, //active les ferries
+			}
+
+			const response = await fetch(url, {
+				method: "POST",
+				headers: headers,
+				body: JSON.stringify(body),
+			})
+
+			const data = await response.json()
+
+			console.log(data)
+
+			if (response.ok) {
+				return data.routes[0].summary.distance || 0
+			}
+
+			//si code erreur 2010, nouvel appel avec un +grd radius et ferries activés
+			if (data.error?.code === 2010) {
+				console.warn(
+					`📍 Point non routable: tentative ${attempt} avec un rayon de ${radius}m`
+				)
+
+				if (attempt < maxAttempts) {
+					return fetchRoute(radius * 2, attempt + 1, maxAttempts)
+				} else {
+					console.log(data.error.message)
+					throw new Error(
+						"Unable to find routable points even after maximum attempts."
+					)
+				}
+			}
+			throw new Error(data.error?.message || "Unknown error occurred")
+		}
+
+		const calculatedDistance = await fetchRoute()
+
+		const distanceKm = (calculatedDistance / 1000).toFixed(2)
+
+		return NextResponse.json({ distance: distanceKm })
 	} catch (error: unknown) {
 		const errorMessage =
 			error instanceof Error ? error.message : "Internal server error"

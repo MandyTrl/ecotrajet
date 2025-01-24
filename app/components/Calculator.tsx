@@ -48,7 +48,7 @@ export const Calculator = () => {
 
 			updateSummary({ distance: haversineDistance })
 
-			if (haversineDistance > 6000) {
+			if (haversineDistance > 5900) {
 				setAvailableModes([TransportMode.Plane])
 			} else {
 				setAvailableModes([
@@ -107,14 +107,24 @@ export const Calculator = () => {
 			})
 		} else {
 			try {
-				const response = await fetch(
-					`/api/getDistance?from=${from}&to=${to}&mode=${summary.transport.type}&distance=${summary.distance}`
-				)
+				const response = await fetch("/api/getDistance", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						from,
+						to,
+						mode: summary.transport.type,
+						distance: summary.distance,
+					}),
+				})
+
 				const data = await response.json()
 
 				if (response.ok) {
 					updateSummary({
-						distance: data,
+						distance: summary.distance,
 						carbonEmission: calculateCarbonEmission(
 							summary.distance,
 							summary.transport.type
@@ -137,15 +147,20 @@ export const Calculator = () => {
 	}
 
 	return (
-		<div className="w-full h-full flex flex-col justify-between">
-			<CitiesSelector />
+		<div className="flex flex-1 flex-col items-center justify-between">
+			<div className="w-full">
+				<h3 className="hidden md:block font-medium md:mb-5">
+					Une fois ta destination choisie 🗺️, sélectionne un moyen de transport.
+				</h3>
+				<CitiesSelector />
 
-			<TransportSelector
-				transport={summary.transport}
-				availableModes={availableModes}
-				passengers={1}
-				onSelectTransport={handleTransport}
-			/>
+				<TransportSelector
+					transport={summary.transport}
+					availableModes={availableModes}
+					passengers={1}
+					onSelectTransport={handleTransport}
+				/>
+			</div>
 
 			<Button text="Calculer" disabled={disableBtn} onClick={handleCalculate} />
 		</div>

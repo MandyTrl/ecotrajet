@@ -36,7 +36,7 @@ export const Map = () => {
 
 		const map = L.map("map", {
 			center: defaultPosition,
-			zoom: 3, // Zoom par défaut
+			zoom: 4, // zoom par défaut
 			scrollWheelZoom: false,
 		})
 
@@ -69,11 +69,11 @@ export const Map = () => {
 		clearMarkers()
 
 		if (coordinates.from) {
-			addMarker([coordinates.from.lat, coordinates.from.lon], "Point de départ")
+			addMarker([coordinates.from.lon, coordinates.from.lat], "Point de départ")
 		}
 
 		if (coordinates.to) {
-			addMarker([coordinates.to.lat, coordinates.to.lon], "Point d'arrivée")
+			addMarker([coordinates.to.lon, coordinates.to.lat], "Point d'arrivée")
 		}
 
 		// Si aucun `from` ou `to`, affiche la géolocalisation
@@ -101,7 +101,7 @@ export const Map = () => {
 	}, [userLocation, coordinates])
 
 	return (
-		<div className="w-full h-80 border-2 border-emerald-500 mb-6">
+		<div className="md:flex-1 w-full h-80 border-2 border-emerald-500 mb-6">
 			<div id="map" className="w-full h-full"></div>
 		</div>
 	)

@@ -14,24 +14,19 @@ export const Navbar = () => {
 		<header
 			className={clsx(
 				isMobile && "sticky top-0 z-[1000] shadow-sm",
-				"w-full px-5 bg-white w-full flex items-center justify-between"
+				"w-full px-5 lg:px-16 bg-white w-full flex items-center justify-between"
 			)}>
 			<Link href="/">
 				<Image
 					src="/logo.png"
 					alt="ecotrajet"
-					width={100}
-					height={30}
+					width={150}
+					height={60}
 					priority
+					className="w-[100px] lg:w-[150px]"
 				/>
 			</Link>
-			{isMobile ? (
-				<MobileNav />
-			) : (
-				<nav>
-					<Navigation isMobile={false} />
-				</nav>
-			)}
+			{isMobile ? <MobileNav /> : <Navigation isMobile={false} />}
 		</header>
 	)
 }

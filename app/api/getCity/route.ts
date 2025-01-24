@@ -8,8 +8,8 @@ type City = {
 export async function GET(req: NextRequest) {
 	const { searchParams } = new URL(req.url)
 	const city = searchParams.get("city")
-	const lat = searchParams.get("lat")
 	const lon = searchParams.get("lon")
+	const lat = searchParams.get("lat")
 
 	if (!city) {
 		return NextResponse.json(
@@ -26,9 +26,7 @@ export async function GET(req: NextRequest) {
 		lat && lon && `&focus.point.lat=${lat}&focus.point.lon=${lon}`
 
 	const endpoint = "https://api.openrouteservice.org/geocode/autocomplete"
-	const url = `${endpoint}?api_key=${apiKey}&layers=locality&text=${encodeURIComponent(
-		city
-	)}&size=5${focusPoint}`
+	const url = `${endpoint}?api_key=${apiKey}&layers=locality&text=${city}&size=5${focusPoint}`
 
 	try {
 		const response = await fetch(url)
