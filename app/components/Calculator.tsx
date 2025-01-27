@@ -3,7 +3,7 @@ import { useState, useRef, useEffect, useContext } from "react"
 import { calculateHaversineDistance } from "../utils/calculateHarvesineDistance"
 import { calculateCarbonEmission } from "../utils/carbonCalculator"
 import { Transport, TransportMode } from "../utils/types"
-import Button from "./UI/Button"
+import Button from "./UI/Buttons/Button"
 import { CitiesSelector } from "./CitiesSelector"
 import { TransportSelector } from "./TransportSelector"
 import { CoordinatesContext, SummaryContext } from "../utils/Context"
@@ -21,17 +21,9 @@ export const Calculator = () => {
 		TransportMode.Train,
 		TransportMode.Plane,
 	])
-	// const [passengers, setPassengers] = useState<number>(1)
 
 	const disableBtn: boolean =
 		(!coordinates.from || !coordinates.to || !summary.transport) && true
-
-	const showSummary: boolean =
-		!transportHasChanged &&
-		summary.carbonEmission !== 0 &&
-		summary.transport !== null &&
-		coordinates.from !== null &&
-		coordinates.to !== null
 
 	useEffect(() => {
 		transportRef.current = summary.transport
@@ -101,7 +93,8 @@ export const Calculator = () => {
 			updateSummary({
 				carbonEmission: calculateCarbonEmission(
 					summary.distance,
-					summary.transport.type
+					summary.transport.type,
+					summary.passengers
 				),
 				isSummaryVisible: true,
 			})
@@ -127,7 +120,8 @@ export const Calculator = () => {
 						distance: summary.distance,
 						carbonEmission: calculateCarbonEmission(
 							summary.distance,
-							summary.transport.type
+							summary.transport.type,
+							summary.passengers
 						),
 						isSummaryVisible: true,
 					})
@@ -157,7 +151,6 @@ export const Calculator = () => {
 				<TransportSelector
 					transport={summary.transport}
 					availableModes={availableModes}
-					passengers={1}
 					onSelectTransport={handleTransport}
 				/>
 			</div>

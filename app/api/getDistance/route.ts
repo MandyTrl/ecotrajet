@@ -22,14 +22,21 @@ export async function POST(req: NextRequest) {
 			headers.Authorization = apiKey
 		}
 
-		const fetchRoute = async (radius = 500, attempt = 1, maxAttempts = 3) => {
+		const fetchRoute = async (radius = 500, attempt = 1, maxAttempts = 5) => {
 			const url = `https://api.openrouteservice.org/v2/directions/${modeORS}`
 
+			const [fromLon, fromLat] = from.split(",").map(Number)
+			const [toLon, toLat] = from.split(",").map(Number)
+
+			const coordinatesFormated = [
+				[fromLon, fromLat],
+				[toLon, toLat],
+			]
+
+			console.log(coordinatesFormated)
+
 			const body = {
-				coordinates: [
-					from.split(",").map(Number), //convertit en tableau de nombres [lon, lat]
-					to.split(",").map(Number),
-				],
+				coordinates: coordinatesFormated,
 
 				radiuses: [radius, radius], //rayon de recherche
 				options: { avoid_features: [] }, //active les ferries

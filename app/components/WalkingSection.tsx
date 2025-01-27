@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { Illustration } from "./UI/Illustration"
 import walkingImg from "@/public/walking.gif"
 

@@ -1,10 +1,10 @@
 "use client"
 import Link from "next/link"
 import Image from "next/image"
+import clsx from "clsx"
 import { useBreakpoint } from "@/app/utils/hooks/useBreakpoints"
 import { MobileNav } from "./MobileNav"
 import { Navigation } from "./Navigation"
-import clsx from "clsx"
 
 export const Navbar = () => {
 	const bp = useBreakpoint()
@@ -18,7 +18,7 @@ export const Navbar = () => {
 			)}>
 			<Link href="/">
 				<Image
-					src="/logo.png"
+					src="/logo.svg"
 					alt="ecotrajet"
 					width={150}
 					height={60}

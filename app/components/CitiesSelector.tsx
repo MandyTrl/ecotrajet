@@ -7,14 +7,11 @@ import SearchInput from "./UI/SearchInput"
 import { CityORS } from "../utils/types"
 
 export const CitiesSelector = () => {
-	const { handleUserLocation, userLocation } = useContext(UserLocationContext)
+	const { handleUserLocation } = useContext(UserLocationContext)
 	const { coordinates, handleCoordinates } = useContext(CoordinatesContext)
 
 	const [fromInput, setFromInput] = useState<string>("")
 	const [toInput, setToInput] = useState<string>("")
-
-	const lat = userLocation ? userLocation.lat : null
-	const lon = userLocation ? userLocation.lon : null
 
 	const [suggestions, setSuggestions] = useState<CityORS[] | null>(null)
 	const [activeField, setActiveField] = useState<"from" | "to" | null>(null)
@@ -25,9 +22,7 @@ export const CitiesSelector = () => {
 
 	const fetchCities = async (value: string) => {
 		try {
-			const response = await fetch(
-				`/api/getCity?city=${value}&lon=${lon}&lat=${lat}`
-			)
+			const response = await fetch(`/api/getCity?city=${value}`)
 			if (!response.ok) throw new Error("Failed to fetch cities")
 			const cities = await response.json()
 			if (cities.length === 0) {

@@ -2,16 +2,11 @@
 import { useContext, useEffect, useRef } from "react"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
-import {
-	UserLocationContext,
-	CoordinatesContext,
-	SummaryContext,
-} from "../utils/Context"
+import { UserLocationContext, CoordinatesContext } from "../utils/Context"
 
 export const Map = () => {
 	const { userLocation } = useContext(UserLocationContext)
 	const { coordinates } = useContext(CoordinatesContext)
-	const { summary } = useContext(SummaryContext)
 
 	const mapRef = useRef<L.Map | null>(null)
 	const markersRef = useRef<L.Marker[]>([])
@@ -36,22 +31,22 @@ export const Map = () => {
 
 		const map = L.map("map", {
 			center: defaultPosition,
-			zoom: 4, // zoom par défaut
+			zoom: 5, // zoom par défaut
 			scrollWheelZoom: false,
 		})
 
 		L.tileLayer(
 			"https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
 			{
-				attribution: "© CARTO © OpenStreetMap contributors",
+				attribution: "©CARTO ©OpenStreetMap",
 			}
 		).addTo(map)
 
 		const customIcon = L.icon({
 			iconUrl: "/map-pin.svg",
 			iconSize: [30, 30],
-			iconAnchor: [15, 30], // Point d'ancrage
-			popupAnchor: [0, -30], // Position du popup
+			iconAnchor: [15, 30],
+			popupAnchor: [0, -30],
 		})
 
 		const addMarker = (position: L.LatLngTuple, popupText: string) => {
@@ -69,11 +64,11 @@ export const Map = () => {
 		clearMarkers()
 
 		if (coordinates.from) {
-			addMarker([coordinates.from.lon, coordinates.from.lat], "Point de départ")
+			addMarker([coordinates.from.lat, coordinates.from.lon], "Point de départ")
 		}
 
 		if (coordinates.to) {
-			addMarker([coordinates.to.lon, coordinates.to.lat], "Point d'arrivée")
+			addMarker([coordinates.to.lat, coordinates.to.lon], "Point d'arrivée")
 		}
 
 		// Si aucun `from` ou `to`, affiche la géolocalisation

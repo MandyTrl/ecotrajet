@@ -1,18 +1,16 @@
 import { Plane, TrainFront, BusFront, CarFront } from "lucide-react"
 import { Transport, TransportBtn, TransportMode } from "../utils/types"
-import IconBtn from "./UI/IconBtn"
+import IconBtn from "./UI/Buttons/IconBtn"
 
 type TransportSelectorProps = {
 	transport: Transport | null
 	onSelectTransport: (mode: Transport) => void
 	availableModes: TransportMode[]
-	passengers: number
 }
 
 export const TransportSelector = ({
 	transport,
 	onSelectTransport,
-	passengers,
 	availableModes,
 }: TransportSelectorProps) => {
 	const transportModes: TransportBtn[] = [
@@ -21,6 +19,7 @@ export const TransportSelector = ({
 		{ type: TransportMode.Bus, Icon: BusFront, name: "Bus" },
 		{ type: TransportMode.Car, Icon: CarFront, name: "Voiture" },
 	]
+
 	return (
 		<div className="w-full flex items-center mt-5 gap-x-3">
 			<p className="font-semibold text-base">En :</p>
@@ -34,7 +33,6 @@ export const TransportSelector = ({
 						transport={mode.type}
 						isActive={isActive}
 						isDisabled={isDisabled}
-						passengers={passengers}
 						onClick={() =>
 							!isDisabled &&
 							onSelectTransport({

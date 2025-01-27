@@ -20,7 +20,8 @@ export const emissionFactors: Record<
 
 export const calculateCarbonEmission = (
 	distance: number,
-	transport: TransportMode
+	transport: TransportMode,
+	passengers: number
 ): number => {
 	let emissionFactor: number
 
@@ -53,5 +54,7 @@ export const calculateCarbonEmission = (
 			: 0
 
 	//calcul des émissions : distance * facteur d'émission (gCO₂/pkm) / 1000 (pour kgCO₂)
-	return Math.round((distance * emissionFactor) / 1000) + fabricationCost
+	const result = (distance * emissionFactor) / 1000 + fabricationCost
+
+	return Math.round(result / passengers)
 }
