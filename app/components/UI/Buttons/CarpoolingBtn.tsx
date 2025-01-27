@@ -1,5 +1,5 @@
 "use client"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { SummaryContext } from "@/app/utils/Context"
 import clsx from "clsx"
 
@@ -9,13 +9,31 @@ export const CarpoolingBtn = () => {
 	const passengersList = Array.from({ length: 7 }, (_, index) => index + 1)
 	const [showPassengersList, setShowPassengerList] = useState<boolean>(false)
 
+	const dropdownRef = useRef<HTMLDivElement>(null)
+
+	const handleClickOutside = (event: MouseEvent) => {
+		if (
+			dropdownRef.current &&
+			!dropdownRef.current.contains(event.target as Node)
+		) {
+			setShowPassengerList(false)
+		}
+	}
+
+	useEffect(() => {
+		document.addEventListener("mousedown", handleClickOutside)
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside)
+		}
+	}, [])
+
 	const handlePassengers = (numberOfPassengers: number) => {
 		updateSummary({ passengers: numberOfPassengers })
 		setShowPassengerList(false)
 	}
 
 	return (
-		<div className="w-full">
+		<div className="w-full" ref={dropdownRef}>
 			<button
 				className="w-7 h-7 absolute top-0 -right-[52%] flex items-center justify-center p-1 rounded-full bg-emerald-900 text-emerald-200 text-sm font-medium border-2 border-white z-10"
 				onClick={() => setShowPassengerList((prevState) => !prevState)}>
