@@ -14,6 +14,7 @@ export const Map: React.FC = () => {
 		if (typeof window === "undefined") {
 			return
 		}
+
 		//si une carte existe déjà, la supprimer pour éviter les conflits
 		if (mapRef.current) {
 			mapRef.current.remove()
@@ -33,7 +34,7 @@ export const Map: React.FC = () => {
 
 		const map = L.map("map", {
 			center: defaultPosition,
-			zoom: 3,
+			zoom: 6,
 			scrollWheelZoom: false,
 		})
 
@@ -83,7 +84,7 @@ export const Map: React.FC = () => {
 			const bounds = L.latLngBounds(
 				markersRef.current.map((m) => m.getLatLng())
 			)
-			map.fitBounds(bounds, { padding: [50, 50] })
+			map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 })
 		}
 
 		mapRef.current = map
