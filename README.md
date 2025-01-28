@@ -1,8 +1,8 @@
-# ec🌎trajet 
+# ec🌎trajet
 
 <b>ecotrajet</b> est un projet visant à aider les utilisateurs à comparer l'empreinte carbone de différents moyens de transport pour un trajet donné. Conçu pour sensibiliser et encourager des choix plus écoresponsables, il fournit des calculs précis basés sur des données fiables.
 
-Ce projet est construit avec [Next.js](https://nextjs.org) et a été initialisé avec [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app). Le style a été construit avec la librairie [Tailwind]((https://tailwindcss.com/))
+Ce projet est construit avec [Next.js](https://nextjs.org) et a été initialisé avec [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app). Le style a été construit avec la librairie [Tailwind](<(https://tailwindcss.com/)>)
 
 <br>
 
@@ -10,7 +10,8 @@ Ce projet est construit avec [Next.js](https://nextjs.org) et a été initialis�
 
 <br>
 
-## 🚀 Installation et exécution 
+## 🚀 Installation et exécution
+
 Clonez le dépôt :
 `git clone https://github.com/MandyTrl/ecotrajet.git`
 
@@ -30,6 +31,7 @@ bun install
 ```
 
 Lancez le serveur de développement :
+
 ```
 npm run dev
 # ou
@@ -45,6 +47,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 <br>
 
 ## 🏗️ Structure du projet
+
 ```
 ├── api
 │   ├── getCity
@@ -56,7 +59,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 │   │    ├── Footer.tsx      # pied de page
 │   │    └── ...             # autres composants réutilisables
 │   ├── CitiesSelector.tsx      # composant "sélecteur des villes"
-│   └── ...             # autres composants 
+│   └── ...             # autres composants
 ├── a-propos
 │   ├── index.tsx       # page "À propos"
 ├── calculs-et-source
@@ -72,7 +75,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 │   └── ...
 └── public
 │    ├── logo.png   # logo
-│    └── ...            # images et actifs statiques
+│    └── ...            # images et fichiers statiques
 └── ...                 # autres fichiers
 ```
 
@@ -80,8 +83,9 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 
 ## 🧩 Améliorations prévues
 
-- Ajout d'une map pour visualiser le trajet.
-- Ajout de filtres supplémentaires pour le covoiturage par exemple.
+- ~Ajout d'une map pour visualiser les points du trajet.~
+- Ajout d'un tracé sur la map pour visualiser le trajet.
+- ~Ajout de filtres supplémentaires pour le covoiturage par exemple.~
 - Comparer l'empreinte carbone du voyage calculé avec le bilan annuel pour obtenir un ratio.
 
 <br>
@@ -89,6 +93,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 ## 📂 Sources des données
 
 Les émissions de CO2 sont calculées à partir de données fournies par :
+
 - [Base Empreinte®](https://prod-basecarbonesolo.ademe-dri.fr/documentation/UPLOAD_DOC_FR/index.htm?sommaire.htm)
 - [Open Route Service](https://giscience.github.io/openrouteservice/)
 - Rapports environnementaux, articles et études spécialisées.
@@ -114,7 +119,6 @@ Les contributions sont les bienvenues ! Pour contribuer :
 `git push origin feature/nom-de-la-fonctionnalite`
 
 5. Créez une Pull Request vers la branche principale du projet.
-
 
 <br><br>
 

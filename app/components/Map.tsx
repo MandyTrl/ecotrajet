@@ -1,29 +1,31 @@
 "use client"
 import { useContext, useEffect, useRef } from "react"
 import L from "leaflet"
-import "leaflet/dist/leaflet.css"
 import { UserLocationContext, CoordinatesContext } from "../utils/Context"
 
-export const Map = () => {
+export const Map: React.FC = () => {
 	const { userLocation } = useContext(UserLocationContext)
 	const { coordinates } = useContext(CoordinatesContext)
 
 	const mapRef = useRef<L.Map | null>(null)
 	const markersRef = useRef<L.Marker[]>([])
 
-	// Surcharge des icônes par défaut pour éviter les erreurs 404
-	L.Icon.Default.mergeOptions({
-		iconRetinaUrl: null,
-		iconUrl: null,
-		shadowUrl: null,
-	})
-
 	useEffect(() => {
+		if (typeof window === "undefined") {
+			return
+		}
 		//si une carte existe déjà, la supprimer pour éviter les conflits
 		if (mapRef.current) {
 			mapRef.current.remove()
 			mapRef.current = null
 		}
+
+		// surcharge des icônes par défaut pour éviter les erreurs 404
+		L.Icon.Default.mergeOptions({
+			iconRetinaUrl: null,
+			iconUrl: null,
+			shadowUrl: null,
+		})
 
 		const defaultPosition: L.LatLngTuple = userLocation
 			? [userLocation.lat, userLocation.lon]
@@ -31,12 +33,12 @@ export const Map = () => {
 
 		const map = L.map("map", {
 			center: defaultPosition,
-			zoom: 5, // zoom par défaut
+			zoom: 3,
 			scrollWheelZoom: false,
 		})
 
 		L.tileLayer(
-			"https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+			"https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png",
 			{
 				attribution: "©CARTO ©OpenStreetMap",
 			}
@@ -95,9 +97,5 @@ export const Map = () => {
 		}
 	}, [userLocation, coordinates])
 
-	return (
-		<div className="md:flex-1 w-full h-80 border-2 border-emerald-500 mb-6">
-			<div id="map" className="w-full h-full"></div>
-		</div>
-	)
+	return <div id="map" className="w-full h-full"></div>
 }
