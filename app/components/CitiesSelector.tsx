@@ -2,13 +2,18 @@
 import { useContext, useEffect, useState } from "react"
 import clsx from "clsx"
 import { FlagTriangleRight } from "lucide-react"
-import { UserLocationContext, CoordinatesContext } from "../utils/Context"
+import {
+	UserLocationContext,
+	CoordinatesContext,
+	SummaryContext,
+} from "../utils/Context"
 import SearchInput from "./UI/SearchInput"
 import { CityORS } from "../utils/types"
 
 export const CitiesSelector = () => {
 	const { handleUserLocation } = useContext(UserLocationContext)
 	const { coordinates, handleCoordinates } = useContext(CoordinatesContext)
+	const { updateSummary } = useContext(SummaryContext)
 
 	const [fromInput, setFromInput] = useState<string>("")
 	const [toInput, setToInput] = useState<string>("")
@@ -46,6 +51,7 @@ export const CitiesSelector = () => {
 				from: null,
 				to: coordinates.to,
 			})
+			updateSummary({ isSummaryVisible: false })
 		}
 	}
 
@@ -58,6 +64,7 @@ export const CitiesSelector = () => {
 				from: coordinates.from,
 				to: null,
 			})
+			updateSummary({ isSummaryVisible: false })
 		}
 	}
 

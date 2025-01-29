@@ -33,8 +33,6 @@ export async function POST(req: NextRequest) {
 				[toLon, toLat],
 			]
 
-			console.log(coordinatesFormated)
-
 			const body = {
 				coordinates: coordinatesFormated,
 
@@ -49,8 +47,6 @@ export async function POST(req: NextRequest) {
 			})
 
 			const data = await response.json()
-
-			console.log(data)
 
 			if (response.ok) {
 				return data.routes[0].summary.distance || 0
