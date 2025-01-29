@@ -21,9 +21,25 @@ export const CitiesSelector = () => {
 	const [suggestions, setSuggestions] = useState<CityORS[] | null>(null)
 	const [activeField, setActiveField] = useState<"from" | "to" | null>(null)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
-	const [alert, setAlert] = useState<boolean>(false)
+	const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
 	const hasSuggestions = suggestions && suggestions.length !== 0
+
+	//géoloc à l'initialisation
+	handleUserLocation()
+
+	//meilleure gestion de l'appel API avec un debounce
+	useEffect(() => {
+		if (!activeField) return
+
+		const timeoutId = setTimeout(() => {
+			if (activeField === "from" && fromInput.length >= 3)
+				fetchCities(fromInput)
+			if (activeField === "to" && toInput.length >= 3) fetchCities(toInput)
+		}, 500) // 500ms de délai
+
+		return () => clearTimeout(timeoutId) // nettoyage du timer à chaque changement
+	}, [fromInput, toInput])
 
 	const fetchCities = async (value: string) => {
 		try {
@@ -31,9 +47,11 @@ export const CitiesSelector = () => {
 			if (!response.ok) throw new Error("Failed to fetch cities")
 			const cities = await response.json()
 			if (cities.length === 0) {
-				setAlert(true)
+				setErrorMsg(
+					"Oups.. aucune suggestion trouvée, veuillez réitérer avec une autre ville"
+				)
 			} else {
-				setAlert(false)
+				setErrorMsg(null)
 				setSuggestions(cities)
 			}
 			setIsOpen(true)
@@ -42,32 +60,19 @@ export const CitiesSelector = () => {
 		}
 	}
 
-	const onSelectFrom = (value: string) => {
-		setFromInput(value)
+	const handleSelect = (type: "from" | "to", value: string) => {
+		if (type === "from") setFromInput(value)
+		else setToInput(value)
 
 		if (value === "") {
-			setAlert(false)
+			setErrorMsg(null)
 			handleCoordinates({
-				from: null,
-				to: coordinates.to,
+				from: type === "from" ? null : coordinates.from,
+				to: type === "to" ? null : coordinates.to,
 			})
 			updateSummary({ isSummaryVisible: false })
 		}
 	}
-
-	const onSelectTo = (value: string) => {
-		setToInput(value)
-
-		if (value === "") {
-			setAlert(false)
-			handleCoordinates({
-				from: coordinates.from,
-				to: null,
-			})
-			updateSummary({ isSummaryVisible: false })
-		}
-	}
-
 	const handleCityClick = (city: CityORS) => {
 		if (activeField === "from") {
 			setFromInput(city.name)
@@ -94,11 +99,6 @@ export const CitiesSelector = () => {
 		setIsOpen(false)
 	}
 
-	//géoloc à l'initialisation
-	useEffect(() => {
-		handleUserLocation()
-	}, [])
-
 	return (
 		<div className="relative w-full flex flex-col mt-4 lg:mt-0 pl-3">
 			<p className="absolute top-[3px] -left-[6px] border-2 border-emerald-500 rounded-full h-[10px] w-[10px] bg-white z-10"></p>
@@ -117,7 +117,7 @@ export const CitiesSelector = () => {
 				labelName="Départ"
 				onSelect={(value: string) => {
 					setActiveField("from")
-					onSelectFrom(value)
+					handleSelect("from", value)
 					if (value.length >= 3) fetchCities(value)
 				}}
 				onBlur={() => setIsOpen(false)}
@@ -130,7 +130,7 @@ export const CitiesSelector = () => {
 				labelName="Arrivée"
 				onSelect={(value: string) => {
 					setActiveField("to")
-					onSelectTo(value)
+					handleSelect("to", value)
 					if (value.length >= 3) fetchCities(value)
 				}}
 				onBlur={() => setIsOpen(false)}
@@ -147,11 +147,8 @@ export const CitiesSelector = () => {
 						"border-t border-t-emerald-500 shadow ring-1 ring-slate-200/40",
 					"w-full bg-white mt-1 transition-all duration-500 ease-out"
 				)}>
-				{alert ? (
-					<p className="text-red-600 text-sm">
-						Oups.. aucune suggestion trouvée, veuillez réitérer avec une autre
-						ville
-					</p>
+				{errorMsg ? (
+					<p className="text-red-600 text-sm">{errorMsg}</p>
 				) : (
 					!alert &&
 					suggestions &&
