@@ -1,7 +1,8 @@
 import { Calculator } from "./components/Calculator"
 import { WalkingSection } from "./components/WalkingSection"
 import { Summary } from "./components/Summary"
-import { MapContainer } from "./components/MapContainer"
+import { MapContainer } from "./components/UI/MapContainer"
+import { CarbonGapChart } from "./components/CarbonGapChart"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export default function Home() {
@@ -39,7 +40,10 @@ export default function Home() {
 				<MapContainer />
 			</div>
 
-			<Summary />
+			<div className="flex flex-col md:items-center lg:flex-row lg:gap-x-20 mt-14">
+				<Summary />
+				<CarbonGapChart />
+			</div>
 		</div>
 	)
 }

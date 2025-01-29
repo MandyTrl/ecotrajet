@@ -86,7 +86,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 - ~Ajout d'une map pour visualiser les points du trajet.~
 - Ajout d'un tracé sur la map pour visualiser le trajet.
 - ~Ajout de filtres supplémentaires pour le covoiturage par exemple.~
-- Comparer l'empreinte carbone du voyage calculé avec le bilan annuel pour obtenir un ratio.
+- ~Comparer l'empreinte carbone du voyage calculé avec le bilan annuel pour obtenir un ratio.~
 
 <br>
 

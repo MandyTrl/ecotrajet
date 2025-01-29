@@ -153,6 +153,20 @@ export default function CalculationAndSources() {
 						</Link>
 					</div>
 					<div>
+						<h3 className="text-lg">Leaflet</h3>
+						<p>
+							Cette librairie Javascript a été utilisée pour générer la carte.
+						</p>
+						👉{" "}
+						<Link
+							href="https://leafletjs.com/"
+							target="_blank"
+							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
+							{" "}
+							Parcourir la documentation
+						</Link>
+					</div>
+					<div>
 						<h3 className="text-lg">Storyset</h3>
 						<p>
 							Les illustrations d&apos;

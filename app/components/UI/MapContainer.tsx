@@ -2,7 +2,7 @@
 import dynamic from "next/dynamic"
 import Link from "next/link"
 
-const Map = dynamic(() => import("./Map").then((mod) => mod.Map), {
+const Map = dynamic(() => import("../Map").then((mod) => mod.Map), {
 	ssr: false,
 })
 

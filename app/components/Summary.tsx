@@ -12,11 +12,11 @@ export const Summary = () => {
 		<div
 			className={clsx(
 				summary.isSummaryVisible
-					? "max-h-[220px] h-fit opacity-100 mt-7 md:mt-10"
+					? "max-h-[420px] h-fit opacity-100"
 					: "max-h-0 opacity-0 hidden",
-				"w-full ease-in-out transform-all duration-300"
+				"w-fit ease-in-out transform-all duration-300"
 			)}>
-			<div className="w-fit mb-7 flex items-end mb-3 rounded border-2 border-emerald-200 p-4">
+			<div className="w-fit mb-7 md:mb-14 flex items-end">
 				<p className="w-fit text-lg md:mr-2">
 					<span className="mr-2">Voyage de</span>
 					<span className="underline decoration-emerald-500 underline-offset-2 decoration-2 font-semibold">
@@ -45,7 +45,7 @@ export const Summary = () => {
 				</div>
 
 				<p>
-					<span className="uppercase mr-2 md:mr-4 text-sm md:text-base">
+					<span className="font-medium tracking-widder mr-2 md:mr-4 text-sm md:text-base">
 						Distance:{" "}
 					</span>
 					<span className="font-semibold text-xl">{summary.distance}</span>
@@ -54,7 +54,7 @@ export const Summary = () => {
 				</p>
 
 				<p>
-					<span className="uppercase mr-2 md:mr-4 text-sm md:text-base">
+					<span className="font-medium tracking-widder mr-2 md:mr-4 text-sm md:text-base">
 						Émissions estimées:{" "}
 					</span>
 					<span className="w-fit h-fit py-[1px] px-2 md:px-3 text-center font-semibold text-2xl bg-emerald-200 rounded-md">
