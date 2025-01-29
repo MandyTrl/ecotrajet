@@ -27,6 +27,7 @@ type City = {
 	name: string
 	coordinates: Coordinates | null
 }
+
 type CityORS = {
 	name: string
 	coordinates: [number, number]

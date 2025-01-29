@@ -31,7 +31,7 @@ export const CoordinatesContext = createContext<CoordinatesContextProps>({
 })
 
 // Summary Context
-type SummaryData = {
+export type SummaryData = {
 	transport: Transport | null
 	distance: number
 	carbonEmission: number

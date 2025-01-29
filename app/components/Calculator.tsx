@@ -1,57 +1,23 @@
 "use client"
-import { useState, useRef, useEffect, useContext } from "react"
-import { calculateHaversineDistance } from "../utils/calculateHarvesineDistance"
+import { useEffect, useContext } from "react"
 import { calculateCarbonEmission } from "../utils/carbonCalculator"
 import { Transport, TransportMode } from "../utils/types"
 import Button from "./UI/Buttons/Button"
 import { CitiesSelector } from "./CitiesSelector"
 import { TransportSelector } from "./TransportSelector"
 import { CoordinatesContext, SummaryContext } from "../utils/Context"
+import { useDistanceCalculator } from "../utils/hooks/useDistanceCalculator"
 
 export const Calculator = () => {
 	const { coordinates, handleCoordinates } = useContext(CoordinatesContext)
 	const { summary, updateSummary } = useContext(SummaryContext)
+	const { availableModes } = useDistanceCalculator(coordinates, updateSummary)
 
-	const transportRef = useRef(summary.transport)
-	const transportHasChanged =
-		transportRef.current?.type !== summary.transport?.type
-	const [availableModes, setAvailableModes] = useState<TransportMode[]>([
-		TransportMode.Car,
-		TransportMode.Bus,
-		TransportMode.Train,
-		TransportMode.Plane,
-	])
-
-	const disableBtn: boolean =
-		(!coordinates.from || !coordinates.to || !summary.transport) && true
-
-	useEffect(() => {
-		transportRef.current = summary.transport
-	}, [summary.transport])
-
-	useEffect(() => {
-		if (coordinates.from && coordinates.to) {
-			const haversineDistance = calculateHaversineDistance(
-				coordinates.from.lat,
-				coordinates.from.lon,
-				coordinates.to.lat,
-				coordinates.to.lon
-			)
-
-			updateSummary({ distance: haversineDistance })
-
-			if (haversineDistance > 5900) {
-				setAvailableModes([TransportMode.Plane])
-			} else {
-				setAvailableModes([
-					TransportMode.Car,
-					TransportMode.Bus,
-					TransportMode.Train,
-					TransportMode.Plane,
-				])
-			}
-		}
-	}, [coordinates.from, coordinates.to])
+	const hasMissingData: boolean = !(
+		coordinates.from ||
+		coordinates.to ||
+		summary.transport
+	)
 
 	useEffect(() => {
 		if (!coordinates.from || !coordinates.to) {
@@ -60,24 +26,12 @@ export const Calculator = () => {
 	}, [coordinates.from, coordinates.to])
 
 	const resetData = () => {
-		if (!coordinates.from && !coordinates.to && !summary.transport) {
-			//si tout est déjà réinitialisé, ne pas reset les données
-			return
-		}
-
-		if (coordinates.from) {
-			handleCoordinates({ from: coordinates.from, to: null })
-		} else if (coordinates.to) {
-			handleCoordinates({ from: null, to: coordinates.to })
-		}
-
+		if (hasMissingData) return
+		handleCoordinates({
+			from: coordinates.from || null,
+			to: coordinates.to || null,
+		})
 		updateSummary({ distance: 0, carbonEmission: 0, transport: null })
-		setAvailableModes([
-			TransportMode.Car,
-			TransportMode.Bus,
-			TransportMode.Train,
-			TransportMode.Plane,
-		])
 	}
 
 	const handleCalculate = async () => {
@@ -155,7 +109,11 @@ export const Calculator = () => {
 				/>
 			</div>
 
-			<Button text="Calculer" disabled={disableBtn} onClick={handleCalculate} />
+			<Button
+				text="Calculer"
+				disabled={hasMissingData}
+				onClick={handleCalculate}
+			/>
 		</div>
 	)
 }
