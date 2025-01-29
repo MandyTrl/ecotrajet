@@ -54,7 +54,7 @@ export const Map: React.FC = () => {
 
 		const addMarker = (position: L.LatLngTuple, popupText: string) => {
 			const marker = L.marker(position, { icon: customIcon }).addTo(map)
-			marker.bindPopup(popupText)
+			marker.bindPopup(popupText, { closeButton: false })
 			markersRef.current.push(marker)
 		}
 
@@ -76,7 +76,7 @@ export const Map: React.FC = () => {
 
 		// Si aucun `from` ou `to`, affiche la géolocalisation
 		if (!coordinates.from && !coordinates.to && userLocation) {
-			addMarker(defaultPosition, "Votre position actuelle")
+			addMarker(defaultPosition, "👋 Hello utilisateur d'Ecotrajet !")
 		}
 
 		//ajuste la vue pour inclure tous les marqueurs

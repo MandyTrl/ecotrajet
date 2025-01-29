@@ -4,7 +4,7 @@ export const fetchUserLocation = async (): Promise<{
 } | null> => {
 	if (!("geolocation" in navigator)) {
 		console.warn("Geolocation is not supported by this browser.")
-		return null
+		return { lat: 48.866667, lon: 2.333333 } // Paris
 	}
 
 	try {

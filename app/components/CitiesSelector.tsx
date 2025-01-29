@@ -1,5 +1,5 @@
 "use client"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import { FlagTriangleRight } from "lucide-react"
 import {
@@ -17,6 +17,10 @@ export const CitiesSelector = () => {
 
 	const [fromInput, setFromInput] = useState<string>("")
 	const [toInput, setToInput] = useState<string>("")
+	const lastSelectedCity = useRef<{ from: string | null; to: string | null }>({
+		from: null,
+		to: null,
+	})
 
 	const [suggestions, setSuggestions] = useState<CityORS[] | null>(null)
 	const [activeField, setActiveField] = useState<"from" | "to" | null>(null)
@@ -26,17 +30,26 @@ export const CitiesSelector = () => {
 	const hasSuggestions = suggestions && suggestions.length !== 0
 
 	//géoloc à l'initialisation
-	handleUserLocation()
+	useEffect(() => {
+		handleUserLocation()
+	}, [])
 
 	//meilleure gestion de l'appel API avec un debounce
 	useEffect(() => {
 		if (!activeField) return
 
 		const timeoutId = setTimeout(() => {
-			if (activeField === "from" && fromInput.length >= 3)
-				fetchCities(fromInput)
-			if (activeField === "to" && toInput.length >= 3) fetchCities(toInput)
-		}, 500) // 500ms de délai
+			if (activeField === "from" && fromInput.length >= 3) {
+				if (lastSelectedCity.current.from !== fromInput) {
+					fetchCities(fromInput)
+				}
+			}
+			if (activeField === "to" && toInput.length >= 3) {
+				if (lastSelectedCity.current.to !== toInput) {
+					fetchCities(toInput)
+				}
+			}
+		}, 300) // 300ms de délai
 
 		return () => clearTimeout(timeoutId) // nettoyage du timer à chaque changement
 	}, [fromInput, toInput])
@@ -76,6 +89,7 @@ export const CitiesSelector = () => {
 	const handleCityClick = (city: CityORS) => {
 		if (activeField === "from") {
 			setFromInput(city.name)
+			lastSelectedCity.current.from = city.name
 			handleCoordinates({
 				from: {
 					name: city.name,
@@ -86,6 +100,7 @@ export const CitiesSelector = () => {
 			})
 		} else if (activeField === "to") {
 			setToInput(city.name)
+			lastSelectedCity.current.to = city.name
 			handleCoordinates({
 				from: coordinates.from,
 				to: {
@@ -150,7 +165,7 @@ export const CitiesSelector = () => {
 				{errorMsg ? (
 					<p className="text-red-600 text-sm">{errorMsg}</p>
 				) : (
-					!alert &&
+					!errorMsg &&
 					suggestions &&
 					suggestions.length !== 0 &&
 					suggestions.map((city: CityORS, index: number) => (
