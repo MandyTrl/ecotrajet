@@ -1,6 +1,5 @@
 "use client"
 import { useContext } from "react"
-import clsx from "clsx"
 import { Luggage, UsersRound } from "lucide-react"
 import { CoordinatesContext, SummaryContext } from "../utils/Context"
 
@@ -9,14 +8,8 @@ export const Summary = () => {
 	const { coordinates } = useContext(CoordinatesContext)
 
 	return (
-		<div
-			className={clsx(
-				summary.isSummaryVisible
-					? "max-h-[420px] h-fit opacity-100"
-					: "max-h-0 opacity-0 hidden",
-				"w-fit ease-in-out transform-all duration-300"
-			)}>
-			<div className="w-fit mb-7 md:mb-14 flex items-end">
+		<div className="w-fit flex flex-col justify-between ease-in-out transform-all duration-300 md:order-last">
+			<div className="group w-full mb-7 md:mb-14 flex items-end bg-slate-100 rounded-xl border p-3">
 				<p className="w-fit text-lg md:mr-2">
 					<span className="mr-2">Voyage de</span>
 					<span className="underline decoration-emerald-500 underline-offset-2 decoration-2 font-semibold">
@@ -28,7 +21,12 @@ export const Summary = () => {
 					</span>
 				</p>
 
-				<Luggage color="#032E21" size={30} strokeWidth={2} />
+				<Luggage
+					color="#032E21"
+					size={27}
+					strokeWidth={2}
+					className="group-hover:rotate-6 ease-in-out duration-200 transition-transform"
+				/>
 			</div>
 
 			<div className="w-full flex flex-col gap-y-3">
@@ -57,7 +55,7 @@ export const Summary = () => {
 					<span className="font-medium tracking-widder mr-2 md:mr-4 text-sm md:text-base">
 						Émissions estimées:{" "}
 					</span>
-					<span className="w-fit h-fit py-[1px] px-2 md:px-3 text-center font-semibold text-2xl bg-emerald-200 rounded-md">
+					<span className="w-fit h-fit py-[1px] px-2 md:px-3 text-center font-semibold text-xl bg-emerald-200 rounded-md">
 						{summary.carbonEmission} kgCO₂
 					</span>
 				</p>

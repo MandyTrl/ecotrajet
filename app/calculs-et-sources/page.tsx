@@ -92,7 +92,7 @@ export default function CalculationAndSources() {
 							meilleure granularité nous vous recommandons de vous référer à
 							Base Empreinte®.
 						</p>
-						<p className="flex group w-full lg:hover:px-6 lg:w-fit mt-6 mb-2 p-2 border border-emerald-900 rounded-md duration-300 transform-all ease-in-out">
+						<p className="flex w-full lg:hover:px-6 lg:w-fit mt-6 mb-2 p-2 border border-emerald-900 rounded-md duration-300 transform-all ease-in-out">
 							Exemple pour un trajet en voiture 🚗{" "}
 						</p>
 						<p>
@@ -109,6 +109,29 @@ export default function CalculationAndSources() {
 						<h3 className="text-lg">Impact total</h3>
 						<p className="mt-1 bg-[#E8FCF2] text-slate-900 py-5 px-2 font-medium">
 							Impact = Emissions + coût de fabrication
+						</p>
+					</div>
+
+					<div>
+						<h3 className="text-lg">
+							🎯 2 tonnes: l&apos;objectif carbone à atteindre
+						</h3>
+						<p>
+							Selon l&apos;ADEME, l&apos;empreinte carbone moyenne d&apos;un
+							français est de 9 tonnes par an, soit <b>+125% qu&apos;en 2019</b>
+							🚨. Face à ce constat alarmant,{" "}
+							<strong>L&apos;Accord de Paris</strong> est signé le 12 décembre
+							2015 lors de la <strong>COP21</strong>.
+						</p>
+						<p className="mt-2">Quel est l&apos;objectif de cet accord ?</p>
+						<p>
+							Il est avant tout de ralentir le réchauffement climatique en
+							limitant l&apos;augmentation des températures sous les 2°
+							(idéalement 1,5°). Pour y parvenir, cet accord engage un
+							changement systémique impliquant les gouvernements, les industries
+							mais également les citoyens. En résumé, chaque individu devrait
+							réduire son empreinte à <strong>2 tonnes de CO₂</strong> pour
+							limiter les impacts du changements climatique.
 						</p>
 					</div>
 				</div>

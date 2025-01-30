@@ -14,7 +14,7 @@ export const Navigation = ({ isMobile, handleIsShow }: NavigationProps) => {
 					isMobile ? "flex-col space-y-4" : "flex-row space-x-8",
 					"w-full flex"
 				)}>
-				<li className="group block">
+				<li className="block">
 					<Link
 						href="/calculs-et-sources"
 						className="hover:text-emerald-700 transition-color duration-300 ease-in-out inline-block"
@@ -24,7 +24,7 @@ export const Navigation = ({ isMobile, handleIsShow }: NavigationProps) => {
 						Calculs et sources
 					</Link>
 				</li>
-				<li className="group block">
+				<li className="block">
 					<Link
 						href="/a-propos"
 						className="hover:text-emerald-700 transition-color duration-300 ease-in-out inline-block"

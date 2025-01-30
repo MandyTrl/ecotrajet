@@ -7,7 +7,7 @@ export const CarbonGapChart = () => {
 	const actual = summary.carbonEmission / 1000 //converti en tonnes
 	const target = 2 //objectif en tonnes de CO₂/an
 	const percentage = (actual / target) * 100
-	const strokeDasharray = `${Math.min(percentage, 100)} 100` //empêche le dépassement visuel
+	const strokeDasharray = `${percentage} 100`
 
 	const getColor = () => {
 		if (percentage < 30) return "#10B981"
@@ -16,8 +16,8 @@ export const CarbonGapChart = () => {
 	}
 
 	return (
-		<div className="flex flex-col items-center mt-5 md:mt-0">
-			<svg width="240" height="240" viewBox="0 0 42 42" className="-rotate-90">
+		<div className="flex flex-col items-center mt-5 md:mt-0 order-first">
+			<svg width="170" height="170" viewBox="0 0 42 42" className="-rotate-90">
 				{/* Cercle de fond */}
 				<circle
 					cx="21"
@@ -25,7 +25,7 @@ export const CarbonGapChart = () => {
 					r="15.9155"
 					fill="none"
 					stroke="gray"
-					strokeWidth="5"
+					strokeWidth="4.5"
 					className="opacity-20"
 				/>
 				{/* Cercle des émissions réelles */}
@@ -35,9 +35,8 @@ export const CarbonGapChart = () => {
 					r="15.9155"
 					fill="none"
 					stroke={getColor()} //couleur dynamique
-					strokeWidth="5"
+					strokeWidth="4.5"
 					strokeDasharray={strokeDasharray}
-					strokeDashoffset="25"
 					className="transition-all duration-500 ease-in-out"
 				/>
 				{/* Texte au centre avec rotation inverse */}
