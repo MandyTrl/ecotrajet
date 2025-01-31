@@ -190,6 +190,20 @@ export default function CalculationAndSources() {
 						</Link>
 					</div>
 					<div>
+						<h3 className="text-lg">Unsplash</h3>
+						<p>
+							Les photos utilisées en page d&apos;accueil viennet de ce site.
+						</p>
+						👉{" "}
+						<Link
+							href="https://unsplash.com/fr"
+							target="_blank"
+							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
+							{" "}
+							Visiter le site Unsplash
+						</Link>
+					</div>
+					<div>
 						<h3 className="text-lg">Storyset</h3>
 						<p>
 							Les illustrations d&apos;
