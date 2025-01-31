@@ -2,6 +2,7 @@ import { Calculator } from "./components/Calculator"
 import { WalkingSection } from "./components/WalkingSection"
 import { MapContainer } from "./components/UI/MapContainer"
 import { CarbonResult } from "./components/CarbonResult/Layout"
+import { ParallaxEffect } from "./components/ParallaxEffect"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export default function Home() {
@@ -40,6 +41,8 @@ export default function Home() {
 			</div>
 
 			<CarbonResult />
+
+			<ParallaxEffect />
 		</div>
 	)
 }

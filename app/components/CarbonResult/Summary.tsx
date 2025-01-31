@@ -14,7 +14,7 @@ export const Summary = () => {
 			</div>
 
 			<p>
-				<span className="font-medium tracking-widder mr-2 md:mr-3 text-sm md:text-lg">
+				<span className="font-medium tracking-widder mr-2 md:mr-3 md:text-lg">
 					En:{" "}
 				</span>
 				<span>
@@ -25,7 +25,7 @@ export const Summary = () => {
 			</p>
 
 			<p>
-				<span className="font-medium tracking-widder mr-2 md:mr-3 text-sm md:text-lg">
+				<span className="font-medium tracking-widder mr-2 md:mr-3 md:text-lg">
 					Distance:{" "}
 				</span>
 				<span className="font-semibold text-xl">{summary.distance}</span>
@@ -34,7 +34,7 @@ export const Summary = () => {
 			</p>
 
 			<p>
-				<span className="font-medium tracking-widder mr-2 md:mr-3 text-sm md:text-lg">
+				<span className="font-medium tracking-widder mr-2 md:mr-3 md:text-lg">
 					Émissions estimées:{" "}
 				</span>
 				<span className="w-fit h-fit py-[1px] px-2 md:px-3 text-center font-semibold text-xl bg-emerald-200 rounded-md">

@@ -13,8 +13,8 @@ export const SummaryHeader = ({ coordinates }: SummaryHeaderProps) => {
 	}
 
 	return (
-		<div className="group w-full mb-7 flex items-end">
-			<p className="w-fit text-2xl md:mr-2">
+		<div className="group w-full text-justify md:text-left mt-7 md:mt-0 mb-7 flex items-end">
+			<p className="w-fit text-xl md:text-2xl md:mr-2">
 				<span className="mr-2">Voyage de</span>
 				<span className="underline decoration-emerald-500 underline-offset-2 decoration-2 font-semibold">
 					{from.name}
@@ -29,7 +29,7 @@ export const SummaryHeader = ({ coordinates }: SummaryHeaderProps) => {
 				color="#032E21"
 				size={27}
 				strokeWidth={2}
-				className="group-hover:rotate-6 ease-in-out duration-200 transition-transform"
+				className="hidden md:block group-hover:rotate-6 ease-in-out duration-200 transition-transform"
 			/>
 		</div>
 	)

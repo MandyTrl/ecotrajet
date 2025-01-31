@@ -8,9 +8,9 @@ export const CarbonEquivalences = () => {
 	const equivalences = getCO2Equivalences(summary.carbonEmission)
 
 	return (
-		<div className="flex flex-col justify-between">
-			<span className="font-medium tracking-widder text-sm md:text-lg mb-4 block">
-				Ce qui équivaut à
+		<div className="flex flex-col justify-between mt-7 md:mt-0">
+			<span className="font-medium tracking-widder md:text-lg mb-2 md:mb-4 block">
+				Ce qui équivaut à:
 			</span>
 
 			<ul>
