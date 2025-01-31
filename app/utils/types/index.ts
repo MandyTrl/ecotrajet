@@ -40,5 +40,19 @@ type Airport = {
 	type: string
 }
 
+type Equivalence = {
+	emoji: string
+	label: string
+	value: number
+}
+
 export { TransportMode }
-export type { Airport, City, CityORS, TransportBtn, Transport, Coordinates }
+export type {
+	Airport,
+	City,
+	CityORS,
+	TransportBtn,
+	Transport,
+	Coordinates,
+	Equivalence,
+}

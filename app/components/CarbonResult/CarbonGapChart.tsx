@@ -1,6 +1,6 @@
 "use client"
 import { useContext } from "react"
-import { SummaryContext } from "../utils/Context"
+import { SummaryContext } from "@/app/utils/Context"
 
 export const CarbonGapChart = () => {
 	const { summary } = useContext(SummaryContext)
@@ -17,7 +17,7 @@ export const CarbonGapChart = () => {
 
 	return (
 		<div className="flex flex-col items-center mt-5 md:mt-0 order-first">
-			<svg width="170" height="170" viewBox="0 0 42 42" className="-rotate-90">
+			<svg width="200" height="200" viewBox="0 0 42 42" className="-rotate-90">
 				{/* Cercle de fond */}
 				<circle
 					cx="21"

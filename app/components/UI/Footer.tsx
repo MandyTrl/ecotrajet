@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export const Footer = () => {
 	return (
-		<footer className="w-full h-fit mt-6 px-4 py-6 md:py-14 md:px-16 gap-y-8 flex flex-col md:flex-row items-center justify-between font-light bg-emerald-900 text-white text-xs shadow-inner border-t-8 border-emerald-200">
+		<footer className="w-full h-fit mt-6 md:mt-20 px-4 py-6 md:py-14 md:px-16 gap-y-8 flex flex-col md:flex-row items-center justify-between font-light bg-emerald-900 text-white text-xs shadow-inner border-t-8 border-emerald-200">
 			<div className="w-full flex items-center justify-around md:justify-between *:duration-150 *:ease-in-out *:transform-color ">
 				<Link
 					href="https://github.com/MandyTrl/ecotrajet"

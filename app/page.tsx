@@ -1,7 +1,7 @@
 import { Calculator } from "./components/Calculator"
 import { WalkingSection } from "./components/WalkingSection"
 import { MapContainer } from "./components/UI/MapContainer"
-import { CarbonResult } from "./components/CarbonResult"
+import { CarbonResult } from "./components/CarbonResult/Layout"
 // import { ToastGeoloc } from "./components/UI/ToastGeoloc"
 
 export default function Home() {
