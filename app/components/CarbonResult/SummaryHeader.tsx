@@ -13,7 +13,7 @@ export const SummaryHeader = ({ coordinates }: SummaryHeaderProps) => {
 	}
 
 	return (
-		<div className="group w-full text-justify md:text-left mt-7 md:mt-0 mb-7 flex items-end">
+		<div className="group w-full text-center md:text-left mt-7 md:mt-0 mb-7 flex items-end">
 			<p className="w-fit text-xl md:text-2xl md:mr-2">
 				<span className="mr-2">Voyage de</span>
 				<span className="underline decoration-emerald-500 underline-offset-2 decoration-2 font-semibold">

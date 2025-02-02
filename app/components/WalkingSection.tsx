@@ -8,6 +8,7 @@ export const WalkingSection = () => {
 				source={walkingImg}
 				description="boy with dog walking"
 				center
+				isAGif
 			/>
 
 			<p className="text-sm mb-4 lg:mb-1 tracking-widder text-center">
