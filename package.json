@@ -1,5 +1,7 @@
 {
 	"name": "ecotrajet",
+	"description": "Comparez l'empreinte carbone de vos voyages et trouvez l'option la plus écologique.",
+	"author": "MandyTrl - Github profil",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
