@@ -10,49 +10,33 @@ import {
 import SearchInput from "./UI/SearchInput"
 import { CityORS } from "../utils/types"
 
+type InputState = {
+	value: string
+	isValid: boolean
+	lastSelected: string | null
+}
+
 export const CitiesSelector = () => {
 	const { handleUserLocation } = useContext(UserLocationContext)
 	const { coordinates, handleCoordinates } = useContext(CoordinatesContext)
 	const { updateSummary } = useContext(SummaryContext)
 
-	const [fromInput, setFromInput] = useState<string>("")
-	const [toInput, setToInput] = useState<string>("")
-	const lastSelectedCity = useRef<{ from: string | null; to: string | null }>({
-		from: null,
-		to: null,
+	const [inputs, setInputs] = useState<Record<"from" | "to", InputState>>({
+		from: { value: "", isValid: true, lastSelected: null },
+		to: { value: "", isValid: true, lastSelected: null },
 	})
 
 	const [suggestions, setSuggestions] = useState<CityORS[] | null>(null)
 	const [activeField, setActiveField] = useState<"from" | "to" | null>(null)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [errorMsg, setErrorMsg] = useState<string | null>(null)
+	const selectionRef = useRef(false) // Ref pour éviter le conflit blur / Cityclick
 
 	const hasSuggestions = suggestions && suggestions.length !== 0
 
-	//géoloc à l'initialisation
 	useEffect(() => {
 		handleUserLocation()
 	}, [])
-
-	//meilleure gestion de l'appel API avec un debounce
-	useEffect(() => {
-		if (!activeField) return
-
-		const timeoutId = setTimeout(() => {
-			if (activeField === "from" && fromInput.length >= 3) {
-				if (lastSelectedCity.current.from !== fromInput) {
-					fetchCities(fromInput)
-				}
-			}
-			if (activeField === "to" && toInput.length >= 3) {
-				if (lastSelectedCity.current.to !== toInput) {
-					fetchCities(toInput)
-				}
-			}
-		}, 300) // 300ms de délai
-
-		return () => clearTimeout(timeoutId) // nettoyage du timer à chaque changement
-	}, [fromInput, toInput])
 
 	const fetchCities = async (value: string) => {
 		try {
@@ -70,48 +54,102 @@ export const CitiesSelector = () => {
 			setIsOpen(true)
 		} catch (error) {
 			console.error("Error fetching city suggestions:", error)
+			setErrorMsg("Une erreur est survenue lors de la recherche")
 		}
 	}
 
 	const handleSelect = (type: "from" | "to", value: string) => {
-		if (type === "from") setFromInput(value)
-		else setToInput(value)
+		setErrorMsg(null)
 
 		if (value === "") {
-			setErrorMsg(null)
 			handleCoordinates({
 				from: type === "from" ? null : coordinates.from,
 				to: type === "to" ? null : coordinates.to,
 			})
 			updateSummary({ isSummaryVisible: false })
+		} else if (value.length >= 3) {
+			fetchCities(value)
 		}
+
+		setInputs((prev) => ({
+			...prev,
+			[type]: {
+				...prev[type],
+				value,
+				isValid: true,
+			},
+		}))
+
+		console.log("HandleSelect", inputs)
 	}
+
 	const handleCityClick = (city: CityORS) => {
-		if (activeField === "from") {
-			setFromInput(city.name)
-			lastSelectedCity.current.from = city.name
-			handleCoordinates({
-				from: {
-					name: city.name,
-					lon: city.coordinates[0],
-					lat: city.coordinates[1],
-				},
-				to: coordinates.to,
-			})
-		} else if (activeField === "to") {
-			setToInput(city.name)
-			lastSelectedCity.current.to = city.name
-			handleCoordinates({
-				from: coordinates.from,
-				to: {
-					name: city.name,
-					lon: city.coordinates[0],
-					lat: city.coordinates[1],
-				},
-			})
+		if (!activeField) return
+
+		const newCoordinates = {
+			name: city.name,
+			lon: city.coordinates[0],
+			lat: city.coordinates[1],
 		}
+
+		// Mise à jour des coordonnées
+		handleCoordinates({
+			from: activeField === "from" ? newCoordinates : coordinates.from,
+			to: activeField === "to" ? newCoordinates : coordinates.to,
+		})
+
+		selectionRef.current = true
+
+		// Mise à jour de l'état des inputs avec réinitialisation des erreurs
+		setInputs((prevState) => ({
+			...prevState,
+			[activeField]: {
+				value: city.name,
+				isValid: true,
+				lastSelected: city.name,
+			},
+		}))
+
+		setErrorMsg(null)
 		setSuggestions([])
 		setIsOpen(false)
+
+		console.log("handleCityClick", inputs)
+	}
+
+	const handleBlur = (field: "from" | "to") => {
+		setTimeout(() => {
+			if (selectionRef.current) {
+				// Annule la validation si une ville vient d’être sélectionnée
+				selectionRef.current = false
+				return
+			}
+
+			const hasCoordinates =
+				field === "from" ? coordinates.from : coordinates.to
+
+			const hasUnselectedInput =
+				inputs[field].value !== "" &&
+				inputs[field].value !== inputs[field].lastSelected
+
+			setInputs((prev) => ({
+				...prev,
+				[field]: {
+					...prev[field],
+					isValid: hasCoordinates ? true : !hasUnselectedInput,
+				},
+			}))
+
+			setErrorMsg(
+				hasUnselectedInput && !hasCoordinates
+					? "Veuillez sélectionner une ville dans la liste des suggestions"
+					: null
+			)
+
+			setIsOpen(false)
+
+			console.log("handleBlur", inputs)
+		}, 500)
 	}
 
 	return (
@@ -133,10 +171,10 @@ export const CitiesSelector = () => {
 				onSelect={(value: string) => {
 					setActiveField("from")
 					handleSelect("from", value)
-					if (value.length >= 3) fetchCities(value)
 				}}
-				onBlur={() => setIsOpen(false)}
-				selectedValue={fromInput}
+				onBlur={() => handleBlur("from")}
+				selectedValue={inputs.from.value}
+				error={!inputs.from.isValid}
 			/>
 			<SearchInput
 				name="to"
@@ -146,11 +184,15 @@ export const CitiesSelector = () => {
 				onSelect={(value: string) => {
 					setActiveField("to")
 					handleSelect("to", value)
-					if (value.length >= 3) fetchCities(value)
 				}}
-				onBlur={() => setIsOpen(false)}
-				selectedValue={toInput}
+				onBlur={() => handleBlur("to")}
+				selectedValue={inputs.to.value}
+				error={!inputs.to.isValid}
 			/>
+
+			{errorMsg && (
+				<p className="w-full text-red-600 text-sm mt-2">{errorMsg}</p>
+			)}
 
 			<ul
 				role="listbox"
@@ -162,11 +204,7 @@ export const CitiesSelector = () => {
 						"border-t border-t-emerald-500 shadow ring-1 ring-slate-200/40",
 					"w-full bg-white mt-1 transition-all duration-500 ease-out"
 				)}>
-				{errorMsg ? (
-					<p className="text-red-600 text-sm">{errorMsg}</p>
-				) : (
-					!errorMsg &&
-					suggestions &&
+				{suggestions &&
 					suggestions.length !== 0 &&
 					suggestions.map((city: CityORS, index: number) => (
 						<li
@@ -175,8 +213,7 @@ export const CitiesSelector = () => {
 							onClick={() => handleCityClick(city)}>
 							{city.name}
 						</li>
-					))
-				)}
+					))}
 			</ul>
 		</div>
 	)

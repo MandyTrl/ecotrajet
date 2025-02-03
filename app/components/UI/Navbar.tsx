@@ -13,7 +13,7 @@ export const Navbar = () => {
 	return (
 		<header
 			className={clsx(
-				isMobile && "sticky top-0 z-[1000] shadow-sm",
+				isMobile && "sticky top-0 z-[1200] shadow-sm",
 				"w-full px-5 lg:px-16 bg-white w-full flex items-center justify-between"
 			)}>
 			<Link href="/">

@@ -19,7 +19,8 @@ export const MapContainer = () => {
 					className="underline text-gray-500">
 					Leaflet
 				</Link>
-				🍃 | ©CARTO ©OpenStreetMap
+
+				<span>🍃 | ©CARTO ©OpenStreetMap</span>
 			</div>
 		</div>
 	)

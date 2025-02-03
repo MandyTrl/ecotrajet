@@ -7,14 +7,12 @@ type IllustrationProps = {
 	source: string | StaticImageData
 	description?: string
 	center?: boolean
-	isAGif?: boolean
 }
 
 export const Illustration = ({
 	source,
 	description,
 	center,
-	isAGif,
 }: IllustrationProps) => {
 	const bp = useBreakpoint()
 	const isMobile = bp === "mobile"
@@ -26,8 +24,6 @@ export const Illustration = ({
 			height={isMobile ? 300 : 450}
 			alt={description ? description : ""}
 			aria-hidden={description ? true : false}
-			priority
-			unoptimized={isAGif}
 			className={clsx(center ? "mx-auto" : "mx-auto lg:mx-0")}
 		/>
 	)

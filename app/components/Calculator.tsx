@@ -1,5 +1,5 @@
 "use client"
-import { useContext } from "react"
+import { useState, useContext } from "react"
 import { calculateCarbonEmission } from "../utils/carbonCalculator"
 import { Transport, TransportMode } from "../utils/types"
 import Button from "./UI/Buttons/Button"
@@ -12,6 +12,7 @@ export const Calculator = () => {
 	const { coordinates } = useContext(CoordinatesContext)
 	const { summary, updateSummary } = useContext(SummaryContext)
 	const { availableModes } = useDistanceCalculator(coordinates, updateSummary)
+	const [error, setError] = useState<boolean>(false)
 
 	const hasMissingData: boolean = !(
 		coordinates.from &&
@@ -22,6 +23,7 @@ export const Calculator = () => {
 	const handleCalculate = async () => {
 		if (hasMissingData) {
 			updateSummary({ distance: 0, carbonEmission: 0, transport: null })
+			setError(true)
 			console.error("Missing input data")
 			return
 		}
@@ -40,6 +42,8 @@ export const Calculator = () => {
 				carbonEmission: carbonEmission,
 				isSummaryVisible: true,
 			})
+
+			setError(false)
 		} else {
 			try {
 				const response = await fetch("/api/getDistance", {
@@ -92,6 +96,12 @@ export const Calculator = () => {
 					onSelectTransport={handleTransport}
 				/>
 			</div>
+
+			{error && (
+				<p className="self-start text-red-500 text-sm mt-2">
+					Merci de sélectionner une ville valide et un mode de transport.
+				</p>
+			)}
 
 			<Button
 				text="Calculer"

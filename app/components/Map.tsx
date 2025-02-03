@@ -8,6 +8,7 @@ export const Map: React.FC = () => {
 	const { coordinates } = useContext(CoordinatesContext)
 
 	const mapRef = useRef<L.Map | null>(null)
+	const mapContainerRef = useRef<HTMLDivElement | null>(null)
 	const markersRef = useRef<L.Marker[]>([])
 
 	useEffect(() => {
@@ -32,7 +33,10 @@ export const Map: React.FC = () => {
 			? [userLocation.lat, userLocation.lon]
 			: [48.8566, 2.3522] // Paris
 
-		const map = L.map("map", {
+		const mapElement = mapContainerRef.current
+		if (!mapElement) return
+
+		const map = L.map(mapElement, {
 			center: defaultPosition,
 			zoom: 6,
 			scrollWheelZoom: false,
@@ -98,5 +102,5 @@ export const Map: React.FC = () => {
 		}
 	}, [userLocation, coordinates])
 
-	return <div id="map" className="w-full h-full"></div>
+	return <div ref={mapContainerRef} className="w-full h-full"></div>
 }
