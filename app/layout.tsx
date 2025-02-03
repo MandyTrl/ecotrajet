@@ -20,18 +20,18 @@ export const metadata: Metadata = {
 	description,
 	openGraph: {
 		type: "website",
-		// url: "https://ecotrajet.fr",
+		url: "https://ecotrajet-mt.vercel.app/",
 		title,
 		description,
 		siteName: "Ecotrajet",
-		// images: [
-		// 	{
-		// 		url: "https://ecotrajet.com/logo.svg",
-		// 		width: 250,
-		// 		height: 250,
-		// 		alt: "Aperçu d'ecotrajet",
-		// 	},
-		// ],
+		images: [
+			{
+				url: "https://ecotrajet-mt.vercel.app/logo.svg",
+				width: 250,
+				height: 250,
+				alt: "Aperçu d'ecotrajet",
+			},
+		],
 		locale: "fr_FR",
 	},
 }
