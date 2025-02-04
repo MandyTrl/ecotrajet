@@ -1,7 +1,18 @@
 "use client"
-import { createContext, ReactNode, useState } from "react"
+import { createContext, ReactNode, useState, useEffect } from "react"
 import { fetchUserLocation } from "../fetchUserLocation"
 import { Transport } from "../types"
+
+// Theme Context
+export type ThemeContextProps = {
+	darkMode: boolean
+	handleTheme: (theme: boolean) => void
+}
+
+export const ThemeContext = createContext<ThemeContextProps>({
+	darkMode: false,
+	handleTheme: () => {},
+})
 
 // UserLocation Context
 export type UserLocationContextProps = {
@@ -75,6 +86,33 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 		isSummaryVisible: false,
 	})
 
+	const [darkMode, setDarkMode] = useState<boolean>(() => {
+		// Récupérer la préférence utilisateur depuis localStorage
+		if (typeof window !== "undefined") {
+			return localStorage.getItem("theme") === "dark"
+		}
+		return false
+	})
+
+	const handleTheme = (theme: boolean) => {
+		setDarkMode(theme)
+		localStorage.setItem("theme", !theme ? "dark" : "light")
+
+		if (theme) {
+			document.documentElement.classList.add("dark")
+		} else {
+			document.documentElement.classList.remove("dark")
+		}
+	}
+
+	useEffect(() => {
+		if (darkMode) {
+			document.documentElement.classList.add("dark")
+		} else {
+			document.documentElement.classList.remove("dark")
+		}
+	}, [darkMode])
+
 	const updateSummary = (data: Partial<SummaryData>) => {
 		setSummary((prev) => ({ ...prev, ...data }))
 	}
@@ -98,20 +136,26 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 	}
 
 	return (
-		<UserLocationContext.Provider
+		<ThemeContext.Provider
 			value={{
-				userLocation,
-				handleUserLocation,
+				darkMode,
+				handleTheme,
 			}}>
-			<CoordinatesContext.Provider
+			<UserLocationContext.Provider
 				value={{
-					coordinates,
-					handleCoordinates,
+					userLocation,
+					handleUserLocation,
 				}}>
-				<SummaryContext.Provider value={{ summary, updateSummary }}>
-					{children}
-				</SummaryContext.Provider>
-			</CoordinatesContext.Provider>
-		</UserLocationContext.Provider>
+				<CoordinatesContext.Provider
+					value={{
+						coordinates,
+						handleCoordinates,
+					}}>
+					<SummaryContext.Provider value={{ summary, updateSummary }}>
+						{children}
+					</SummaryContext.Provider>
+				</CoordinatesContext.Provider>
+			</UserLocationContext.Provider>
+		</ThemeContext.Provider>
 	)
 }

@@ -44,7 +44,8 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<link rel="icon" href="/favicon.png" />
-			<body className={`${montserrat.className} antialiased text-emerald-950`}>
+			<body
+				className={`${montserrat.className} antialiased text-emerald-950 dark:text-emerald-100 dark:bg-[#01281e]`}>
 				<AppProviders>
 					<Navbar />
 					<main className="px-5 py-6 lg:py-8 md:px-20 lg:px-36">

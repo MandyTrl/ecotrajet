@@ -79,8 +79,6 @@ export const CitiesSelector = () => {
 				isValid: true,
 			},
 		}))
-
-		console.log("HandleSelect", inputs)
 	}
 
 	const handleCityClick = (city: CityORS) => {
@@ -113,8 +111,6 @@ export const CitiesSelector = () => {
 		setErrorMsg(null)
 		setSuggestions([])
 		setIsOpen(false)
-
-		console.log("handleCityClick", inputs)
 	}
 
 	const handleBlur = (field: "from" | "to") => {
@@ -147,20 +143,18 @@ export const CitiesSelector = () => {
 			)
 
 			setIsOpen(false)
-
-			console.log("handleBlur", inputs)
 		}, 500)
 	}
 
 	return (
-		<div className="relative w-full flex flex-col mt-4 lg:mt-0 pl-3">
-			<p className="absolute top-[3px] -left-[6px] border-2 border-emerald-500 rounded-full h-[10px] w-[10px] bg-white z-10"></p>
-			<p className="absolute top-[9px] -left-[3px] border-dotted border-l-4 border-emerald-500 h-[52px]"></p>
+		<div className="relative w-full flex flex-col mt-4 lg:mt-0 pl-3 dark:text-emerald-900">
+			<p className="absolute top-[3px] -left-[6px] border-2 border-emerald-500 dark:border-emerald-200 rounded-full h-[10px] w-[10px] bg-white dark:bg-[#01281E] z-10"></p>
+			<p className="absolute top-[9px] -left-[3px] border-dotted border-l-4 border-emerald-500 dark:border-emerald-200 h-[52px]"></p>
 			<FlagTriangleRight
 				color="#10B981"
 				size={20}
 				strokeWidth={2}
-				className="absolute top-[65px] -left-[9px]"
+				className="absolute top-[65px] -left-[9px] dark:stroke-emerald-200"
 			/>
 
 			<SearchInput

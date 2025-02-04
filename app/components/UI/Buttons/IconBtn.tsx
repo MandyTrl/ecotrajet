@@ -39,9 +39,9 @@ const IconButton = ({
 				onClick={handleClick}
 				disabled={isDisabled}
 				className={clsx(
-					"w-fit rounded-lg p-2 border bg-emerald-100 ease-in-out duration-150 transition-all disabled:bg-gray-100 disabled:text-gray-500 disabled:hover:border-transparent disabled:cursor-selector",
+					"w-fit rounded-lg p-2 border bg-emerald-100 dark:bg-emerald-200 ease-in-out duration-150 transition-all disabled:bg-gray-100 disabled:text-gray-500 disabled:hover:border-transparent disabled:cursor-selector",
 					isActive
-						? "border-emerald-700"
+						? "border-emerald-700 dark:outline dark:outline-emerald-200 dark:outline-4"
 						: "border-transparent hover:border-emerald-900"
 				)}>
 				<Icon color="#032E21" size={28} strokeWidth={1} />

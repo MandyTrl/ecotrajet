@@ -35,7 +35,7 @@ export const CarpoolingBtn = () => {
 	return (
 		<div className="w-full" ref={dropdownRef}>
 			<button
-				className="w-7 h-7 absolute top-0 -right-[52%] flex items-center justify-center p-1 rounded-full bg-emerald-900 text-emerald-200 text-sm font-medium border-2 border-white z-10"
+				className="w-7 h-7 absolute top-0 -right-[52%] flex items-center justify-center p-1 rounded-full bg-emerald-900 text-emerald-200 text-sm font-medium border-2 border-white dark:border-[#01281E] dark:text-[#01281E] dark:bg-emerald-200 z-10"
 				onClick={() => setShowPassengerList((prevState) => !prevState)}>
 				{summary.passengers}
 			</button>
@@ -45,7 +45,7 @@ export const CarpoolingBtn = () => {
 					showPassengersList
 						? "opacity-100 translate-y-0 max-h-96"
 						: "opacity-0 max-h-0",
-					"min-w-[120px] absolute top-14 -right-8 bg-white rounded p-2 z-[1000] transition-all duration-500 ease-out shadow ring-1 ring-emerald-200/40"
+					"min-w-[120px] absolute top-14 -right-8 bg-white rounded p-2 z-[1000] transition-all duration-500 ease-out shadow ring-1 ring-emerald-200/40 dark:text-emerald-900"
 				)}>
 				{passengersList.map((item) => (
 					<li

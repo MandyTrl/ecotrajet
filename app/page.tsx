@@ -29,9 +29,9 @@ export default function Home() {
 				/>
 			)} */}
 
-			<p className="w-full mb-3 md:mb-8 text-xl text-left lg:text-center md:text-2xl lg:text-3xl font-medium">
+			<h1 className="w-full mb-3 md:mb-8 text-xl text-left lg:text-center md:text-2xl lg:text-3xl font-medium">
 				Calcule l&apos;empreinte carbone de ton prochain voyage
-			</p>
+			</h1>
 
 			<WalkingSection />
 

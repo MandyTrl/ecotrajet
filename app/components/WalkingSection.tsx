@@ -1,11 +1,17 @@
+"use client"
+import { useContext } from "react"
+import { ThemeContext } from "../utils/Context"
 import { Illustration } from "./UI/Illustration"
-import walkingImg from "@/public/walking.gif"
+import lighModeIMG from "@/public/walking.svg"
+import darkModeIMG from "@/public/bicycle.svg"
 
 export const WalkingSection = () => {
+	const { darkMode } = useContext(ThemeContext)
+
 	return (
 		<div className="w-full mb-2 lg:mb-10">
 			<Illustration
-				source={walkingImg}
+				source={darkMode ? darkModeIMG : lighModeIMG}
 				description="boy with dog walking"
 				center
 			/>
