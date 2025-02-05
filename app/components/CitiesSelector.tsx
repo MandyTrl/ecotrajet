@@ -49,9 +49,9 @@ export const CitiesSelector = () => {
 				)
 			} else {
 				setErrorMsg(null)
+				setIsOpen(true)
 				setSuggestions(cities)
 			}
-			setIsOpen(true)
 		} catch (error) {
 			console.error("Error fetching city suggestions:", error)
 			setErrorMsg("Une erreur est survenue lors de la recherche")
@@ -136,14 +136,13 @@ export const CitiesSelector = () => {
 				},
 			}))
 
+			setIsOpen(false)
 			setErrorMsg(
 				hasUnselectedInput && !hasCoordinates
 					? "Veuillez sélectionner une ville dans la liste des suggestions"
 					: null
 			)
-
-			setIsOpen(false)
-		}, 500)
+		}, 300)
 	}
 
 	return (

@@ -1,11 +1,13 @@
-import Link from "next/link"
+import { CustomLink } from "../components/UI/CustomLink"
 
 export default function CalculationAndSources() {
 	return (
-		<div className="w-full flex flex-col gap-y-10">
-			<h1 className="text-2xl md:text-3xl font-medium">Calculs et sources</h1>
+		<div className="w-full flex flex-col mt-10 md:mt-16">
+			<h1 className="text-2xl md:text-3xl font-medium mb-4 md:mb-10">
+				Calculs et sources
+			</h1>
 
-			<div className="flex flex-col gap-y-3">
+			<div className="flex flex-col gap-y-3 mb-10 md:mb-20">
 				<h2 className="text-xl font-medium border-b-2 border-emerald-200">
 					API
 				</h2>
@@ -24,13 +26,11 @@ export default function CalculationAndSources() {
 							</li>
 						</ul>
 						👉{" "}
-						<Link
-							href="https://giscience.github.io/openrouteservice/"
-							target="_blank"
-							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
-							{" "}
-							Parcourir la documentation d&apos;ORS
-						</Link>
+						<CustomLink
+							link="https://giscience.github.io/openrouteservice/"
+							text=" Parcourir la documentation d'ORS"
+							openInNewTab
+						/>
 					</div>
 
 					<div>
@@ -41,18 +41,16 @@ export default function CalculationAndSources() {
 							fabrication et l&apos;impact environnemental.
 						</p>
 						👉{" "}
-						<Link
-							href="https://prod-basecarbonesolo.ademe-dri.fr/documentation/UPLOAD_DOC_FR/index.htm?sommaire.htm"
-							target="_blank"
-							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
-							{" "}
-							Parcourir la documentation de Base Empreinte®
-						</Link>
+						<CustomLink
+							link="https://prod-basecarbonesolo.ademe-dri.fr/documentation/UPLOAD_DOC_FR/index.htm?sommaire.htm"
+							text=" Parcourir la documentation de Base Empreinte®"
+							openInNewTab
+						/>
 					</div>
 				</div>
 			</div>
 
-			<div className="flex flex-col gap-y-3">
+			<div className="flex flex-col gap-y-3 mb-10 md:mb-20">
 				<h2 className="text-xl font-medium border-b-2 border-emerald-200">
 					Calcul
 				</h2>
@@ -92,7 +90,7 @@ export default function CalculationAndSources() {
 							meilleure granularité nous vous recommandons de vous référer à
 							Base Empreinte®.
 						</p>
-						<p className="flex w-full lg:hover:px-6 lg:w-fit mt-6 mb-2 p-2 border border-emerald-900 rounded-md duration-300 transform-all ease-in-out">
+						<p className="flex w-full lg:hover:px-6 lg:w-fit mt-6 mb-2 p-2 border border-emerald-900 dar:border-emerald-200 rounded-md duration-300 transform-all ease-in-out">
 							Exemple pour un trajet en voiture 🚗{" "}
 						</p>
 						<p>
@@ -100,14 +98,14 @@ export default function CalculationAndSources() {
 							d&apos;émission est estimé à 131 gCO₂. Au-delà, il est réduit à
 							107 gCO₂.
 						</p>
-						<p className="mt-1 bg-[#E8FCF2] text-slate-900 py-5 px-2 font-medium">
+						<p className="mt-1 bg-[#E8FCF2] dark:bg-emerald-300 text-slate-900 py-5 px-2 font-medium">
 							Emissions = Distance(km) x Facteur d’emission(gCO₂/pkm)
 						</p>
 					</div>
 
 					<div>
 						<h3 className="text-lg">Impact total</h3>
-						<p className="mt-1 bg-[#E8FCF2] text-slate-900 py-5 px-2 font-medium">
+						<p className="mt-1 bg-[#E8FCF2] dark:bg-emerald-300 text-slate-900 py-5 px-2 font-medium">
 							Impact = Emissions + coût de fabrication
 						</p>
 					</div>
@@ -149,12 +147,11 @@ export default function CalculationAndSources() {
 							Média indépendant spécialisé dans les questions environnementales.
 						</p>
 						👉{" "}
-						<Link
-							href="https://bonpote.com/"
-							target="_blank"
-							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
-							Visiter le site Bon Pote
-						</Link>
+						<CustomLink
+							link="https://bonpote.com/"
+							text="Visiter le site Bon Pote"
+							openInNewTab
+						/>
 					</div>
 					<div>
 						<h3 className="text-lg">
@@ -167,13 +164,11 @@ export default function CalculationAndSources() {
 							écogestes nécessaires pour contrebalancer son empreinte carbone.
 						</p>
 						👉{" "}
-						<Link
-							href="https://www.lemonde.fr/les-decodeurs/article/2023/12/05/vous-voulez-compenser-votre-vol-en-avion-par-des-ecogestes-voici-combien-de-temps-cela-vous-prendra_6204046_4355770.html"
-							target="_blank"
-							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
-							{" "}
-							Lire l&apos;article
-						</Link>
+						<CustomLink
+							link="https://www.lemonde.fr/les-decodeurs/article/2023/12/05/vous-voulez-compenser-votre-vol-en-avion-par-des-ecogestes-voici-combien-de-temps-cela-vous-prendra_6204046_4355770.html"
+							text=" Lire l'article"
+							openInNewTab
+						/>
 					</div>
 					<div>
 						<h3 className="text-lg">Leaflet</h3>
@@ -181,13 +176,11 @@ export default function CalculationAndSources() {
 							Cette librairie Javascript a été utilisée pour générer la carte.
 						</p>
 						👉{" "}
-						<Link
-							href="https://leafletjs.com/"
-							target="_blank"
-							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
-							{" "}
-							Parcourir la documentation
-						</Link>
+						<CustomLink
+							link="https://leafletjs.com/"
+							text=" Parcourir la documentation"
+							openInNewTab
+						/>
 					</div>
 					<div>
 						<h3 className="text-lg">Unsplash</h3>
@@ -195,13 +188,11 @@ export default function CalculationAndSources() {
 							Les photos utilisées en page d&apos;accueil viennet de ce site.
 						</p>
 						👉{" "}
-						<Link
-							href="https://unsplash.com/fr"
-							target="_blank"
-							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
-							{" "}
-							Visiter le site Unsplash
-						</Link>
+						<CustomLink
+							link="https://unsplash.com/fr"
+							text=" 	Visiter le site Unsplash"
+							openInNewTab
+						/>
 					</div>
 					<div>
 						<h3 className="text-lg">Storyset</h3>
@@ -211,13 +202,11 @@ export default function CalculationAndSources() {
 							d&apos;après les ressources disponibles sur ce site.
 						</p>
 						👉{" "}
-						<Link
-							href="https://storyset.com/"
-							target="_blank"
-							className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
-							{" "}
-							Visiter le site Storyset
-						</Link>
+						<CustomLink
+							link="https://storyset.com/"
+							text=" 	Visiter le site Storyset"
+							openInNewTab
+						/>
 					</div>
 				</div>
 			</div>

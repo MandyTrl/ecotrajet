@@ -5,7 +5,7 @@ import clsx from "clsx"
 import { useBreakpoint } from "@/app/utils/hooks/useBreakpoints"
 import { MobileNav } from "./MobileNav"
 import { Navigation } from "./Navigation"
-import ThemeToggle from "./ThemeToggle"
+import ThemeToggle from "../UI/ThemeToggle"
 import { useContext } from "react"
 import { ThemeContext } from "@/app/utils/Context"
 
@@ -31,8 +31,10 @@ export const Navbar = () => {
 				/>
 			</Link>
 
-			<ThemeToggle />
-			{isMobile ? <MobileNav /> : <Navigation isMobile={false} />}
+			<div className="max-x-[450px] w-fit flex items-center space-x-8">
+				<ThemeToggle />
+				{isMobile ? <MobileNav /> : <Navigation isMobile={false} />}
+			</div>
 		</header>
 	)
 }

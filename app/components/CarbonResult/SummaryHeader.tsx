@@ -29,7 +29,7 @@ export const SummaryHeader = ({ coordinates }: SummaryHeaderProps) => {
 				color="#032E21"
 				size={27}
 				strokeWidth={2}
-				className="hidden md:block group-hover:rotate-6 ease-in-out duration-200 transition-transform"
+				className="hidden md:block group-hover:rotate-6 ease-in-out duration-200 transition-transform dark:stroke-emerald-100"
 			/>
 		</div>
 	)

@@ -20,7 +20,7 @@ export const MobileNav = () => {
 						size={30}
 						strokeWidth={1}
 						onClick={handleNavigation}
-						className="ease-in-out duration-500 transform-all"
+						className="ease-in-out duration-500 transform-all dark:stroke-emerald-200"
 					/>
 				</div>
 			) : (

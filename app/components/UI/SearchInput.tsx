@@ -39,10 +39,10 @@ const SearchInput = ({
 
 			<div
 				className={clsx(
-					"w-full flex items-center justify-around my-[2px] rounded-md placeholder:text-emerald-700 dark:placeholder:text-emerald-900 border-b border-transparent focus-within:border-emerald-500",
+					"w-full flex items-center justify-around my-[2px] rounded-md placeholder:text-emerald-700 dark:placeholder:text-emerald-900 border-b border-transparent focus-within:border-emerald-500 dark:shadow-inner",
 					error
 						? "bg-red-50 focus-within:border-red-500"
-						: "bg-[#E8FCF2] dark:bg-emerald-200 focus-within:border-emerald-500 dark:focus-within:bg-white"
+						: "bg-[#E8FCF2] dark:bg-emerald-200 focus-within:border-emerald-500 dark:focus-within:bg-emerald-100"
 				)}>
 				<input
 					id={name}

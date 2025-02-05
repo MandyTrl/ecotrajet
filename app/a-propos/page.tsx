@@ -1,10 +1,10 @@
-import Link from "next/link"
-import { Illustration } from "../components/UI/Illustration"
 import worldHug from "@/public/world-hug.svg"
+import { CustomLink } from "../components/UI/CustomLink"
+import { Illustration } from "../components/UI/Illustration"
 
 export default function Project() {
 	return (
-		<div className="w-full flex flex-col">
+		<div className="w-full flex flex-col mt-10 md:mt-16">
 			<h1 className="text-2xl md:text-3xl font-medium md:mb-4">À propos</h1>
 
 			<div className="w-full lg:flex lg:justify-between">
@@ -26,13 +26,10 @@ export default function Project() {
 							l&apos;empreinte carbone génerée d&apos;un déplacement en fonction
 							du transport utilisé. Pour plus d&apos;informations à ce sujet
 							veuillez-consulter la page{" "}
-							<Link
-								href="/calculs-et-sources"
-								target="_blank"
-								className="text-sm underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
-								{" "}
-								Calcul et sources
-							</Link>
+							<CustomLink
+								link="/calculs-et-sources"
+								text=" Calcul et sources"
+							/>
 							.
 						</p>
 

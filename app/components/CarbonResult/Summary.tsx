@@ -9,7 +9,12 @@ export const Summary = () => {
 	return (
 		<div className="w-fit flex flex-col ease-in-out transform-all duration-300">
 			<div className="flex items-center">
-				<UsersRound color="#032E21" size={22} strokeWidth={1} />
+				<UsersRound
+					color="#032E21"
+					size={22}
+					strokeWidth={1}
+					className="dark:stroke-emerald-100"
+				/>
 				<p className="ml-1">{summary.passengers}</p>
 			</div>
 
@@ -37,7 +42,7 @@ export const Summary = () => {
 				<span className="font-medium tracking-widder mr-2 md:mr-3 md:text-lg">
 					Émissions estimées:{" "}
 				</span>
-				<span className="w-fit h-fit py-[1px] px-2 md:px-3 text-center font-semibold text-xl bg-emerald-200 rounded-md">
+				<span className="w-fit h-fit py-[1px] px-2 md:px-3 text-center font-semibold text-xl bg-emerald-200 rounded-md dark:text-emerald-900">
 					{summary.carbonEmission} kgCO₂
 				</span>
 			</p>

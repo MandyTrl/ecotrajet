@@ -26,7 +26,7 @@ export const CarbonGapChart = () => {
 					fill="none"
 					stroke="gray"
 					strokeWidth="4.5"
-					className="opacity-20"
+					className="opacity-20 dark:stroke-gray-600"
 				/>
 				{/* Cercle des émissions réelles */}
 				<circle
@@ -45,13 +45,13 @@ export const CarbonGapChart = () => {
 					y="50%"
 					dominantBaseline="middle"
 					textAnchor="middle"
-					className="text-[6px] font-bold fill-gray-700"
+					className="text-[6px] font-bold fill-gray-700 dark:fill-gray-200"
 					transform="rotate(90 21 21)">
 					{percentage.toFixed(1)}%
 				</text>
 			</svg>
 
-			<p className="mt-2 text-sm text-gray-600">
+			<p className="mt-2 text-sm text-gray-600 dark:text-gray-200">
 				{actual.toFixed(2)} t CO₂ / {target} t CO₂
 			</p>
 

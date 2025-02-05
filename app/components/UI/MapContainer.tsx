@@ -11,12 +11,12 @@ export const MapContainer = () => {
 		<div className="md:flex-1 w-full h-80 border-2 border-grey-600/50 mb-6 rounded-md">
 			<Map />
 
-			<div className="text-xs mt-2 text-right text-gray-400 pr-1">
+			<div className="text-xs mt-2 text-right text-gray-400 dark:text-gray-200 pr-1">
 				<Link
 					href="https://leafletjs.com"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="underline text-gray-500">
+					className="underline text-gray-500 dark:text-emerald-200">
 					Leaflet
 				</Link>
 
