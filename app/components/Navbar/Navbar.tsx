@@ -31,9 +31,9 @@ export const Navbar = () => {
 				/>
 			</Link>
 
-			<div className="max-x-[450px] w-fit flex items-center space-x-8">
-				<ThemeToggle />
+			<div className="max-x-[450px] w-fit flex flex-row-reverse md:flex-row items-center space-x-8">
 				{isMobile ? <MobileNav /> : <Navigation isMobile={false} />}
+				<ThemeToggle />
 			</div>
 		</header>
 	)

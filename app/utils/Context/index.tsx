@@ -89,7 +89,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 	const [darkMode, setDarkMode] = useState<boolean>(() => {
 		// Récupérer la préférence utilisateur depuis localStorage
 		if (typeof window !== "undefined") {
-			return localStorage.getItem("theme") === "dark"
+			return localStorage.getItem("theme") === "light"
 		}
 		return false
 	})
