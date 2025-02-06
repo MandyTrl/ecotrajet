@@ -12,7 +12,7 @@ export const MobileNav = () => {
 	}
 
 	return (
-		<nav className="flex flex-col items-end">
+		<nav className="flex flex-col items-end dark:ml-3">
 			{!isShow ? (
 				<div className="hover:cursor-pointer hover:bg-emerald-100/70 ease-in-out duration-500 transform-all p-1 rounded-full hover:*:scale-75">
 					<Menu
@@ -30,7 +30,7 @@ export const MobileNav = () => {
 						size={26}
 						strokeWidth={1}
 						onClick={handleNavigation}
-						className="ease-in-out duration-300 transform-all"
+						className="ease-in-out duration-300 transform-all dark:stroke-emerald-200"
 					/>
 				</div>
 			)}
@@ -40,7 +40,7 @@ export const MobileNav = () => {
 					isShow
 						? "max-h-96 scale-y-100 opacity-100"
 						: "max-h-0 scale-y-0 opacity-0",
-					"w-full absolute top-20 right-0 origin-top bg-white p-5 ease-in-out duration-500 transition-all overflow-hidden -z-20"
+					"w-full absolute top-20 right-0 origin-top bg-white p-5 ease-in-out duration-500 transition-all overflow-hidden -z-20 dark:bg-[#01281E] dark:pt-8 dark:shadow"
 				)}>
 				<Navigation handleIsShow={() => setIsShow(false)} isMobile={true} />
 			</div>
