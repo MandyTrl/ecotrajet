@@ -7,6 +7,8 @@ Ce projet est construit avec [Next.js](https://nextjs.org) et a été initialis�
 <br>
 
 ## 👀 Aperçu
+![website mockup ecotrajet project mandytrl](https://github.com/MandyTrl/ecotrajet/blob/main/public/ecotrajet-mockup.png?raw=true)
+![pwa darkmonde mockup ecotrajet project mandytrl](https://github.com/MandyTrl/ecotrajet/blob/main/public/ecotrajet-mockup-1.png?raw=true)
 
 <br>
 
