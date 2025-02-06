@@ -17,7 +17,7 @@ export const Navigation = ({ isMobile, handleIsShow }: NavigationProps) => {
 				<li className="block">
 					<Link
 						href="/calculs-et-sources"
-						className="hover:text-emerald-700 dark:hover:text-emerald-300 transition-color duration-300 ease-in-out inline-block"
+						className="hover:text-emerald-700 dark:hover:text-emerald-300 font-[500] transition-color duration-300 ease-in-out inline-block"
 						onClick={() => {
 							if (isMobile && handleIsShow) handleIsShow()
 						}}>
@@ -27,7 +27,7 @@ export const Navigation = ({ isMobile, handleIsShow }: NavigationProps) => {
 				<li className="block">
 					<Link
 						href="/a-propos"
-						className="hover:text-emerald-700 dark:hover:text-emerald-300 transition-color duration-300 ease-in-out inline-block"
+						className="hover:text-emerald-700 dark:hover:text-emerald-300 font-[500] transition-color duration-300 ease-in-out inline-block"
 						onClick={() => {
 							if (isMobile && handleIsShow) handleIsShow()
 						}}>

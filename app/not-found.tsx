@@ -1,6 +1,6 @@
-import Link from "next/link"
 import Image from "next/image"
 import errorGif from "@/public/muppet-lost.gif"
+import { CustomLink } from "./components/UI/CustomLink"
 
 export default function NotFound() {
 	return (
@@ -22,11 +22,7 @@ export default function NotFound() {
 
 			<div className="flex flex-col md:flex-row items-center mt-4 gap-1">
 				<h2 className="block text-lg opacity-80">Page non trouvée,</h2>
-				<Link
-					href="/"
-					className="h-fit underline hover:bg-emerald-100 bg-emerald-200 hover:text-emerald-600 transition-color duration-300">
-					retour à l&apos;accueil
-				</Link>
+				<CustomLink link="/" text="retour à l'accueil" />
 			</div>
 		</div>
 	)
