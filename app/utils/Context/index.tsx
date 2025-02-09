@@ -87,31 +87,30 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 	})
 
 	const [darkMode, setDarkMode] = useState<boolean>(() => {
-		// Récupérer la préférence utilisateur depuis localStorage
+		// récupére la préférence utilisateur depuis localStorage
 		if (typeof window !== "undefined") {
-			return localStorage.getItem("theme") === "light"
+			return localStorage.getItem("theme") === "dark" //par défault "light"
 		}
 		return false
 	})
 
+	useEffect(() => {
+		const storedTheme = localStorage.getItem("theme")
+		document.documentElement.classList.toggle("dark", storedTheme === "dark")
+
+		if (storedTheme) {
+			setDarkMode(storedTheme === "dark")
+		} else {
+			localStorage.setItem("theme", "light")
+			setDarkMode(false)
+		}
+	}, [])
+
 	const handleTheme = (theme: boolean) => {
 		setDarkMode(theme)
-		localStorage.setItem("theme", !theme ? "dark" : "light")
-
-		if (theme) {
-			document.documentElement.classList.add("dark")
-		} else {
-			document.documentElement.classList.remove("dark")
-		}
+		localStorage.setItem("theme", theme ? "dark" : "light")
+		document.documentElement.classList.toggle("dark", theme)
 	}
-
-	useEffect(() => {
-		if (darkMode) {
-			document.documentElement.classList.add("dark")
-		} else {
-			document.documentElement.classList.remove("dark")
-		}
-	}, [darkMode])
 
 	const updateSummary = (data: Partial<SummaryData>) => {
 		setSummary((prev) => ({ ...prev, ...data }))
