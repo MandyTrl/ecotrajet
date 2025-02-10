@@ -72,11 +72,11 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 
 ## 🧩 Améliorations prévues
 
-- [ ] Ajout d'une map pour visualiser les points du trajet
+- [x] Ajout d'une map pour visualiser les points du trajet
 - [ ] Ajout d'un tracé sur la map pour visualiser le trajet
-- [ ] Ajout de filtres supplémentaires pour le covoiturage par exemple
-- [ ] Comparer l'empreinte carbone du voyage calculé avec le bilan annuel pour obtenir un ratio
-- [ ] Ajout d'un dark mode
+- [x] Ajout de filtres supplémentaires pour le covoiturage par exemple
+- [x] Comparer l'empreinte carbone du voyage calculé avec le bilan annuel pour obtenir un ratio
+- [x] Ajout d'un dark mode
 
 ## 📂 Sources des données
 
@@ -85,8 +85,6 @@ Les émissions de CO2 sont calculées à partir de données fournies par :
 - [Base Empreinte®](https://prod-basecarbonesolo.ademe-dri.fr/documentation/UPLOAD_DOC_FR/index.htm?sommaire.htm)
 - [Open Route Service](https://giscience.github.io/openrouteservice/)
 - Rapports environnementaux, articles et études spécialisées.
-
-<br>
 
 ## 🤝 Contribution
 
@@ -116,4 +114,4 @@ git push origin feature/nom-de-la-fonctionnalite
 
 Merci d'utiliser **ecotrajet** ! Si vous avez des suggestions ou des retours, n'hésitez pas à ouvrir une issue ou à me contacter.
 
-**_✍️ Mandy Trl - GitHub_**
+**✍️ Mandy Trl - GitHub**
