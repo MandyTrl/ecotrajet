@@ -85,6 +85,10 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 - [x] Ajout de filtres supplémentaires pour le covoiturage par exemple
 - [x] Comparer l'empreinte carbone du voyage calculé avec le bilan annuel pour obtenir un ratio
 - [x] Ajout d'un dark mode
+- [ ] Ajouter la fonctionnalité du comparatif simultané
+- [ ] Indiquer une durée moyenne de temps de trajet
+- [ ] Inclure dans ma durée moyenne de tepmps de trajet le temps libre pour faire d'autres activités (travailler, lire..)
+
 
 <br>
 
