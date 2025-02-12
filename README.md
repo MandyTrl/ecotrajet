@@ -87,8 +87,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 - [x] Ajout d'un dark mode
 - [ ] Ajouter la fonctionnalité du comparatif simultané
 - [ ] Indiquer une durée moyenne de temps de trajet
-- [ ] Inclure dans ma durée moyenne de tepmps de trajet le temps libre pour faire d'autres activités (travailler, lire..)
-
+- [ ] Inclure dans la durée moyenne de temps de trajet le temps libre pour faire d'autres activités (travailler, lire..)
 
 <br>
 
