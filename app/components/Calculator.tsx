@@ -89,6 +89,7 @@ export const Calculator = () => {
 		updateSummary({
 			transport: summary.transport?.type === mode.type ? null : mode,
 			route: null,
+			drawPlaneRoute: false,
 		})
 	}
 
