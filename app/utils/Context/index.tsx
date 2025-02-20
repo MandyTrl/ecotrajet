@@ -45,9 +45,11 @@ export const CoordinatesContext = createContext<CoordinatesContextProps>({
 export type SummaryData = {
 	transport: Transport | null
 	distance: number
+	route: { lat: number; lon: number }[] | null
 	carbonEmission: number
 	passengers: number
 	isSummaryVisible: boolean
+	drawPlaneRoute: boolean
 }
 
 export type SummaryContextProps = {
@@ -59,9 +61,11 @@ export const SummaryContext = createContext<SummaryContextProps>({
 	summary: {
 		transport: null,
 		distance: 0,
+		route: null,
 		carbonEmission: 0,
 		passengers: 1,
 		isSummaryVisible: false,
+		drawPlaneRoute: false,
 	},
 	updateSummary: () => {},
 })
@@ -81,9 +85,11 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 	const [summary, setSummary] = useState<SummaryData>({
 		transport: null,
 		distance: 0,
+		route: null,
 		carbonEmission: 0,
 		passengers: 1,
 		isSummaryVisible: false,
+		drawPlaneRoute: false,
 	})
 
 	const [darkMode, setDarkMode] = useState<boolean>(() => {

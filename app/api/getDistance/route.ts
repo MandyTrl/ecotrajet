@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import polyline from "@mapbox/polyline"
 
 export async function POST(req: NextRequest) {
 	try {
@@ -25,17 +26,8 @@ export async function POST(req: NextRequest) {
 		const fetchRoute = async (radius = 500, attempt = 1, maxAttempts = 5) => {
 			const url = `https://api.openrouteservice.org/v2/directions/${modeORS}`
 
-			const [fromLon, fromLat] = from.split(",").map(Number)
-			const [toLon, toLat] = from.split(",").map(Number)
-
-			const coordinatesFormated = [
-				[fromLon, fromLat],
-				[toLon, toLat],
-			]
-
 			const body = {
-				coordinates: coordinatesFormated,
-
+				coordinates: [from, to],
 				radiuses: [radius, radius], //rayon de recherche
 				options: { avoid_features: [] }, //active les ferries
 			}
@@ -48,8 +40,29 @@ export async function POST(req: NextRequest) {
 
 			const data = await response.json()
 
+			if (!data.routes || data.routes.length === 0) {
+				throw new Error("No route found")
+			}
+
+			const routeData = data.routes[0]
+
+			if (!routeData.summary || !routeData.summary.distance) {
+				throw new Error("Missing distance data")
+			}
+
+			const distanceKm = (routeData.summary.distance / 1000).toFixed(2)
+
+			// décodage de la polyline
+			const route = polyline.decode(routeData.geometry).map(([lat, lon]) => ({
+				lat,
+				lon,
+			}))
+
 			if (response.ok) {
-				return data.routes[0].summary.distance || 0
+				return {
+					distance: distanceKm,
+					route,
+				}
 			}
 
 			//si code erreur 2010, nouvel appel avec un +grd radius et ferries activés
@@ -70,11 +83,9 @@ export async function POST(req: NextRequest) {
 			throw new Error(data.error?.message || "Unknown error occurred")
 		}
 
-		const calculatedDistance = await fetchRoute()
+		const datas = await fetchRoute()
 
-		const distanceKm = (calculatedDistance / 1000).toFixed(2)
-
-		return NextResponse.json({ distance: distanceKm })
+		return NextResponse.json(datas)
 	} catch (error: unknown) {
 		const errorMessage =
 			error instanceof Error ? error.message : "Internal server error"

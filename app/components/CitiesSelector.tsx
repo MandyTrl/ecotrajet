@@ -66,7 +66,7 @@ export const CitiesSelector = () => {
 				from: type === "from" ? null : coordinates.from,
 				to: type === "to" ? null : coordinates.to,
 			})
-			updateSummary({ isSummaryVisible: false })
+			updateSummary({ distance: 0, isSummaryVisible: false, route: null })
 		} else if (value.length >= 3) {
 			fetchCities(value)
 		}

@@ -15,27 +15,29 @@ export const useDistanceCalculator = (
 	])
 
 	useEffect(() => {
-		if (!coordinates.from || !coordinates.to) return
+		if (!coordinates.from || !coordinates.to) {
+			updateSummary({ distance: 0 })
+		} else {
+			const distance = calculateHaversineDistance(
+				coordinates.from.lat,
+				coordinates.from.lon,
+				coordinates.to.lat,
+				coordinates.to.lon
+			)
 
-		const distance = calculateHaversineDistance(
-			coordinates.from.lat,
-			coordinates.from.lon,
-			coordinates.to.lat,
-			coordinates.to.lon
-		)
+			updateSummary({ distance })
 
-		updateSummary({ distance })
-
-		setAvailableModes(
-			distance > 5900
-				? [TransportMode.Plane]
-				: [
-						TransportMode.Car,
-						TransportMode.Bus,
-						TransportMode.Train,
-						TransportMode.Plane,
-				  ]
-		)
+			setAvailableModes(
+				distance > 5900
+					? [TransportMode.Plane]
+					: [
+							TransportMode.Car,
+							TransportMode.Bus,
+							TransportMode.Train,
+							TransportMode.Plane,
+					  ]
+			)
+		}
 	}, [coordinates.from, coordinates.to])
 
 	return { availableModes }

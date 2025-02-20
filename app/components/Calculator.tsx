@@ -22,14 +22,19 @@ export const Calculator = () => {
 
 	const handleCalculate = async () => {
 		if (hasMissingData) {
-			updateSummary({ distance: 0, carbonEmission: 0, transport: null })
+			updateSummary({
+				distance: 0,
+				carbonEmission: 0,
+				transport: null,
+				route: null,
+			})
 			setError(true)
 			console.error("Missing input data")
 			return
 		}
 
-		const from = `${coordinates.from!.lon},${coordinates.from!.lat}`
-		const to = `${coordinates.to!.lon},${coordinates.to!.lat}`
+		const from = [coordinates.from!.lon, coordinates.from!.lat]
+		const to = [coordinates.to!.lon, coordinates.to!.lat]
 
 		const carbonEmission = calculateCarbonEmission(
 			summary.distance,
@@ -41,8 +46,8 @@ export const Calculator = () => {
 			updateSummary({
 				carbonEmission: carbonEmission,
 				isSummaryVisible: true,
+				drawPlaneRoute: true,
 			})
-
 			setError(false)
 		} else {
 			try {
@@ -60,12 +65,16 @@ export const Calculator = () => {
 				})
 
 				const data = await response.json()
+				const distanceFromORS = data.distance
+				const distance = distanceFromORS ? distanceFromORS : summary.distance
 
 				if (response.ok) {
 					updateSummary({
-						distance: summary.distance,
+						distance,
+						route: data.route,
 						carbonEmission: carbonEmission,
 						isSummaryVisible: true,
+						drawPlaneRoute: false,
 					})
 				} else {
 					console.error(data.error)
@@ -79,6 +88,7 @@ export const Calculator = () => {
 	const handleTransport = (mode: Transport) => {
 		updateSummary({
 			transport: summary.transport?.type === mode.type ? null : mode,
+			route: null,
 		})
 	}
 
