@@ -27,6 +27,7 @@ export const Calculator = () => {
 				carbonEmission: 0,
 				transport: null,
 				route: null,
+				noRouteFound: false,
 			})
 			setError(true)
 			console.error("Missing input data")
@@ -47,6 +48,7 @@ export const Calculator = () => {
 				carbonEmission: carbonEmission,
 				isSummaryVisible: true,
 				drawPlaneRoute: true,
+				noRouteFound: false,
 			})
 			setError(false)
 		} else {
@@ -72,6 +74,7 @@ export const Calculator = () => {
 					updateSummary({
 						distance,
 						route: data.route,
+						noRouteFound: data.noRouteFound,
 						carbonEmission: carbonEmission,
 						isSummaryVisible: true,
 						drawPlaneRoute: false,

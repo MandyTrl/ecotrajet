@@ -81,7 +81,7 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur pour
 ## 🧩 Améliorations prévues
 
 - [x] Ajout d'une map pour visualiser les points du trajet
-- [ ] Ajout d'un tracé sur la map pour visualiser le trajet
+- [x] Ajout d'un tracé sur la map pour visualiser le trajet
 - [x] Ajout de filtres supplémentaires pour le covoiturage par exemple
 - [x] Comparer l'empreinte carbone du voyage calculé avec le bilan annuel pour obtenir un ratio
 - [x] Ajout d'un dark mode

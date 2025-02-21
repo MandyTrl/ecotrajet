@@ -46,6 +46,7 @@ export type SummaryData = {
 	transport: Transport | null
 	distance: number
 	route: { lat: number; lon: number }[] | null
+	noRouteFound: boolean
 	carbonEmission: number
 	passengers: number
 	isSummaryVisible: boolean
@@ -62,6 +63,7 @@ export const SummaryContext = createContext<SummaryContextProps>({
 		transport: null,
 		distance: 0,
 		route: null,
+		noRouteFound: false,
 		carbonEmission: 0,
 		passengers: 1,
 		isSummaryVisible: false,
@@ -86,6 +88,7 @@ export const AppProviders = ({ children }: { children: ReactNode }) => {
 		transport: null,
 		distance: 0,
 		route: null,
+		noRouteFound: false,
 		carbonEmission: 0,
 		passengers: 1,
 		isSummaryVisible: false,

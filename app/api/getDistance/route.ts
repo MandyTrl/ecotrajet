@@ -40,17 +40,21 @@ export async function POST(req: NextRequest) {
 
 			const data = await response.json()
 
+			// Gestion des trajets impossibles (intercontinenteaux - ou pas de route exploitable proche de trouvée)
 			if (!data.routes || data.routes.length === 0) {
-				throw new Error("No route found")
+				return {
+					route: null,
+					noRouteFound: true,
+					distance: distance.toFixed(2),
+				}
 			}
 
 			const routeData = data.routes[0]
 
-			if (!routeData.summary || !routeData.summary.distance) {
-				throw new Error("Missing distance data")
-			}
-
-			const distanceKm = (routeData.summary.distance / 1000).toFixed(2)
+			// si l'API renvoie une distance on la conserve; sinon on utilise celle de la méthode d'Haversine
+			const distanceKm = routeData.summary?.distance
+				? (routeData.summary.distance / 1000).toFixed(2)
+				: distance.toFixed(2)
 
 			// décodage de la polyline
 			const route = polyline.decode(routeData.geometry).map(([lat, lon]) => ({
@@ -62,6 +66,7 @@ export async function POST(req: NextRequest) {
 				return {
 					distance: distanceKm,
 					route,
+					noRouteFound: false,
 				}
 			}
 
